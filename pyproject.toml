@@ -1,0 +1,25 @@
+[project]
+name = "sift"
+version = "0.1.0"
+description = "Weekly AI-news curation pipeline: fetch RSS feeds, dedup, rank with one Claude call, render a digest."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+dependencies = [
+    "feedparser>=6.0",
+    "httpx>=0.27",
+    "anthropic>=0.40",
+]
+
+[project.scripts]
+sift = "sift.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sift"]

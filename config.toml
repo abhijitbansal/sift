@@ -1,0 +1,59 @@
+# Sift configuration. The ANTHROPIC_API_KEY never goes here — env or keychain only.
+
+[sift]
+model = "claude-opus-4-8"
+max_items_per_digest = 10
+interest_profile = """
+I care about enterprise AI adoption (real deployments, not press-release vapor),
+agentic software development and dev tooling (coding agents, SDLC automation,
+evals, agent harnesses), major model releases and capabilities research, and AI
+infrastructure including compute, chips, datacenters, and energy. I prefer
+primary sources and concrete numbers over hype. I am less interested in consumer
+chatbot drama, AI doom punditry, and incremental product marketing.
+"""
+
+# Anthropic has no official RSS feed; this is a community-maintained mirror.
+[[feeds]]
+name = "Anthropic News"
+url = "https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml"
+category_hint = "models_research"
+
+[[feeds]]
+name = "OpenAI News"
+url = "https://openai.com/news/rss.xml"
+category_hint = "models_research"
+
+[[feeds]]
+name = "Google DeepMind Blog"
+url = "https://deepmind.google/blog/rss.xml"
+category_hint = "models_research"
+
+[[feeds]]
+name = "Google AI Blog"
+url = "https://blog.google/technology/ai/rss/"
+category_hint = "models_research"
+
+# Meta's ai.meta.com blog feed is dead; the engineering blog AI category works.
+[[feeds]]
+name = "Meta Engineering (AI Research)"
+url = "https://engineering.fb.com/category/ai-research/feed/"
+category_hint = "models_research"
+
+[[feeds]]
+name = "Hacker News Front Page"
+url = "https://hnrss.org/frontpage"
+
+[[feeds]]
+name = "Simon Willison"
+url = "https://simonwillison.net/atom/everything/"
+category_hint = "tooling"
+
+[[feeds]]
+name = "Import AI"
+url = "https://importai.substack.com/feed"
+category_hint = "policy"
+
+[[feeds]]
+name = "arXiv cs.AI"
+url = "https://rss.arxiv.org/rss/cs.AI"
+category_hint = "models_research"

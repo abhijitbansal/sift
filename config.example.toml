@@ -1,0 +1,19 @@
+# Example Sift configuration — copy to config.toml and edit.
+# The ANTHROPIC_API_KEY never goes here: env var or macOS keychain only.
+
+[sift]
+# Any current Anthropic model ID works here.
+model = "claude-opus-4-8"
+# How many stories the rendered digest keeps (top-scored first).
+max_items_per_digest = 10
+# A paragraph describing what you care about; drives the ranking prompt.
+interest_profile = """
+Describe your interests here: which topics matter, what you consider signal
+versus noise, and what you'd rather not see in the digest.
+"""
+
+[[feeds]]
+name = "Example Blog"
+url = "https://example.com/feed.xml"
+# Optional hint: models_research | tooling | infra | policy | business
+category_hint = "tooling"
