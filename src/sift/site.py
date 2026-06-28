@@ -94,7 +94,7 @@ def _archive_entries(
         week = json_path.stem
         try:
             data = json.loads(json_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
+        except (OSError, ValueError):  # ValueError covers JSON + UnicodeDecodeError
             log.warning("Skipping unreadable digest json: %s", json_path)
             continue
         record = history.get(week)

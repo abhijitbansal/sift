@@ -63,6 +63,32 @@ def test_apply_source_weight_default_for_unweighted():
     assert out[0]["score"] == 5
 
 
+def test_apply_source_weight_floors_at_one():
+    # A fractional weight can round a low score to 0; it must clamp up to 1.
+    clusters = [[Item("t", "https://a", "Quiet", None, "")]]
+    config = make_config([Feed("Quiet", "https://a", None, 0.1)])
+
+    out = apply_source_weight([story(2, [0])], clusters, config)
+
+    assert out[0]["score"] == 1  # round(0.2) == 0, clamped up to 1
+
+
+def test_apply_source_weight_max_across_merged_clusters():
+    # A story spanning two clusters takes the highest source weight of either.
+    clusters = [
+        [Item("t", "https://a", "Normal", None, "")],
+        [Item("t", "https://b", "Trusted", None, "")],
+    ]
+    config = make_config([
+        Feed("Normal", "https://a", None, 1.0),
+        Feed("Trusted", "https://b", None, 2.0),
+    ])
+
+    out = apply_source_weight([story(3, [0, 1])], clusters, config)
+
+    assert out[0]["score"] == 6  # max(1.0, 2.0) applied across the merged clusters
+
+
 def test_apply_min_score_drops_weak_stories():
     stories = [story(2, [0]), story(6, [0]), story(4, [0])]
 

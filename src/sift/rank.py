@@ -125,8 +125,19 @@ def parse_response(response: object, cluster_count: int, model: str) -> RankResu
     except (json.JSONDecodeError, KeyError, TypeError) as exc:
         raise RankError(f"Ranking response was not valid stories JSON: {exc}") from exc
     usage = response.usage
+    validated = []
+    for story in stories:
+        entry = _validated(story, cluster_count)
+        if entry is None:
+            log.warning(
+                "Dropping story with no valid cluster_ids (model returned %r): %r",
+                story.get("cluster_ids"),
+                story.get("title"),
+            )
+            continue
+        validated.append(entry)
     return RankResult(
-        stories=[_validated(story, cluster_count) for story in stories],
+        stories=validated,
         model=model,
         input_tokens=getattr(usage, "input_tokens", 0) or 0,
         output_tokens=getattr(usage, "output_tokens", 0) or 0,
@@ -175,11 +186,14 @@ def _first_text(response: object) -> str:
     raise RankError("Ranking response contained no text block.")
 
 
-def _validated(story: dict, cluster_count: int) -> dict:
+def _validated(story: dict, cluster_count: int) -> dict | None:
+    """Clamp and sanitize a story; return None if it maps to no valid cluster."""
     cluster_ids = [i for i in story["cluster_ids"] if 0 <= i < cluster_count]
+    if not cluster_ids:
+        return None
     return {
         **story,
-        "cluster_ids": cluster_ids or [0],
+        "cluster_ids": cluster_ids,
         "score": min(10, max(1, int(story["score"]))),
         "category": story["category"] if story["category"] in CATEGORIES else "models_research",
     }

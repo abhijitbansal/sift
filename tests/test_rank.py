@@ -84,6 +84,15 @@ def test_parse_response_drops_invalid_cluster_ids():
     assert result.stories[0]["cluster_ids"] == [0]
 
 
+def test_parse_response_drops_story_with_all_invalid_cluster_ids():
+    # All ids out of range -> story is unmappable -> dropped, not misattributed to cluster 0.
+    response = fake_response([valid_story(cluster_ids=[7, 8]), valid_story(title="ok")])
+
+    result = parse_response(response, cluster_count=1, model="m")
+
+    assert [s["title"] for s in result.stories] == ["ok"]
+
+
 def test_parse_response_falls_back_unknown_category():
     response = fake_response([valid_story(category="not_a_category")])
 

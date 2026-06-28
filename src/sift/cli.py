@@ -77,10 +77,37 @@ def cmd_run(args: argparse.Namespace) -> int:
         return 0
 
     result = rank.rank_clusters(clusters, cfg)
+    breakdown = cost.usage_cost(result.model, result.input_tokens, result.output_tokens)
     stories = filters.apply_source_weight(result.stories, clusters, cfg)
     stories = filters.apply_min_score(stories, cfg.min_score)
-
     week = week_id(datetime.now(timezone.utc))
+
+    def record(item_count: int) -> None:
+        # Burn the fetched items (so we don't re-pay to re-rank them) and log the
+        # run's cost, whether or not any story survived the filters.
+        with store.connect(db_path) as conn:
+            store.record_items(conn, [item for cluster in clusters for item in cluster], week)
+            store.record_digest(
+                conn,
+                week,
+                item_count,
+                model=result.model,
+                input_tokens=result.input_tokens,
+                output_tokens=result.output_tokens,
+                cost_usd=breakdown.total_usd,
+            )
+
+    if not stories:
+        log.warning(
+            "All %d ranked stories scored below min_score=%d; recording the run, "
+            "no digest written (cost $%.4f).",
+            len(result.stories),
+            cfg.min_score,
+            breakdown.total_usd,
+        )
+        record(0)
+        return 0
+
     digest = render.build_digest(week, stories, clusters)
     digest["stories"] = digest["stories"][: cfg.max_items_per_digest]
 
@@ -89,28 +116,15 @@ def cmd_run(args: argparse.Namespace) -> int:
     html_path = out_dir / f"{week}.html"
     render.render_html(digest, html_path)
     render.render_json(digest, out_dir / f"{week}.json")
-
-    breakdown = cost.usage_cost(result.model, result.input_tokens, result.output_tokens)
     log.info(
         "Wrote docs/digests/%s.html and .json (%d stories); run cost $%.4f",
         week,
         len(digest["stories"]),
         breakdown.total_usd,
     )
+    record(len(digest["stories"]))
 
-    with store.connect(db_path) as conn:
-        store.record_items(conn, [item for cluster in clusters for item in cluster], week)
-        store.record_digest(
-            conn,
-            week,
-            len(digest["stories"]),
-            model=result.model,
-            input_tokens=result.input_tokens,
-            output_tokens=result.output_tokens,
-            cost_usd=breakdown.total_usd,
-        )
-
-    _maybe_rebuild_site(root, db_path)
+    _maybe_rebuild_site(root, db_path, cfg)
 
     if cfg.email and cfg.email.enabled:
         try:
@@ -207,12 +221,11 @@ def cmd_list(args: argparse.Namespace) -> int:
     return 0
 
 
-def _maybe_rebuild_site(root: Path, db_path: Path) -> None:
+def _maybe_rebuild_site(root: Path, db_path: Path, cfg: config_mod.Config) -> None:
     """Rebuild the static site after a run; never let it fail the run."""
     try:
         from sift import site
 
-        cfg = config_mod.load_config(root / "config.toml")
         site.build_site(root, db_path, cfg)
     except Exception:  # noqa: BLE001 - site rebuild is best-effort
         log.exception("Site rebuild failed (digest still written)")
