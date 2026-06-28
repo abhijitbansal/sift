@@ -1,7 +1,9 @@
 # Sift configuration. The ANTHROPIC_API_KEY never goes here — env or keychain only.
 
 [sift]
-model = "claude-opus-4-8"
+# Sonnet 4.6 while testing (~40% cheaper than Opus, supports adaptive thinking +
+# structured outputs). Switch back to "claude-opus-4-8" for production quality.
+model = "claude-sonnet-4-6"
 max_items_per_digest = 10
 interest_profile = """
 I care about enterprise AI adoption (real deployments, not press-release vapor),

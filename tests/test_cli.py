@@ -83,7 +83,7 @@ def test_email_command_errors_when_digest_missing(tmp_path, capsys):
 def seed_content(tmp_path):
     content = tmp_path / "content"
     content.mkdir(parents=True, exist_ok=True)
-    for name in ("index", "guide", "roadmap"):
+    for name in ("index", "how-it-works", "features", "guide", "roadmap"):
         (content / f"{name}.md").write_text(f"# {name}", encoding="utf-8")
 
 

@@ -24,12 +24,16 @@ log = logging.getLogger("sift.site")
 # slug -> (nav label, page title, content filename)
 PROSE_PAGES = {
     "index": ("Home", "Sift — weekly AI-news curation", "index.md"),
+    "how-it-works": ("How it works", "Sift — how it works", "how-it-works.md"),
+    "features": ("Features", "Sift — features", "features.md"),
     "guide": ("Guide", "Sift — usage guide", "guide.md"),
     "roadmap": ("Roadmap", "Sift — roadmap", "roadmap.md"),
 }
 
 NAV = [
     ("index.html", "Home", "index"),
+    ("how-it-works.html", "How it works", "how-it-works"),
+    ("features.html", "Features", "features"),
     ("guide.html", "Guide", "guide"),
     ("roadmap.html", "Roadmap", "roadmap"),
     ("digests/index.html", "Digests", "digests"),
@@ -211,4 +215,14 @@ ul.archive li { display: flex; justify-content: space-between; align-items: base
 ul.archive .meta { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
 .site-footer { max-width: 44rem; margin: 3rem auto 2rem; padding: 1.2rem 1.25rem 0;
   border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
+.flow { margin: 1.5rem 0; }
+.flow .stage { border: 1px solid var(--line); border-radius: 8px; padding: 0.7rem 1rem;
+  background: var(--card); }
+.flow .stage.paid { border-color: var(--accent); border-width: 2px; }
+.flow .stage h4 { margin: 0 0 0.25rem; font-size: 1rem; }
+.flow .stage p { margin: 0.15rem 0 0.4rem; font-size: 0.9rem; }
+.flow .stage .mod { color: var(--muted); font-size: 0.78rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.flow .arrow { text-align: center; color: var(--accent); font-size: 1.3rem; line-height: 1;
+  margin: 0.3rem 0; }
 """
