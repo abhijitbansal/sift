@@ -3,7 +3,12 @@
 A weekly AI-news curation pipeline for one reader. Fetches RSS/Atom feeds,
 drops what you've already seen, clusters obvious duplicates locally for free,
 then makes **one** Claude API call to merge, categorize, score, and summarize —
-and renders a clean dark-mode-friendly HTML digest.
+and renders a clean, dark-mode-friendly HTML digest. Optionally emails it to you
+and publishes a browsable archive.
+
+> Full explainer, usage guide, and roadmap: the site under [`docs/`](docs/index.html)
+> (served via GitHub Pages once the repo is public). Open `docs/index.html`
+> locally in the meantime.
 
 ## Quickstart
 
@@ -14,58 +19,79 @@ and renders a clean dark-mode-friendly HTML digest.
    uv sync
    ```
 
-2. **Configure** — edit `config.toml` (feeds, model, interest profile; see
-   `config.example.toml`), and put your API key in the keychain (never in the
-   config or repo):
+2. **Store your API key in the keychain** (never in the config or repo):
 
    ```sh
    security add-generic-password -s ANTHROPIC_API_KEY -a "$USER" -w
    ```
 
-3. **Run**:
+3. **Configure** — copy `config.example.toml` to `config.toml` and edit feeds,
+   model, interest profile, and the optional tuning/email settings.
+
+4. **Run**:
 
    ```sh
    export ANTHROPIC_API_KEY="$(security find-generic-password -s ANTHROPIC_API_KEY -w)"
    uv run sift run
-   open digests/*.html
+   open docs/digests/*.html
    ```
 
 ## Commands
 
 | Command | What it does |
 |---|---|
-| `uv run sift run` | Full pipeline: fetch → filter → dedup → one API call → render → record |
+| `uv run sift run` | Full pipeline: fetch → filter → dedup → one API call → render → record → email → site |
 | `uv run sift run --dry-run` | Everything except the API call; prints what would be sent |
 | `uv run sift add <feed-url>` | Validate a feed URL resolves, then append it to `config.toml` |
-| `uv run sift list` | List configured feeds |
+| `uv run sift list` | List configured feeds (with weights) |
+| `uv run sift email <week>` | Re-send a rendered digest, e.g. `sift email 2026-26` |
+| `uv run sift history` | Show every run with token counts and cost |
+| `uv run sift site` | Rebuild the static site under `docs/` |
 
-Output lands in `digests/YYYY-WW.html` and `digests/YYYY-WW.json`. History
-lives in `sift.db` (SQLite); logs in `logs/sift.log`. A dead feed never kills
-the run — it's logged and skipped.
+Digests land in `docs/digests/YYYY-WW.{html,json}`. History (and per-run cost)
+lives in `sift.db`; logs in `logs/sift.log`. A dead feed never kills the run —
+it's logged and skipped.
+
+## Steering the digest
+
+All in `config.toml`:
+
+- **`interest_profile`** — a paragraph of what you consider signal vs. noise.
+- **feed `weight`** — float per feed (default 1.0); floats trusted sources up.
+- **`min_score`** — 1–10 cutoff; weak stories are dropped before the cap.
+- **`mute`** — topics the model should down-rank or exclude.
+
+## Email delivery (optional)
+
+Set `[email] enabled = true` in `config.toml` and store the SMTP password:
+
+```sh
+security add-generic-password -s SIFT_SMTP_PASSWORD -a "$USER" -w
+```
 
 ## Run weekly via launchd (Sunday 6am)
 
 ```sh
 cp launchd/com.abhijitbansal.sift.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/com.abhijitbansal.sift.plist
-# test it immediately:
-launchctl start com.abhijitbansal.sift
+launchctl start com.abhijitbansal.sift   # test it immediately
 ```
 
-The plist reads `ANTHROPIC_API_KEY` from the login keychain at run time
-(quickstart step 2) and schedules Sunday 06:00 in the machine's local timezone.
+The plist reads the keychain secrets at run time and schedules Sunday 06:00 in
+the machine's local timezone.
 
 ## Tests
 
 ```sh
 uv run python -m pytest
+uv run python -m pytest --cov=sift   # with coverage
 ```
 
 ## Cost
 
 One API call per weekly run (model set in `config.toml`, default
-`claude-opus-4-8`). Everything else — fetching, dedup, rendering, history —
-is local and free.
+`claude-opus-4-8`). Everything else — fetching, dedup, rendering, history, the
+email, the site — is local and free. `sift history` shows the running total.
 
 ## License
 

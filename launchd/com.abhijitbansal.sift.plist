@@ -6,13 +6,14 @@
   <key>Label</key>
   <string>com.abhijitbansal.sift</string>
 
-  <!-- Reads ANTHROPIC_API_KEY from the login keychain at run time; the key
-       never lives in this file, the config, or the repo. -->
+  <!-- Reads the secrets from the login keychain at run time; they never live in
+       this file, the config, or the repo. SIFT_SMTP_PASSWORD is optional (email
+       is opt-in); a missing item just leaves it empty and email is skipped. -->
   <key>ProgramArguments</key>
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>export ANTHROPIC_API_KEY="$(security find-generic-password -s ANTHROPIC_API_KEY -w)"; cd "$HOME/projects/sift" &amp;&amp; uv run sift run</string>
+    <string>export ANTHROPIC_API_KEY="$(security find-generic-password -s ANTHROPIC_API_KEY -w)"; export SIFT_SMTP_PASSWORD="$(security find-generic-password -s SIFT_SMTP_PASSWORD -w 2>/dev/null)"; cd "$HOME/projects/sift" &amp;&amp; uv run sift run</string>
   </array>
 
   <!-- Sunday 06:00 in the machine's local timezone (Mac mini is on ET).

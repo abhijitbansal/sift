@@ -1,11 +1,16 @@
 # Example Sift configuration — copy to config.toml and edit.
-# The ANTHROPIC_API_KEY never goes here: env var or macOS keychain only.
+# Secrets never go here: the Anthropic key and SMTP password live in the macOS
+# keychain (or env vars), never in this file or the repo.
 
 [sift]
-# Any current Anthropic model ID works here.
+# Any current Anthropic model id works here.
 model = "claude-opus-4-8"
 # How many stories the rendered digest keeps (top-scored first).
 max_items_per_digest = 10
+# Drop any story the model scores below this (1-10). Default 1 keeps everything.
+min_score = 4
+# Topics to down-rank or exclude (passed to the model as guidance).
+mute = ["consumer chatbot drama", "ai doom punditry"]
 # A paragraph describing what you care about; drives the ranking prompt.
 interest_profile = """
 Describe your interests here: which topics matter, what you consider signal
@@ -17,3 +22,16 @@ name = "Example Blog"
 url = "https://example.com/feed.xml"
 # Optional hint: models_research | tooling | infra | policy | business
 category_hint = "tooling"
+# Optional trust weight (default 1.0). > 1 floats this source's stories up.
+weight = 1.5
+
+# Optional email delivery of each weekly digest over SMTP.
+# Put the password in the keychain (service name SIFT_SMTP_PASSWORD) or the
+# SIFT_SMTP_PASSWORD env var — never here.
+[email]
+enabled = false
+host = "smtp.example.com"
+from = "sift@example.com"
+to = "you@example.com"
+port = 587          # 465 = implicit TLS; anything else uses STARTTLS
+use_tls = true
