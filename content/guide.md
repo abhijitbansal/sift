@@ -70,6 +70,29 @@ Add a feed without hand-editing by validating it first:
 uv run sift add https://some-blog.example.com/feed.xml
 ```
 
+### Follow X (Twitter) handles (optional)
+
+X has no open RSS, so Sift reads it through a **bridge** that turns a handle into
+a feed. Point `bridge_url` at a bridge (with a `{handle}` placeholder), then add
+handles with `sift add-x`:
+
+```toml
+[x]
+# nitter.net works today, but public Nitter instances are unstable. For
+# reliability, self-host Nitter/RSSHub or use an RSS.app feed URL.
+bridge_url = "https://nitter.net/{handle}/rss"
+```
+
+```sh
+uv run sift add-x karpathy      # adds "X · @karpathy" as a feed
+uv run sift add-x @DrJimFan     # the @ is optional
+```
+
+Each handle is validated against the bridge before it's added, and then behaves
+like any other feed. X feeds carry replies and reposts, so if one gets noisy,
+down-weight it in `config.toml` (`weight = 0.5`) or remove it. If the bridge
+stops resolving, swap `bridge_url` for a self-hosted instance or an RSS.app feed.
+
 ### Email delivery (optional)
 
 ```toml

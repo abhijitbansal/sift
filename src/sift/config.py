@@ -43,6 +43,7 @@ class Config:
     min_score: int = DEFAULT_MIN_SCORE
     thinking: str = DEFAULT_THINKING
     effort: str | None = None
+    x_bridge_url: str | None = None
     email: EmailConfig | None = None
 
 
@@ -112,6 +113,12 @@ def load_config(path: Path) -> Config:
         if effort not in EFFORT_LEVELS:
             raise ValueError(f"sift.effort must be one of {EFFORT_LEVELS}")
 
+    x_bridge_url = raw.get("x", {}).get("bridge_url")
+    if x_bridge_url is not None:
+        x_bridge_url = str(x_bridge_url)
+        if "{handle}" not in x_bridge_url:
+            raise ValueError("[x] bridge_url must contain the '{handle}' placeholder")
+
     return Config(
         feeds=feeds,
         model=str(sift_cfg.get("model", DEFAULT_MODEL)),
@@ -121,6 +128,7 @@ def load_config(path: Path) -> Config:
         min_score=min_score,
         thinking=thinking,
         effort=effort,
+        x_bridge_url=x_bridge_url,
         email=_parse_email(raw.get("email")),
     )
 

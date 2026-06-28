@@ -97,3 +97,22 @@ url = "https://huggingface.co/blog/feed.xml"
 [[feeds]]
 name = "Andrej Karpathy blog"
 url = "https://karpathy.github.io/feed.xml"
+
+# X has no open RSS, so Sift reads it through a bridge that turns a handle into a
+# feed. {handle} is substituted by `sift add-x <handle>`. nitter.net works today
+# but public Nitter instances are unstable — swap this for a self-hosted Nitter /
+# RSSHub, or an RSS.app feed URL, if it stops resolving.
+[x]
+bridge_url = "https://nitter.net/{handle}/rss"
+
+[[feeds]]
+name = "X · @karpathy"
+url = "https://nitter.net/karpathy/rss"
+
+[[feeds]]
+name = "X · @DrJimFan"
+url = "https://nitter.net/DrJimFan/rss"
+
+[[feeds]]
+name = "X · @ylecun"
+url = "https://nitter.net/ylecun/rss"

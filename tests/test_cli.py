@@ -240,6 +240,47 @@ def test_email_command_success(tmp_path, capsys, monkeypatch):
     assert "Emailed digest 2026-26" in capsys.readouterr().out
 
 
+def write_cfg_with_bridge(tmp_path):
+    path = tmp_path / "config.toml"
+    path.write_text(
+        '[sift]\ninterest_profile = "x"\n\n'
+        '[x]\nbridge_url = "https://nitter.net/{handle}/rss"\n\n'
+        '[[feeds]]\nname = "F"\nurl = "https://f"\n',
+        encoding="utf-8",
+    )
+    return path
+
+
+def test_add_x_errors_without_bridge(tmp_path, capsys):
+    cfg = write_cfg(tmp_path)  # no [x] section
+
+    rc = cli.main(["--config", str(cfg), "add-x", "karpathy"])
+
+    assert rc == 1
+    assert "No X bridge" in capsys.readouterr().err
+
+
+def test_add_x_adds_validated_handle(tmp_path, capsys, monkeypatch):
+    cfg = write_cfg_with_bridge(tmp_path)
+    monkeypatch.setattr(cli, "_validate_feed", lambda url: ("X feed", None))
+
+    rc = cli.main(["--config", str(cfg), "add-x", "@karpathy"])
+
+    assert rc == 0
+    assert "X · @karpathy" in capsys.readouterr().out
+    assert "https://nitter.net/karpathy/rss" in cfg.read_text(encoding="utf-8")
+
+
+def test_add_x_rejects_invalid_feed(tmp_path, capsys, monkeypatch):
+    cfg = write_cfg_with_bridge(tmp_path)
+    monkeypatch.setattr(cli, "_validate_feed", lambda url: (None, "did not resolve: boom"))
+
+    rc = cli.main(["--config", str(cfg), "add-x", "karpathy"])
+
+    assert rc == 1
+    assert "did not resolve" in capsys.readouterr().err
+
+
 def test_add_command_rejects_unresolvable_url(tmp_path, capsys, monkeypatch):
     import httpx
 

@@ -193,28 +193,55 @@ def cmd_site(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_add(args: argparse.Namespace) -> int:
+def _validate_feed(url: str) -> tuple[str | None, str | None]:
+    """Return (feed_title, None) if the URL is a non-empty feed, else (None, error)."""
     import feedparser
     import httpx
 
     try:
         response = httpx.get(
-            args.url,
+            url,
             timeout=fetch.FETCH_TIMEOUT_SECONDS,
             follow_redirects=True,
             headers={"User-Agent": fetch.USER_AGENT},
         )
         response.raise_for_status()
     except Exception as exc:
-        print(f"Feed did not resolve: {exc}", file=sys.stderr)
-        return 1
+        return None, f"did not resolve: {exc}"
     parsed = feedparser.parse(response.content)
     if not parsed.entries:
-        print("URL resolved but contains no feed entries; not adding.", file=sys.stderr)
+        return None, "resolved but contains no feed entries"
+    return (parsed.feed.get("title") or url).strip(), None
+
+
+def cmd_add(args: argparse.Namespace) -> int:
+    title, error = _validate_feed(args.url)
+    if error:
+        print(f"Feed {error}", file=sys.stderr)
         return 1
-    name = (parsed.feed.get("title") or args.url).strip()
-    config_mod.append_feed(args.config, name, args.url)
-    print(f"Added feed: {name} ({args.url})")
+    config_mod.append_feed(args.config, title, args.url)
+    print(f"Added feed: {title} ({args.url})")
+    return 0
+
+
+def cmd_add_x(args: argparse.Namespace) -> int:
+    cfg = config_mod.load_config(args.config)
+    if not cfg.x_bridge_url:
+        print(
+            "No X bridge configured. Set [x] bridge_url in config.toml first "
+            "(see the guide — Sift reads X through an RSS bridge).",
+            file=sys.stderr,
+        )
+        return 1
+    handle = args.handle.lstrip("@")
+    url = cfg.x_bridge_url.format(handle=handle)
+    title, error = _validate_feed(url)
+    if error:
+        print(f"X feed for @{handle} {error}\n  ({url})", file=sys.stderr)
+        return 1
+    name = f"X · @{handle}"
+    config_mod.append_feed(args.config, name, url)
+    print(f"Added X feed: {name} ({url})")
     return 0
 
 
@@ -256,6 +283,10 @@ def main(argv: list[str] | None = None) -> int:
     add_parser = sub.add_parser("add", help="Add a feed URL to config.toml")
     add_parser.add_argument("url")
     add_parser.set_defaults(func=cmd_add)
+
+    addx_parser = sub.add_parser("add-x", help="Add an X handle via the configured RSS bridge")
+    addx_parser.add_argument("handle", help="X handle, e.g. karpathy or @karpathy")
+    addx_parser.set_defaults(func=cmd_add_x)
 
     list_parser = sub.add_parser("list", help="List configured feeds")
     list_parser.set_defaults(func=cmd_list)

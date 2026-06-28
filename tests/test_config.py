@@ -150,6 +150,51 @@ url = "https://f"
         config_mod.load_config(path)
 
 
+def test_x_bridge_url_parsed(tmp_path):
+    path = write_config(tmp_path, """
+[sift]
+interest_profile = "x"
+
+[x]
+bridge_url = "https://nitter.net/{handle}/rss"
+
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    cfg = config_mod.load_config(path)
+
+    assert cfg.x_bridge_url == "https://nitter.net/{handle}/rss"
+
+
+def test_x_bridge_requires_handle_placeholder(tmp_path):
+    path = write_config(tmp_path, """
+[sift]
+interest_profile = "x"
+
+[x]
+bridge_url = "https://nitter.net/rss"
+
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    with pytest.raises(ValueError, match="handle"):
+        config_mod.load_config(path)
+
+
+def test_x_bridge_defaults_none(tmp_path):
+    path = write_config(tmp_path, BASE + """
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    assert config_mod.load_config(path).x_bridge_url is None
+
+
 def test_email_disabled_block(tmp_path):
     path = write_config(tmp_path, BASE + """
 [[feeds]]

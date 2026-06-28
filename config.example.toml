@@ -40,3 +40,10 @@ from = "sift@example.com"
 to = "you@example.com"
 port = 587          # 465 = implicit TLS; anything else uses STARTTLS
 use_tls = true
+
+# Optional: follow X (Twitter) handles. X has no open RSS, so Sift reads it
+# through a bridge that turns a handle into a feed. Set bridge_url with a
+# {handle} placeholder, then run `sift add-x <handle>`. Public Nitter instances
+# are unstable — self-host Nitter/RSSHub or use an RSS.app feed for reliability.
+# [x]
+# bridge_url = "https://nitter.net/{handle}/rss"

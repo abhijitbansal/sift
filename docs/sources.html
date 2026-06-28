@@ -22,7 +22,7 @@
 </header>
 <main>
 <h1>Sources</h1>
-<p>Sift scans these <strong>17</strong> feeds every run — fetched and filtered locally, with one Claude call to rank what's left. Tune any source with a <code>weight</code> in <code>config.toml</code>.</p>
+<p>Sift scans these <strong>20</strong> feeds every run — fetched and filtered locally, with one Claude call to rank what's left. Tune any source with a <code>weight</code> in <code>config.toml</code>.</p>
 <ul class="feeds">
 <li><a href="https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml">Anthropic News</a> <span class="feed-meta">models_research</span></li>
 <li><a href="https://openai.com/news/rss.xml">OpenAI News</a> <span class="feed-meta">models_research &middot; weight 0.6</span></li>
@@ -41,18 +41,21 @@
 <li><a href="https://magazine.sebastianraschka.com/feed">Ahead of AI</a></li>
 <li><a href="https://huggingface.co/blog/feed.xml">Hugging Face - Blog</a></li>
 <li><a href="https://karpathy.github.io/feed.xml">Andrej Karpathy blog</a></li>
+<li><a href="https://nitter.net/karpathy/rss">X · @karpathy</a></li>
+<li><a href="https://nitter.net/DrJimFan/rss">X · @DrJimFan</a></li>
+<li><a href="https://nitter.net/ylecun/rss">X · @ylecun</a></li>
 </ul>
 <h2>Who to follow on X</h2>
-<p>Sift reads <strong>RSS/Atom feeds only</strong> — it can't pull X (Twitter) directly, since X
-no longer offers open feeds. But a lot of the best real-time AI signal lives
-there. These accounts are worth following by hand; where someone also publishes a
-blog or newsletter, Sift already scans it (marked <em>scanned</em>).</p>
+<p>X has no open RSS, but Sift can now follow X handles through a <strong>bridge</strong> — run
+<code>sift add-x &lt;handle&gt;</code> (see the <a href="guide.html">guide</a>). The accounts below are worth
+following; <strong>scanned</strong> means Sift already pulls it, via a blog/newsletter feed or
+the X bridge.</p>
 <h3>Researchers &amp; builders</h3>
 <ul>
-<li><a href="https://x.com/karpathy">Andrej Karpathy</a> — foundational explainers; ex-OpenAI/Tesla. <em>(blog scanned)</em></li>
+<li><a href="https://x.com/karpathy">Andrej Karpathy</a> — foundational explainers; ex-OpenAI/Tesla. <em>(blog + X scanned)</em></li>
 <li><a href="https://x.com/AndrewYNg">Andrew Ng</a> — DeepLearning.AI, applied AI.</li>
-<li><a href="https://x.com/DrJimFan">Jim Fan</a> — NVIDIA, embodied agents &amp; robotics.</li>
-<li><a href="https://x.com/ylecun">Yann LeCun</a> — Meta chief AI scientist.</li>
+<li><a href="https://x.com/DrJimFan">Jim Fan</a> — NVIDIA, embodied agents &amp; robotics. <em>(X scanned)</em></li>
+<li><a href="https://x.com/ylecun">Yann LeCun</a> — Meta chief AI scientist. <em>(X scanned)</em></li>
 <li><a href="https://x.com/simonw">Simon Willison</a> — LLM tooling, hands-on. <em>(blog scanned)</em></li>
 <li><a href="https://x.com/rasbt">Sebastian Raschka</a> — model architecture &amp; training. <em>(Ahead of AI scanned)</em></li>
 </ul>
@@ -83,9 +86,10 @@ blog or newsletter, Sift already scans it (marked <em>scanned</em>).</p>
   recover.</li>
 </ul>
 <blockquote>
-<p>Want X ingested automatically? It would need a separate path (the X API, with
-its own auth and cost) — out of scope for now. The blogs and newsletters above
-cover most of these voices via RSS already.</p>
+<p><strong>How X gets in:</strong> <code>sift add-x &lt;handle&gt;</code> routes the handle through the bridge in
+<code>config.toml</code> (<code>[x] bridge_url</code>). Public Nitter instances are unstable — for
+reliability, self-host Nitter/RSSHub or use an RSS.app feed. The official X API
+is the heavyweight alternative (pay-per-use reads + auth) and is overkill here.</p>
 </blockquote>
 </main>
 <footer class="site-footer">

@@ -93,6 +93,22 @@ the model as a trust hint). Use it to float sources you trust above the rest.</p
 <p>Add a feed without hand-editing by validating it first:</p>
 <pre><code class="language-sh">uv run sift add https://some-blog.example.com/feed.xml
 </code></pre>
+<h3>Follow X (Twitter) handles (optional)</h3>
+<p>X has no open RSS, so Sift reads it through a <strong>bridge</strong> that turns a handle into
+a feed. Point <code>bridge_url</code> at a bridge (with a <code>{handle}</code> placeholder), then add
+handles with <code>sift add-x</code>:</p>
+<pre><code class="language-toml">[x]
+# nitter.net works today, but public Nitter instances are unstable. For
+# reliability, self-host Nitter/RSSHub or use an RSS.app feed URL.
+bridge_url = &quot;https://nitter.net/{handle}/rss&quot;
+</code></pre>
+<pre><code class="language-sh">uv run sift add-x karpathy      # adds &quot;X · @karpathy&quot; as a feed
+uv run sift add-x @DrJimFan     # the @ is optional
+</code></pre>
+<p>Each handle is validated against the bridge before it's added, and then behaves
+like any other feed. X feeds carry replies and reposts, so if one gets noisy,
+down-weight it in <code>config.toml</code> (<code>weight = 0.5</code>) or remove it. If the bridge
+stops resolving, swap <code>bridge_url</code> for a self-hosted instance or an RSS.app feed.</p>
 <h3>Email delivery (optional)</h3>
 <pre><code class="language-toml">[email]
 enabled = true

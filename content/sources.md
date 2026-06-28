@@ -1,16 +1,16 @@
 ## Who to follow on X
 
-Sift reads **RSS/Atom feeds only** — it can't pull X (Twitter) directly, since X
-no longer offers open feeds. But a lot of the best real-time AI signal lives
-there. These accounts are worth following by hand; where someone also publishes a
-blog or newsletter, Sift already scans it (marked *scanned*).
+X has no open RSS, but Sift can now follow X handles through a **bridge** — run
+`sift add-x <handle>` (see the [guide](guide.html)). The accounts below are worth
+following; **scanned** means Sift already pulls it, via a blog/newsletter feed or
+the X bridge.
 
 ### Researchers & builders
 
-- [Andrej Karpathy](https://x.com/karpathy) — foundational explainers; ex-OpenAI/Tesla. *(blog scanned)*
+- [Andrej Karpathy](https://x.com/karpathy) — foundational explainers; ex-OpenAI/Tesla. *(blog + X scanned)*
 - [Andrew Ng](https://x.com/AndrewYNg) — DeepLearning.AI, applied AI.
-- [Jim Fan](https://x.com/DrJimFan) — NVIDIA, embodied agents & robotics.
-- [Yann LeCun](https://x.com/ylecun) — Meta chief AI scientist.
+- [Jim Fan](https://x.com/DrJimFan) — NVIDIA, embodied agents & robotics. *(X scanned)*
+- [Yann LeCun](https://x.com/ylecun) — Meta chief AI scientist. *(X scanned)*
 - [Simon Willison](https://x.com/simonw) — LLM tooling, hands-on. *(blog scanned)*
 - [Sebastian Raschka](https://x.com/rasbt) — model architecture & training. *(Ahead of AI scanned)*
 
@@ -41,6 +41,7 @@ These fit the profile but don't have a usable RSS feed at the moment — revisit
   last check (the same intermittency that hit cs.AI). Worth re-adding when they
   recover.
 
-> Want X ingested automatically? It would need a separate path (the X API, with
-> its own auth and cost) — out of scope for now. The blogs and newsletters above
-> cover most of these voices via RSS already.
+> **How X gets in:** `sift add-x <handle>` routes the handle through the bridge in
+> `config.toml` (`[x] bridge_url`). Public Nitter instances are unstable — for
+> reliability, self-host Nitter/RSSHub or use an RSS.app feed. The official X API
+> is the heavyweight alternative (pay-per-use reads + auth) and is overkill here.

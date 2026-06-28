@@ -43,6 +43,7 @@ and publishes a browsable archive.
 | `uv run sift run` | Full pipeline: fetch → filter → dedup → one API call → render → record → email → site |
 | `uv run sift run --dry-run` | Everything except the API call; prints what would be sent |
 | `uv run sift add <feed-url>` | Validate a feed URL resolves, then append it to `config.toml` |
+| `uv run sift add-x <handle>` | Add an X handle via the configured `[x]` RSS bridge |
 | `uv run sift list` | List configured feeds (with weights) |
 | `uv run sift email <week>` | Re-send a rendered digest, e.g. `sift email 2026-26` |
 | `uv run sift history` | Show every run with token counts and cost |
