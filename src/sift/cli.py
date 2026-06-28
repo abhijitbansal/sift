@@ -38,9 +38,15 @@ def setup_logging(log_dir: Path) -> None:
     )
 
 
-def gather_clusters(cfg: config_mod.Config, db_path: Path) -> list[list[fetch.Item]]:
-    """Fetch, drop seen/stale items, cluster. Shared by run and dry-run."""
-    items = fetch.fetch_all(cfg.feeds)
+def gather_clusters(
+    cfg: config_mod.Config, db_path: Path
+) -> tuple[list[list[fetch.Item]], list[fetch.FeedResult]]:
+    """Fetch, drop seen/stale items, cluster. Shared by run and dry-run.
+
+    Returns the clusters and the per-feed scan results (which sources were
+    scanned and how many items each returned this run).
+    """
+    items, feed_results = fetch.fetch_all(cfg.feeds)
     log.info("Fetched %d items total", len(items))
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=MAX_ITEM_AGE_DAYS)
@@ -55,7 +61,7 @@ def gather_clusters(cfg: config_mod.Config, db_path: Path) -> list[list[fetch.It
 
     clusters = dedup.cluster_items(fresh)
     log.info("%d clusters after local dedup", len(clusters))
-    return clusters
+    return clusters, feed_results
 
 
 def cmd_run(args: argparse.Namespace) -> int:
@@ -64,7 +70,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     cfg = config_mod.load_config(args.config)
     root = args.config.parent
     db_path = root / "sift.db"
-    clusters = gather_clusters(cfg, db_path)
+    clusters, feed_results = gather_clusters(cfg, db_path)
     if not clusters:
         log.info("Nothing new this week; no digest written.")
         return 0
@@ -108,7 +114,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         record(0)
         return 0
 
-    digest = render.build_digest(week, stories, clusters)
+    digest = render.build_digest(week, stories, clusters, feed_results)
     digest["stories"] = digest["stories"][: cfg.max_items_per_digest]
 
     out_dir = digests_dir(root)

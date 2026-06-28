@@ -26,6 +26,8 @@ category_hint = "models_research"
 name = "OpenAI News"
 url = "https://openai.com/news/rss.xml"
 category_hint = "models_research"
+# Down-weighted: a prolific vendor feed (1000+ items/run) that otherwise dominates.
+weight = 0.6
 
 [[feeds]]
 name = "Google DeepMind Blog"
@@ -46,6 +48,8 @@ category_hint = "models_research"
 [[feeds]]
 name = "Hacker News Front Page"
 url = "https://hnrss.org/frontpage"
+# Down-weighted: a general aggregator with lots of non-AI noise.
+weight = 0.5
 
 [[feeds]]
 name = "Simon Willison"
@@ -61,3 +65,35 @@ category_hint = "policy"
 name = "arXiv cs.AI"
 url = "https://rss.arxiv.org/rss/cs.AI"
 category_hint = "models_research"
+
+[[feeds]]
+name = "Interconnects AI"
+url = "https://www.interconnects.ai/feed"
+
+[[feeds]]
+name = "SemiAnalysis"
+url = "https://www.semianalysis.com/feed"
+
+[[feeds]]
+name = "Latent.Space"
+url = "https://www.latent.space/feed"
+
+[[feeds]]
+name = "The Pragmatic Engineer"
+url = "https://newsletter.pragmaticengineer.com/feed"
+
+[[feeds]]
+name = "One Useful Thing"
+url = "https://www.oneusefulthing.org/feed"
+
+[[feeds]]
+name = "Ahead of AI"
+url = "https://magazine.sebastianraschka.com/feed"
+
+[[feeds]]
+name = "Hugging Face - Blog"
+url = "https://huggingface.co/blog/feed.xml"
+
+[[feeds]]
+name = "Andrej Karpathy blog"
+url = "https://karpathy.github.io/feed.xml"

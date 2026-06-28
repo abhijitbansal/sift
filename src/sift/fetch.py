@@ -33,6 +33,16 @@ class Item:
     summary: str
 
 
+@dataclass(frozen=True)
+class FeedResult:
+    """Per-feed outcome of one scan: how many items it returned, and whether it worked."""
+
+    name: str
+    url: str
+    count: int
+    ok: bool
+
+
 def strip_html(text: str) -> str:
     """Remove tags, unescape entities, collapse whitespace."""
     return _WS_RE.sub(" ", html.unescape(_TAG_RE.sub(" ", text))).strip()
@@ -63,9 +73,14 @@ def fetch_feed(client: httpx.Client, feed: Feed) -> list[Item]:
     return [item for entry in parsed.entries if (item := parse_entry(entry, feed.name))]
 
 
-def fetch_all(feeds: tuple[Feed, ...]) -> list[Item]:
-    """Fetch every feed; a dead feed is logged and skipped, never fatal."""
+def fetch_all(feeds: tuple[Feed, ...]) -> tuple[list[Item], list[FeedResult]]:
+    """Fetch every feed; a dead feed is logged and skipped, never fatal.
+
+    Returns the flat item list and a per-feed scan result (count + ok), so the
+    digest can report exactly which sources were scanned and what each returned.
+    """
     items: list[Item] = []
+    results: list[FeedResult] = []
     with httpx.Client(
         timeout=FETCH_TIMEOUT_SECONDS,
         follow_redirects=True,
@@ -76,7 +91,9 @@ def fetch_all(feeds: tuple[Feed, ...]) -> list[Item]:
                 feed_items = fetch_feed(client, feed)
             except Exception as exc:
                 log.error("Feed failed, skipping: %s (%s): %s", feed.name, feed.url, exc)
+                results.append(FeedResult(feed.name, feed.url, 0, ok=False))
                 continue
             log.info("Fetched %d items from %s", len(feed_items), feed.name)
+            results.append(FeedResult(feed.name, feed.url, len(feed_items), ok=True))
             items.extend(feed_items)
-    return items
+    return items, results

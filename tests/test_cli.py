@@ -83,7 +83,7 @@ def test_email_command_errors_when_digest_missing(tmp_path, capsys):
 def seed_content(tmp_path):
     content = tmp_path / "content"
     content.mkdir(parents=True, exist_ok=True)
-    for name in ("index", "how-it-works", "features", "guide", "roadmap"):
+    for name in ("index", "how-it-works", "features", "sources", "guide", "roadmap"):
         (content / f"{name}.md").write_text(f"# {name}", encoding="utf-8")
 
 
@@ -92,7 +92,7 @@ def test_run_dry_run_prints_prompt_without_network(tmp_path, capsys, monkeypatch
 
     cfg = write_cfg(tmp_path)
     item = fetch.Item("Title", "https://x", "F", None, "summary")
-    monkeypatch.setattr(fetch, "fetch_all", lambda feeds: [item])
+    monkeypatch.setattr(fetch, "fetch_all", lambda feeds: ([item], []))
 
     rc = cli.main(["--config", str(cfg), "run", "--dry-run"])
 
@@ -106,7 +106,7 @@ def test_run_reports_nothing_new_on_empty_fetch(tmp_path, monkeypatch):
     from sift import fetch
 
     cfg = write_cfg(tmp_path)
-    monkeypatch.setattr(fetch, "fetch_all", lambda feeds: [])
+    monkeypatch.setattr(fetch, "fetch_all", lambda feeds: ([], []))
 
     rc = cli.main(["--config", str(cfg), "run", "--dry-run"])
 
@@ -119,7 +119,10 @@ def test_run_writes_digest_and_rebuilds_site(tmp_path, monkeypatch):
     cfg = write_cfg(tmp_path)
     seed_content(tmp_path)
     monkeypatch.setattr(
-        fetch, "fetch_all", lambda feeds: [fetch.Item("T", "https://x", "F", None, "s")]
+        fetch, "fetch_all",
+        lambda feeds: ([fetch.Item("T", "https://x", "F", None, "s")], [
+            fetch.FeedResult("F", "https://f", 1, ok=True),
+        ]),
     )
     good = {
         "cluster_ids": [0], "title": "Big news", "category": "tooling", "score": 8,
@@ -154,7 +157,9 @@ def test_run_records_but_writes_nothing_when_all_filtered(tmp_path, monkeypatch)
         '[[feeds]]\nname = "F"\nurl = "https://f"\n',
         encoding="utf-8",
     )
-    monkeypatch.setattr(fetch, "fetch_all", lambda feeds: [fetch.Item("T", "https://x", "F", None, "s")])
+    monkeypatch.setattr(
+        fetch, "fetch_all", lambda feeds: ([fetch.Item("T", "https://x", "F", None, "s")], [])
+    )
     low_story = {
         "cluster_ids": [0], "title": "low", "category": "tooling", "score": 2,
         "rationale": "r", "summary": "One. Two.", "needs_verification": False,

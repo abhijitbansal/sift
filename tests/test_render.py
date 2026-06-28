@@ -55,6 +55,51 @@ def test_render_html_marks_needs_verification(tmp_path):
     assert "needs verification" in out.read_text(encoding="utf-8")
 
 
+def test_build_digest_records_scanned_sources():
+    from sift.fetch import FeedResult
+
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    results = [
+        FeedResult("Feed A", "https://a", 3, ok=True),
+        FeedResult("Dead", "https://d", 0, ok=False),
+    ]
+
+    digest = render.build_digest("2026-26", [story("X", 5, [0])], clusters, results)
+
+    assert digest["sources_scanned"][0] == {"name": "Feed A", "count": 3, "ok": True}
+    assert digest["sources_scanned"][1]["ok"] is False
+
+
+def test_render_html_shows_sources_scanned(tmp_path):
+    from sift.fetch import FeedResult
+
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    results = [
+        FeedResult("Feed A", "https://a", 3, ok=True),
+        FeedResult("Dead", "https://d", 0, ok=False),
+    ]
+    digest = render.build_digest("2026-26", [story("X", 5, [0])], clusters, results)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out)
+    html = out.read_text(encoding="utf-8")
+
+    assert "Sources scanned" in html
+    assert "Feed A" in html
+    assert "dead" in html  # the dead feed is marked
+    assert "1/2 live" in html
+
+
+def test_render_html_omits_scanned_section_when_absent(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 5, [0])], clusters)  # no feed_results
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out)
+
+    assert "Sources scanned" not in out.read_text(encoding="utf-8")
+
+
 def test_render_json_roundtrips(tmp_path):
     clusters = [[Item("A", "https://a", "Feed A", None, "")]]
     digest = render.build_digest("2026-26", [story("X", 5, [0])], clusters)

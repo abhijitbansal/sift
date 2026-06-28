@@ -65,6 +65,12 @@ _PAGE = """<!DOCTYPE html>
   .backlink {{ font-size: .82rem; margin: 0 0 .4rem; }}
   .backlink a {{ color: var(--muted); text-decoration: none; }}
   .backlink a:hover {{ color: var(--accent); }}
+  .scanned {{ margin-top: 2.8rem; }}
+  .scanned-list {{ list-style: none; padding: 0; margin: .4rem 0 0; display: flex;
+    flex-wrap: wrap; gap: .35rem .9rem; font-size: .82rem; color: var(--muted); }}
+  .scanned-list li {{ white-space: nowrap; }}
+  .cnt {{ color: var(--fg); font-weight: bold; }}
+  .cnt.dead {{ color: var(--accent); font-weight: normal; font-style: italic; }}
   footer {{ margin-top: 3rem; padding-top: 1.1rem; border-top: 1px solid var(--line);
     color: var(--muted); font-size: .82rem; font-style: italic; }}
 </style>
@@ -76,14 +82,24 @@ _PAGE = """<!DOCTYPE html>
 <p class="meta">Week {week} &middot; {count} stories</p>
 </header>
 {sections}
+{scanned}
 <footer>Curated weekly from your feeds — one Claude call, everything else local and free.</footer>
 </body>
 </html>
 """
 
 
-def build_digest(week: str, stories: list[dict], clusters: list[list[Item]]) -> dict:
-    """Join ranked stories back to their source items; sort by score."""
+def build_digest(
+    week: str,
+    stories: list[dict],
+    clusters: list[list[Item]],
+    feed_results: list | None = None,
+) -> dict:
+    """Join ranked stories back to their source items; sort by score.
+
+    feed_results (fetch.FeedResult) records which sources were scanned this run
+    and how many items each returned, for transparency in the digest.
+    """
     enriched = []
     for story in sorted(stories, key=lambda s: s["score"], reverse=True):
         links = [
@@ -92,7 +108,12 @@ def build_digest(week: str, stories: list[dict], clusters: list[list[Item]]) -> 
             for item in clusters[cid]
         ]
         enriched.append({**story, "links": links})
-    return {"week": week, "stories": enriched}
+    digest = {"week": week, "stories": enriched}
+    if feed_results is not None:
+        digest["sources_scanned"] = [
+            {"name": r.name, "count": r.count, "ok": r.ok} for r in feed_results
+        ]
+    return digest
 
 
 def render_json(digest: dict, path: Path) -> None:
@@ -112,8 +133,32 @@ def render_html(digest: dict, path: Path) -> None:
         count=len(digest["stories"]),
         favicon=_FAVICON,
         sections="\n".join(sections),
+        scanned=_sources_scanned_html(digest),
     )
     path.write_text(page, encoding="utf-8")
+
+
+def _sources_scanned_html(digest: dict) -> str:
+    sources = digest.get("sources_scanned")
+    if not sources:
+        return ""
+    items = "".join(
+        f"<li>{escape(s['name'])} "
+        + (
+            f'<span class="cnt">{s["count"]}</span>'
+            if s["ok"]
+            else '<span class="cnt dead">dead</span>'
+        )
+        + "</li>"
+        for s in sources
+    )
+    live = sum(1 for s in sources if s["ok"])
+    return (
+        '<section class="scanned">\n'
+        f"<h2>Sources scanned &middot; {live}/{len(sources)} live</h2>\n"
+        f'<ul class="scanned-list">{items}</ul>\n'
+        "</section>"
+    )
 
 
 def _article(story: dict) -> str:

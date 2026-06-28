@@ -64,6 +64,28 @@ def test_parse_entry_handles_missing_dates():
     assert item.published is None
 
 
+def test_fetch_all_reports_per_feed_results(monkeypatch):
+    from sift import fetch
+    from sift.config import Feed
+
+    feeds = (Feed("Good", "https://good"), Feed("Dead", "https://dead"))
+
+    def fake_feed(client, feed):
+        if feed.name == "Dead":
+            raise RuntimeError("boom")
+        return [fetch.Item("t", "https://good/1", "Good", None, "")]
+
+    monkeypatch.setattr(fetch, "fetch_feed", fake_feed)
+
+    items, results = fetch.fetch_all(feeds)
+
+    assert len(items) == 1
+    assert results[0] == fetch.FeedResult("Good", "https://good", 1, ok=True)
+    assert results[1].name == "Dead"
+    assert results[1].ok is False
+    assert results[1].count == 0
+
+
 def test_parse_entry_truncates_long_summaries():
     entry = {
         "title": "Long",

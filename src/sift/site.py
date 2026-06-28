@@ -29,6 +29,7 @@ PROSE_PAGES = {
     "index": ("Home", "Sift — weekly AI-news curation", "index.md"),
     "how-it-works": ("How it works", "Sift — how it works", "how-it-works.md"),
     "features": ("Features", "Sift — features", "features.md"),
+    "sources": ("Sources", "Sift — sources", "sources.md"),
     "guide": ("Guide", "Sift — usage guide", "guide.md"),
     "roadmap": ("Roadmap", "Sift — roadmap", "roadmap.md"),
 }
@@ -37,6 +38,7 @@ NAV = [
     ("index.html", "Home", "index"),
     ("how-it-works.html", "How it works", "how-it-works"),
     ("features.html", "Features", "features"),
+    ("sources.html", "Sources", "sources"),
     ("guide.html", "Guide", "guide"),
     ("roadmap.html", "Roadmap", "roadmap"),
     ("digests/index.html", "Archive", "digests"),
@@ -67,8 +69,12 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
     pages = 0
     for slug, (_, title, filename) in PROSE_PAGES.items():
         body = _render_prose(content_dir / filename)
-        if slug == "index" and entries:
-            body = _latest_issue_hero(entries[0]) + body
+        if slug == "index":
+            if entries:
+                body = _latest_issue_hero(entries[0]) + body
+            body = body + _home_sources_html(cfg)
+        elif slug == "sources":
+            body = _configured_feeds_html(cfg) + body
         (docs / f"{slug}.html").write_text(
             _wrap(title, body, prefix="", active=slug), encoding="utf-8"
         )
@@ -81,6 +87,41 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
     pages += 1
     log.info("Built %d site pages (%d archived digests)", pages, len(entries))
     return pages
+
+
+def _configured_feeds_html(cfg: Config) -> str:
+    """The live list of feeds Sift scans, read from config — for the Sources page."""
+    rows = []
+    for feed in cfg.feeds:
+        meta = []
+        if feed.category_hint:
+            meta.append(escape(feed.category_hint))
+        if feed.weight != 1.0:
+            meta.append(f"weight {feed.weight:g}")
+        meta_html = f' <span class="feed-meta">{" &middot; ".join(meta)}</span>' if meta else ""
+        rows.append(
+            f'<li><a href="{escape(feed.url)}">{escape(feed.name)}</a>{meta_html}</li>'
+        )
+    return (
+        "<h1>Sources</h1>\n"
+        f"<p>Sift scans these <strong>{len(cfg.feeds)}</strong> feeds every run — "
+        "fetched and filtered locally, with one Claude call to rank what's left. "
+        "Tune any source with a <code>weight</code> in <code>config.toml</code>.</p>\n"
+        f'<ul class="feeds">\n' + "\n".join(rows) + "\n</ul>\n"
+    )
+
+
+def _home_sources_html(cfg: Config) -> str:
+    """A compact 'what Sift is watching' block for the home page."""
+    names = " &middot; ".join(escape(feed.name) for feed in cfg.feeds)
+    return (
+        '<section class="home-sources">\n'
+        "<h2>What Sift is watching</h2>\n"
+        f"<p><strong>{len(cfg.feeds)}</strong> sources scanned every week:</p>\n"
+        f'<p class="feed-names">{names}</p>\n'
+        '<p><a href="sources.html">Full source list &amp; who to follow on X &rarr;</a></p>\n'
+        "</section>\n"
+    )
 
 
 def _render_prose(path: Path) -> str:
@@ -345,6 +386,15 @@ ul.archive li a:hover .wk { color: var(--accent); }
 ul.archive .rng { color: var(--muted); font-style: italic; font-size: .92rem; }
 ul.archive .meta { color: var(--muted); font-size: .82rem; white-space: nowrap; }
 .archive-empty { color: var(--muted); font-style: italic; }
+
+/* Source lists */
+.home-sources { margin-top: 2.8rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.feed-names { color: var(--muted); line-height: 1.9; }
+ul.feeds { list-style: none; padding: 0; margin: 1.2rem 0; }
+ul.feeds li { padding: .55rem .2rem; border-bottom: 1px solid var(--line); }
+ul.feeds li a { font-family: var(--display); font-weight: 600; text-decoration: none; }
+ul.feeds li a:hover { text-decoration: underline; }
+.feed-meta { color: var(--muted); font-size: .8rem; font-style: italic; margin-left: .4rem; }
 
 /* Pipeline flow diagram */
 .flow { margin: 1.6rem 0; }
