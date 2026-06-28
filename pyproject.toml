@@ -17,6 +17,7 @@ sift = "sift.cli:main"
 
 [dependency-groups]
 dev = [
+    "pillow>=12.2.0",
     "pytest>=8.0",
     "pytest-cov>=7.1.0",
 ]

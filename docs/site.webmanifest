@@ -1,0 +1,14 @@
+{
+  "name": "Sift",
+  "short_name": "Sift",
+  "description": "A weekly AI-news digest, curated for one reader.",
+  "theme_color": "#b4542e",
+  "background_color": "#15130f",
+  "display": "minimal-ui",
+  "icons": [
+    { "src": "assets/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "assets/favicon-32.png", "type": "image/png", "sizes": "32x32" },
+    { "src": "assets/favicon-16.png", "type": "image/png", "sizes": "16x16" },
+    { "src": "assets/apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
+  ]
+}
