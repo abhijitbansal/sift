@@ -8,6 +8,8 @@ from pathlib import Path
 
 DEFAULT_MODEL = "claude-opus-4-8"
 DEFAULT_MAX_ITEMS = 10
+DEFAULT_MIN_SCORE = 1
+DEFAULT_SMTP_PORT = 587
 
 
 @dataclass(frozen=True)
@@ -15,6 +17,17 @@ class Feed:
     name: str
     url: str
     category_hint: str | None = None
+    weight: float = 1.0
+
+
+@dataclass(frozen=True)
+class EmailConfig:
+    enabled: bool
+    host: str
+    sender: str
+    recipient: str
+    port: int = DEFAULT_SMTP_PORT
+    use_tls: bool = True
 
 
 @dataclass(frozen=True)
@@ -23,6 +36,42 @@ class Config:
     model: str
     max_items_per_digest: int
     interest_profile: str
+    mute: tuple[str, ...] = ()
+    min_score: int = DEFAULT_MIN_SCORE
+    email: EmailConfig | None = None
+
+
+def _parse_feeds(feeds_raw: list[dict]) -> tuple[Feed, ...]:
+    if not feeds_raw:
+        raise ValueError("config.toml must define at least one [[feeds]] entry")
+    feeds = []
+    for entry in feeds_raw:
+        if "name" not in entry or "url" not in entry:
+            raise ValueError(f"Feed entry missing 'name' or 'url': {entry}")
+        weight = float(entry.get("weight", 1.0))
+        if weight <= 0:
+            raise ValueError(f"Feed '{entry['name']}' weight must be > 0, got {weight}")
+        feeds.append(Feed(entry["name"], entry["url"], entry.get("category_hint"), weight))
+    return tuple(feeds)
+
+
+def _parse_email(raw: dict | None) -> EmailConfig | None:
+    if not raw:
+        return None
+    enabled = bool(raw.get("enabled", False))
+    if not enabled:
+        return EmailConfig(enabled=False, host="", sender="", recipient="")
+    for required in ("host", "from", "to"):
+        if not raw.get(required):
+            raise ValueError(f"[email] is enabled but missing '{required}'")
+    return EmailConfig(
+        enabled=True,
+        host=str(raw["host"]),
+        sender=str(raw["from"]),
+        recipient=str(raw["to"]),
+        port=int(raw.get("port", DEFAULT_SMTP_PORT)),
+        use_tls=bool(raw.get("use_tls", True)),
+    )
 
 
 def load_config(path: Path) -> Config:
@@ -31,14 +80,7 @@ def load_config(path: Path) -> Config:
     with path.open("rb") as fh:
         raw = tomllib.load(fh)
 
-    feeds_raw = raw.get("feeds", [])
-    if not feeds_raw:
-        raise ValueError("config.toml must define at least one [[feeds]] entry")
-    feeds = []
-    for entry in feeds_raw:
-        if "name" not in entry or "url" not in entry:
-            raise ValueError(f"Feed entry missing 'name' or 'url': {entry}")
-        feeds.append(Feed(entry["name"], entry["url"], entry.get("category_hint")))
+    feeds = _parse_feeds(raw.get("feeds", []))
 
     sift_cfg = raw.get("sift", {})
     profile = str(sift_cfg.get("interest_profile", "")).strip()
@@ -49,11 +91,20 @@ def load_config(path: Path) -> Config:
     if max_items < 1:
         raise ValueError("sift.max_items_per_digest must be >= 1")
 
+    min_score = int(sift_cfg.get("min_score", DEFAULT_MIN_SCORE))
+    if not 1 <= min_score <= 10:
+        raise ValueError("sift.min_score must be between 1 and 10")
+
+    mute = tuple(str(topic).strip() for topic in sift_cfg.get("mute", []) if str(topic).strip())
+
     return Config(
-        feeds=tuple(feeds),
+        feeds=feeds,
         model=str(sift_cfg.get("model", DEFAULT_MODEL)),
         max_items_per_digest=max_items,
         interest_profile=profile,
+        mute=mute,
+        min_score=min_score,
+        email=_parse_email(raw.get("email")),
     )
 
 

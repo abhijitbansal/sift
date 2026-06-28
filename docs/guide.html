@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — usage guide</title>
+<link rel="stylesheet" href="assets/sift.css">
+</head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">Sift</a>
+<nav><a href="index.html">Home</a><a href="guide.html" class="active">Guide</a><a href="roadmap.html">Roadmap</a><a href="digests/index.html">Digests</a></nav>
+</header>
+<main>
+<h1>Usage guide</h1>
+<p>Everything you need to install, configure, run, and schedule Sift.</p>
+<h2>1. Install</h2>
+<p>Requires <a href="https://docs.astral.sh/uv/">uv</a> and Python 3.11+.</p>
+<pre><code class="language-sh">git clone &lt;repo-url&gt; sift &amp;&amp; cd sift
+uv sync
+</code></pre>
+<h2>2. Add your Anthropic API key</h2>
+<p>The key never goes in the config or the repo — it lives in the macOS keychain and
+is exported into the environment at run time.</p>
+<pre><code class="language-sh"># store it once
+security add-generic-password -s ANTHROPIC_API_KEY -a &quot;$USER&quot; -w
+
+# export it for a run
+export ANTHROPIC_API_KEY=&quot;$(security find-generic-password -s ANTHROPIC_API_KEY -w)&quot;
+</code></pre>
+<h2>3. Configure <code>config.toml</code></h2>
+<p>Copy <code>config.example.toml</code> to <code>config.toml</code> and edit it. The important pieces:</p>
+<h3>Interest profile and model</h3>
+<pre><code class="language-toml">[sift]
+model = &quot;claude-opus-4-8&quot;
+max_items_per_digest = 10
+min_score = 4          # drop anything the model scores below this
+mute = [&quot;chatbot drama&quot;, &quot;ai doom punditry&quot;]
+interest_profile = &quot;&quot;&quot;
+I care about enterprise AI adoption, agentic dev tooling, major model
+releases, and AI infrastructure. I prefer primary sources and concrete
+numbers over hype.
+&quot;&quot;&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td>Any current Anthropic model id (default <code>claude-opus-4-8</code>).</td>
+</tr>
+<tr>
+<td><code>max_items_per_digest</code></td>
+<td>How many top-scored stories the digest keeps.</td>
+</tr>
+<tr>
+<td><code>min_score</code></td>
+<td>1–10 cutoff; stories below it are dropped before the cap.</td>
+</tr>
+<tr>
+<td><code>mute</code></td>
+<td>Topics the model should down-rank or exclude.</td>
+</tr>
+<tr>
+<td><code>interest_profile</code></td>
+<td>Plain-language description of your signal vs. noise.</td>
+</tr>
+</tbody>
+</table>
+<h3>Feeds and weights</h3>
+<pre><code class="language-toml">[[feeds]]
+name = &quot;Anthropic News&quot;
+url = &quot;https://example.com/feed.xml&quot;
+category_hint = &quot;models_research&quot;   # optional
+weight = 2.0                         # optional, default 1.0
+</code></pre>
+<p><code>weight</code> multiplies a story's score when it comes from that feed (and is passed to
+the model as a trust hint). Use it to float sources you trust above the rest.</p>
+<p>Add a feed without hand-editing by validating it first:</p>
+<pre><code class="language-sh">uv run sift add https://some-blog.example.com/feed.xml
+</code></pre>
+<h3>Email delivery (optional)</h3>
+<pre><code class="language-toml">[email]
+enabled = true
+host = &quot;smtp.fastmail.com&quot;
+from = &quot;sift@you.example.com&quot;
+to = &quot;you@example.com&quot;
+port = 587          # 465 uses implicit TLS, anything else uses STARTTLS
+use_tls = true
+</code></pre>
+<p>The SMTP password is <strong>not</strong> stored here. Put it in the keychain (or the
+<code>SIFT_SMTP_PASSWORD</code> env var):</p>
+<pre><code class="language-sh">security add-generic-password -s SIFT_SMTP_PASSWORD -a &quot;$USER&quot; -w
+</code></pre>
+<h2>4. Run</h2>
+<pre><code class="language-sh">uv run sift run            # full pipeline → digest, history, email, site
+uv run sift run --dry-run  # everything except the API call; prints the prompt
+</code></pre>
+<p>Output lands in <code>docs/digests/YYYY-WW.html</code> and <code>.json</code>. History lives in
+<code>sift.db</code>; logs in <code>logs/sift.log</code>.</p>
+<h2>5. Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sift run</code></td>
+<td>Full pipeline: fetch → filter → dedup → one API call → render → record → email → site.</td>
+</tr>
+<tr>
+<td><code>sift run --dry-run</code></td>
+<td>Everything except the API call.</td>
+</tr>
+<tr>
+<td><code>sift add &lt;url&gt;</code></td>
+<td>Validate a feed URL, then append it to <code>config.toml</code>.</td>
+</tr>
+<tr>
+<td><code>sift list</code></td>
+<td>List configured feeds (with weights).</td>
+</tr>
+<tr>
+<td><code>sift email &lt;week&gt;</code></td>
+<td>Re-send a rendered digest, e.g. <code>sift email 2026-26</code>.</td>
+</tr>
+<tr>
+<td><code>sift history</code></td>
+<td>Print every run with token counts and cost, plus the running total.</td>
+</tr>
+<tr>
+<td><code>sift site</code></td>
+<td>Rebuild the static site under <code>docs/</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Schedule it (Sunday 6am, macOS launchd)</h2>
+<pre><code class="language-sh">cp launchd/com.abhijitbansal.sift.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.abhijitbansal.sift.plist
+launchctl start com.abhijitbansal.sift   # test it immediately
+</code></pre>
+<p>The plist reads <code>ANTHROPIC_API_KEY</code> from the login keychain at run time.</p>
+<h2>Troubleshooting</h2>
+<ul>
+<li><strong><code>Config not found</code></strong> — run from the repo root, or pass <code>--config path/to/config.toml</code>.</li>
+<li><strong><code>Model refused…</code> / <code>truncated</code></strong> — Sift raises a clear error instead of
+  writing a broken digest; re-run, and if it persists, check the prompt with
+  <code>--dry-run</code>.</li>
+<li><strong>Email failed</strong> — the digest is still written; the error names the cause
+  (missing <code>SIFT_SMTP_PASSWORD</code>, auth, or SMTP). Re-send with <code>sift email &lt;week&gt;</code>.</li>
+<li><strong>A feed stopped working</strong> — it's logged and skipped, never fatal. Check
+  <code>logs/sift.log</code> and update the URL.</li>
+</ul>
+</main>
+<footer class="site-footer">
+<p>Sift — a weekly AI-news curation pipeline for one reader. One Claude call per
+week; everything else local and free.</p>
+</footer>
+</body>
+</html>

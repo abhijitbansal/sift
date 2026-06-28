@@ -41,9 +41,13 @@ _PAGE = """<!DOCTYPE html>
   .flag {{ color: var(--accent); font-size: 0.8rem; border: 1px solid var(--accent);
     border-radius: 3px; padding: 0 0.3rem; margin-left: 0.4rem; }}
   p {{ margin: 0.4rem 0; }}
+  .backlink {{ font-size: 0.85rem; }}
+  .backlink a {{ color: var(--muted); text-decoration: none; }}
+  .backlink a:hover {{ color: var(--accent); }}
 </style>
 </head>
 <body>
+<p class="backlink"><a href="index.html">&larr; all digests</a> &middot; <a href="../index.html">about Sift</a></p>
 <h1>Sift</h1>
 <p class="meta">Week {week} &middot; {count} stories</p>
 {sections}

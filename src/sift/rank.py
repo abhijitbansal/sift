@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+from dataclasses import dataclass
 
 from sift.config import Config
 from sift.fetch import Item
@@ -11,7 +12,20 @@ from sift.fetch import Item
 log = logging.getLogger("sift.rank")
 
 CATEGORIES = ("models_research", "tooling", "infra", "policy", "business")
-MAX_RESPONSE_TOKENS = 16000
+MAX_RESPONSE_TOKENS = 32000
+
+
+class RankError(RuntimeError):
+    """The ranking call returned something unusable (refusal, truncation, no JSON)."""
+
+
+@dataclass(frozen=True)
+class RankResult:
+    stories: list[dict]
+    model: str
+    input_tokens: int
+    output_tokens: int
+
 
 RANKING_SCHEMA = {
     "type": "object",
@@ -81,37 +95,84 @@ def build_payload(clusters: list[list[Item]]) -> list[dict]:
 
 
 def build_prompt(payload: list[dict], config: Config) -> str:
-    return (
-        f"Reader interest profile:\n{config.interest_profile}\n\n"
+    parts = [
+        f"Reader interest profile:\n{config.interest_profile}\n",
         f"Top stories wanted per digest: {config.max_items_per_digest} "
-        "(score generously only where deserved; the renderer keeps the top N).\n\n"
-        "News clusters (JSON):\n"
-        f"{json.dumps(payload, indent=2, sort_keys=True)}"
+        "(score generously only where deserved; the renderer keeps the top N).\n",
+    ]
+    if config.mute:
+        muted = ", ".join(config.mute)
+        parts.append(
+            "Down-rank or exclude stories primarily about these muted topics: "
+            f"{muted}.\n"
+        )
+    weighted = [f"{f.name} (x{f.weight:g})" for f in config.feeds if f.weight != 1.0]
+    if weighted:
+        parts.append(
+            "Source weighting hints (higher = more trusted/important to this reader): "
+            f"{', '.join(weighted)}.\n"
+        )
+    parts.append("News clusters (JSON):\n" + json.dumps(payload, indent=2, sort_keys=True))
+    return "\n".join(parts)
+
+
+def parse_response(response: object, cluster_count: int, model: str) -> RankResult:
+    """Validate a Message-like response and extract ranked stories. Pure: no I/O."""
+    _check_stop_reason(response)
+    text = _first_text(response)
+    try:
+        stories = json.loads(text)["stories"]
+    except (json.JSONDecodeError, KeyError, TypeError) as exc:
+        raise RankError(f"Ranking response was not valid stories JSON: {exc}") from exc
+    usage = response.usage
+    return RankResult(
+        stories=[_validated(story, cluster_count) for story in stories],
+        model=model,
+        input_tokens=getattr(usage, "input_tokens", 0) or 0,
+        output_tokens=getattr(usage, "output_tokens", 0) or 0,
     )
 
 
-def rank_clusters(clusters: list[list[Item]], config: Config) -> list[dict]:
-    """The single API call of the weekly run. Returns validated story dicts."""
+def rank_clusters(clusters: list[list[Item]], config: Config) -> RankResult:
+    """The single API call of the weekly run. Returns validated stories + usage."""
     import anthropic
 
     payload = build_payload(clusters)
     client = anthropic.Anthropic()
-    response = client.messages.create(
+    with client.messages.stream(
         model=config.model,
         max_tokens=MAX_RESPONSE_TOKENS,
+        thinking={"type": "adaptive"},
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": build_prompt(payload, config)}],
         output_config={"format": {"type": "json_schema", "schema": RANKING_SCHEMA}},
-    )
+    ) as stream:
+        response = stream.get_final_message()
     log.info(
         "API call done: %s in / %s out tokens, stop_reason=%s",
         response.usage.input_tokens,
         response.usage.output_tokens,
         response.stop_reason,
     )
-    text = next(block.text for block in response.content if block.type == "text")
-    stories = json.loads(text)["stories"]
-    return [_validated(story, len(clusters)) for story in stories]
+    return parse_response(response, len(clusters), config.model)
+
+
+def _check_stop_reason(response: object) -> None:
+    reason = getattr(response, "stop_reason", None)
+    if reason == "refusal":
+        raise RankError("Model refused the ranking request (stop_reason=refusal).")
+    if reason == "max_tokens":
+        raise RankError(
+            "Ranking response was truncated (stop_reason=max_tokens); "
+            "raise MAX_RESPONSE_TOKENS."
+        )
+
+
+def _first_text(response: object) -> str:
+    for block in response.content:
+        if getattr(block, "type", None) == "text":
+            return block.text
+    raise RankError("Ranking response contained no text block.")
 
 
 def _validated(story: dict, cluster_count: int) -> dict:

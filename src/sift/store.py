@@ -1,8 +1,9 @@
-"""SQLite history: seen URLs and digest records."""
+"""SQLite history: seen URLs and digest records (with per-run cost)."""
 
 from __future__ import annotations
 
 import sqlite3
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -24,11 +25,40 @@ CREATE TABLE IF NOT EXISTS digests (
 );
 """
 
+# Columns added after v1. Each is applied idempotently on connect() so existing
+# databases migrate forward without losing rows.
+_DIGEST_MIGRATIONS = {
+    "model": "TEXT",
+    "input_tokens": "INTEGER NOT NULL DEFAULT 0",
+    "output_tokens": "INTEGER NOT NULL DEFAULT 0",
+    "cost_usd": "REAL NOT NULL DEFAULT 0",
+}
+
+
+@dataclass(frozen=True)
+class DigestRecord:
+    week: str
+    created_at: str
+    item_count: int
+    model: str | None
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+
+
+def _migrate_digests(conn: sqlite3.Connection) -> None:
+    existing = {row[1] for row in conn.execute("PRAGMA table_info(digests)")}
+    for column, decl in _DIGEST_MIGRATIONS.items():
+        if column not in existing:
+            conn.execute(f"ALTER TABLE digests ADD COLUMN {column} {decl}")
+
 
 def connect(path: Path) -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(path)
     conn.executescript(_SCHEMA)
+    _migrate_digests(conn)
+    conn.commit()
     return conn
 
 
@@ -57,10 +87,41 @@ def record_items(conn: sqlite3.Connection, items: list[Item], week: str) -> None
     conn.commit()
 
 
-def record_digest(conn: sqlite3.Connection, week: str, item_count: int) -> None:
+def record_digest(
+    conn: sqlite3.Connection,
+    week: str,
+    item_count: int,
+    *,
+    model: str | None = None,
+    input_tokens: int = 0,
+    output_tokens: int = 0,
+    cost_usd: float = 0.0,
+) -> None:
     now = datetime.now(timezone.utc).isoformat()
     conn.execute(
-        "INSERT OR REPLACE INTO digests (week, created_at, item_count) VALUES (?, ?, ?)",
-        (week, now, item_count),
+        "INSERT OR REPLACE INTO digests"
+        " (week, created_at, item_count, model, input_tokens, output_tokens, cost_usd)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (week, now, item_count, model, input_tokens, output_tokens, cost_usd),
     )
     conn.commit()
+
+
+def digest_history(conn: sqlite3.Connection) -> list[DigestRecord]:
+    """All recorded digests, newest week first."""
+    rows = conn.execute(
+        "SELECT week, created_at, item_count, model, input_tokens, output_tokens, cost_usd"
+        " FROM digests ORDER BY week DESC"
+    )
+    return [
+        DigestRecord(
+            week=row[0],
+            created_at=row[1],
+            item_count=row[2],
+            model=row[3],
+            input_tokens=row[4] or 0,
+            output_tokens=row[5] or 0,
+            cost_usd=row[6] or 0.0,
+        )
+        for row in rows
+    ]
