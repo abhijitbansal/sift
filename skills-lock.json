@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "cartoon": {
+      "source": "abhijitbansal/cartoon",
+      "sourceType": "github",
+      "skillPath": "skills/cartoon/SKILL.md",
+      "computedHash": "c5e78f0cc049688c56bbbb1fefe2fe4a0eb72b1e6355ddca21470d9b8cdf305d"
+    }
+  }
+}
