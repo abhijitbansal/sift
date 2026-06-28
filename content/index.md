@@ -1,6 +1,6 @@
-# Sift
+# Signal, not noise
 
-**A weekly AI-news curation pipeline for one reader.**
+A weekly AI-news curation pipeline for one reader.
 
 Sift fetches the AI feeds you care about, throws away what you've already seen,
 clusters obvious duplicates locally for free, then makes **one** Claude API call

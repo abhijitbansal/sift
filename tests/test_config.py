@@ -89,6 +89,67 @@ url = "https://f"
         config_mod.load_config(path)
 
 
+def test_thinking_defaults_off(tmp_path):
+    path = write_config(tmp_path, BASE + """
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    cfg = config_mod.load_config(path)
+
+    assert cfg.thinking == "off"
+    assert cfg.effort is None
+
+
+def test_thinking_and_effort_parsed(tmp_path):
+    path = write_config(tmp_path, """
+[sift]
+interest_profile = "x"
+thinking = "adaptive"
+effort = "low"
+
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    cfg = config_mod.load_config(path)
+
+    assert cfg.thinking == "adaptive"
+    assert cfg.effort == "low"
+
+
+def test_invalid_thinking_rejected(tmp_path):
+    path = write_config(tmp_path, """
+[sift]
+interest_profile = "x"
+thinking = "sometimes"
+
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    with pytest.raises(ValueError, match="thinking"):
+        config_mod.load_config(path)
+
+
+def test_invalid_effort_rejected(tmp_path):
+    path = write_config(tmp_path, """
+[sift]
+interest_profile = "x"
+effort = "turbo"
+
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    with pytest.raises(ValueError, match="effort"):
+        config_mod.load_config(path)
+
+
 def test_email_disabled_block(tmp_path):
     path = write_config(tmp_path, BASE + """
 [[feeds]]

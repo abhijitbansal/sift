@@ -4,98 +4,145 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sift — 2026-26</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4542e'/%3E%3Ctext x='16' y='23.5' font-family='Georgia,serif' font-size='23' font-weight='bold' fill='%23fdfdfb' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <style>
   :root { color-scheme: light dark;
-    --fg: #1a1a1a; --bg: #fdfdfb; --muted: #6b6b6b; --line: #e4e2dc; --accent: #b4542e; }
+    --fg: #1f1b16; --bg: #f7f3ea; --muted: #6f675c; --line: #e0d8c8; --accent: #b4542e; }
   @media (prefers-color-scheme: dark) {
-    :root { --fg: #e8e6e1; --bg: #16181d; --muted: #9a978f; --line: #2c2f36; --accent: #e07a4f; } }
-  body { margin: 2rem auto; max-width: 44rem; padding: 0 1.25rem; background: var(--bg);
-    color: var(--fg); font: 16px/1.6 Georgia, 'Times New Roman', serif; }
-  h1 { font-size: 1.6rem; margin-bottom: 0; }
-  .meta, .rationale, .sources { color: var(--muted); font-size: 0.85rem; }
-  h2 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.08em;
-    border-bottom: 1px solid var(--line); padding-bottom: 0.3rem; margin-top: 2.5rem; }
-  article { margin: 1.5rem 0; }
-  article h3 { font-size: 1.15rem; margin: 0 0 0.25rem; }
+    :root { --fg: #ece7df; --bg: #15130f; --muted: #9a9081; --line: #2e2a23; --accent: #e07a4f; } }
+  body { margin: 2.5rem auto; max-width: 44rem; padding: 0 1.25rem; background: var(--bg);
+    color: var(--fg); font: 17px/1.7 Georgia, 'Times New Roman', serif; }
+  header { border-bottom: 2px solid var(--fg); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+  h1 { font-size: 2.4rem; letter-spacing: -.02em; margin: .2rem 0 0; }
+  .meta { color: var(--muted); font-size: .9rem; font-style: italic; margin: .25rem 0 0; }
+  .meta, .rationale, .sources { color: var(--muted); }
+  .rationale, .sources { font-size: .85rem; }
+  h2 { font-size: .95rem; text-transform: uppercase; letter-spacing: .12em;
+    border-bottom: 1px solid var(--line); padding-bottom: .3rem; margin-top: 2.6rem;
+    color: var(--accent); }
+  article { display: flex; gap: 1rem; margin: 1.7rem 0; }
+  .score { flex: 0 0 auto; width: 2.5rem; height: 2.5rem; border-radius: 50%;
+    background: var(--accent); color: var(--bg); font-weight: bold; font-size: 1.05rem;
+    display: flex; align-items: center; justify-content: center; }
+  .art-body { flex: 1; min-width: 0; }
+  article h3 { font-size: 1.2rem; line-height: 1.25; margin: .1rem 0 .35rem; }
   article h3 a { color: var(--fg); text-decoration: none; }
   article h3 a:hover { color: var(--accent); }
-  .score { color: var(--accent); font-weight: bold; margin-right: 0.4rem; }
-  .flag { color: var(--accent); font-size: 0.8rem; border: 1px solid var(--accent);
-    border-radius: 3px; padding: 0 0.3rem; margin-left: 0.4rem; }
-  p { margin: 0.4rem 0; }
-  .backlink { font-size: 0.85rem; }
+  .summary { margin: .25rem 0; }
+  .rationale { margin: .3rem 0 0; font-style: italic; }
+  .sources { margin: .35rem 0 0; }
+  .sources a { color: var(--muted); }
+  .flag { color: var(--accent); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: .06em; border: 1px solid var(--accent); border-radius: 3px;
+    padding: .05rem .35rem; margin-left: .45rem; white-space: nowrap; }
+  .backlink { font-size: .82rem; margin: 0 0 .4rem; }
   .backlink a { color: var(--muted); text-decoration: none; }
   .backlink a:hover { color: var(--accent); }
+  footer { margin-top: 3rem; padding-top: 1.1rem; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: .82rem; font-style: italic; }
 </style>
 </head>
 <body>
-<p class="backlink"><a href="index.html">&larr; all digests</a> &middot; <a href="../index.html">about Sift</a></p>
+<header>
+<p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
 <h1>Sift</h1>
 <p class="meta">Week 2026-26 &middot; 10 stories</p>
+</header>
 <h2>Models &amp; Research</h2>
 <article>
-<h3><span class="score">8</span><a href="https://openai.com/index/previewing-gpt-5-6-sol">OpenAI Previews GPT-5.6 Series: Sol, Terra, and Luna with Concrete Pricing Tiers</a></h3>
-<p>OpenAI began a limited preview of the GPT-5.6 series comprising Sol (flagship with stronger coding, science, and cybersecurity capabilities), Terra (competitive with GPT-5.5 at 2× lower cost), and Luna (fastest and most affordable tier). The company shared plans with the U.S. government ahead of anticipated general availability in the coming weeks.</p>
+<span class="score" title="importance 8/10">8</span>
+<div class="art-body">
+<h3><a href="https://openai.com/index/previewing-gpt-5-6-sol">OpenAI Previews GPT-5.6 Series: Sol, Terra, and Luna with Concrete Pricing Tiers</a></h3>
+<p class="summary">OpenAI began a limited preview of the GPT-5.6 series comprising Sol (flagship with stronger coding, science, and cybersecurity capabilities), Terra (competitive with GPT-5.5 at 2× lower cost), and Luna (fastest and most affordable tier). The company shared plans with the U.S. government ahead of anticipated general availability in the coming weeks.</p>
 <p class="rationale">Multi-tier flagship model release with concrete cost data (Terra 2× cheaper than GPT-5.5; Luna lowest-cost) and a U.S. government preview constitutes a primary-source major model event.</p>
-<p class="sources">Covered by: <a href="https://openai.com/index/previewing-gpt-5-6-sol">OpenAI News</a>, <a href="https://simonwillison.net/2026/Jun/26/openai/#atom-everything">Simon Willison</a></p>
+<p class="sources">Covered by <a href="https://openai.com/index/previewing-gpt-5-6-sol">OpenAI News</a>, <a href="https://simonwillison.net/2026/Jun/26/openai/#atom-everything">Simon Willison</a></p>
+</div>
 </article>
 <article>
-<h3><span class="score">7</span><a href="https://deepmind.google/blog/introducing-computer-use-in-gemini-3-5-flash/">Google DeepMind Introduces Computer Use in Gemini 3.5 Flash</a></h3>
-<p>Google DeepMind announced computer use capabilities in Gemini 3.5 Flash, enabling the model to autonomously control computer interfaces and complete desktop and web tasks. The feature extends Gemini&#x27;s agentic footprint in a model tier optimized for speed and cost efficiency.</p>
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<h3><a href="https://deepmind.google/blog/introducing-computer-use-in-gemini-3-5-flash/">Google DeepMind Introduces Computer Use in Gemini 3.5 Flash</a></h3>
+<p class="summary">Google DeepMind announced computer use capabilities in Gemini 3.5 Flash, enabling the model to autonomously control computer interfaces and complete desktop and web tasks. The feature extends Gemini&#x27;s agentic footprint in a model tier optimized for speed and cost efficiency.</p>
 <p class="rationale">Agentic computer-use capability in a fast, low-cost model from a top lab is directly relevant to coding agents and SDLC automation interests.</p>
-<p class="sources">Covered by: <a href="https://deepmind.google/blog/introducing-computer-use-in-gemini-3-5-flash/">Google DeepMind Blog</a></p>
+<p class="sources">Covered by <a href="https://deepmind.google/blog/introducing-computer-use-in-gemini-3-5-flash/">Google DeepMind Blog</a></p>
+</div>
 </article>
 <article>
-<h3><span class="score">7</span><a href="https://techcrunch.com/2026/06/27/asian-ai-startups-launch-mythos-like-models-as-anthropics-export-ban-drags-on/">Asian AI Startups Launch Frontier-Class Models as Anthropic Export Restrictions Drag On</a><span class="flag">needs verification</span></h3>
-<p>According to TechCrunch, Asian AI startups are releasing models with capabilities comparable to Anthropic&#x27;s export-restricted models as U.S. controls continue to delay access to Anthropic technology in those markets. The report frames this as accelerating non-U.S. frontier AI development and contributing to geopolitical divergence in model availability.</p>
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<h3><a href="https://techcrunch.com/2026/06/27/asian-ai-startups-launch-mythos-like-models-as-anthropics-export-ban-drags-on/">Asian AI Startups Launch Frontier-Class Models as Anthropic Export Restrictions Drag On</a><span class="flag">needs verification</span></h3>
+<p class="summary">According to TechCrunch, Asian AI startups are releasing models with capabilities comparable to Anthropic&#x27;s export-restricted models as U.S. controls continue to delay access to Anthropic technology in those markets. The report frames this as accelerating non-U.S. frontier AI development and contributing to geopolitical divergence in model availability.</p>
 <p class="rationale">Geopolitical fragmentation of the frontier model market is structurally important; TechCrunch coverage warrants verification but the trend has significant market implications.</p>
-<p class="sources">Covered by: <a href="https://techcrunch.com/2026/06/27/asian-ai-startups-launch-mythos-like-models-as-anthropics-export-ban-drags-on/">Hacker News Front Page</a></p>
+<p class="sources">Covered by <a href="https://techcrunch.com/2026/06/27/asian-ai-startups-launch-mythos-like-models-as-anthropics-export-ban-drags-on/">Hacker News Front Page</a></p>
+</div>
 </article>
 <article>
-<h3><span class="score">6</span><a href="https://openai.com/index/how-agents-are-transforming-work">OpenAI Research: AI Agents Enable Longer-Horizon, More Complex Work Tasks Across Professional Roles</a></h3>
-<p>OpenAI published research documenting how AI agents are shifting work patterns by enabling longer-horizon and more complex tasks across professional roles, expanding the capability ceiling rather than merely accelerating existing workflows. The paper examines productivity effects as agents take on multi-step, sustained workloads that previously required sustained human coordination.</p>
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<h3><a href="https://openai.com/index/how-agents-are-transforming-work">OpenAI Research: AI Agents Enable Longer-Horizon, More Complex Work Tasks Across Professional Roles</a></h3>
+<p class="summary">OpenAI published research documenting how AI agents are shifting work patterns by enabling longer-horizon and more complex tasks across professional roles, expanding the capability ceiling rather than merely accelerating existing workflows. The paper examines productivity effects as agents take on multi-step, sustained workloads that previously required sustained human coordination.</p>
 <p class="rationale">Primary research on agent productivity and task complexity expansion is directly relevant to agentic AI interests, with potential for concrete findings.</p>
-<p class="sources">Covered by: <a href="https://openai.com/index/how-agents-are-transforming-work">OpenAI News</a></p>
+<p class="sources">Covered by <a href="https://openai.com/index/how-agents-are-transforming-work">OpenAI News</a></p>
+</div>
 </article>
 <article>
-<h3><span class="score">5</span><a href="https://simonwillison.net/2026/Jun/22/prompt-injection-as-role-confusion/#atom-everything">Research: Prompt Injection Reframed as Role Confusion Between Privileged and Attacker-Controlled Text</a></h3>
-<p>MIT researchers Charles Ye, Jasmine Cui, and Dylan Hadfield-Menell propose that prompt injection attacks are best understood as role confusion—models failing to distinguish their own privileged system-level text from attacker-controlled input wrapped in similar formats. The paper suggests that enforcing clearer role boundaries in model architecture and prompting strategies could reduce injection vulnerability.</p>
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<h3><a href="https://simonwillison.net/2026/Jun/22/prompt-injection-as-role-confusion/#atom-everything">Research: Prompt Injection Reframed as Role Confusion Between Privileged and Attacker-Controlled Text</a></h3>
+<p class="summary">MIT researchers Charles Ye, Jasmine Cui, and Dylan Hadfield-Menell propose that prompt injection attacks are best understood as role confusion—models failing to distinguish their own privileged system-level text from attacker-controlled input wrapped in similar formats. The paper suggests that enforcing clearer role boundaries in model architecture and prompting strategies could reduce injection vulnerability.</p>
 <p class="rationale">Foundational security research with a novel theoretical framework for prompt injection has direct implications for safe agentic system deployment.</p>
-<p class="sources">Covered by: <a href="https://simonwillison.net/2026/Jun/22/prompt-injection-as-role-confusion/#atom-everything">Simon Willison</a></p>
+<p class="sources">Covered by <a href="https://simonwillison.net/2026/Jun/22/prompt-injection-as-role-confusion/#atom-everything">Simon Willison</a></p>
+</div>
 </article>
 <h2>Tooling</h2>
 <article>
-<h3><span class="score">6</span><a href="https://openai.com/index/patch-the-planet">OpenAI Launches Daybreak: AI-Powered Vulnerability Discovery, Patch Automation, and Open-Source Security Support</a></h3>
-<p>OpenAI introduced Daybreak, a security initiative bundling Codex Security for large-scale AI-assisted vulnerability discovery, GPT-5.5-Cyber for cybersecurity tasks, and a &#x27;Patch the Planet&#x27; program to help open-source maintainers find and remediate vulnerabilities with AI and expert review. The initiative is positioned as enterprise-scale security automation for organizations of all sizes.</p>
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<h3><a href="https://openai.com/index/patch-the-planet">OpenAI Launches Daybreak: AI-Powered Vulnerability Discovery, Patch Automation, and Open-Source Security Support</a></h3>
+<p class="summary">OpenAI introduced Daybreak, a security initiative bundling Codex Security for large-scale AI-assisted vulnerability discovery, GPT-5.5-Cyber for cybersecurity tasks, and a &#x27;Patch the Planet&#x27; program to help open-source maintainers find and remediate vulnerabilities with AI and expert review. The initiative is positioned as enterprise-scale security automation for organizations of all sizes.</p>
 <p class="rationale">AI-driven security tooling for software supply chains (Codex Security, GPT-5.5-Cyber, Patch the Planet) is directly relevant to SDLC automation interests.</p>
-<p class="sources">Covered by: <a href="https://openai.com/index/patch-the-planet">OpenAI News</a>, <a href="https://openai.com/index/daybreak-securing-the-world">OpenAI News</a></p>
+<p class="sources">Covered by <a href="https://openai.com/index/patch-the-planet">OpenAI News</a>, <a href="https://openai.com/index/daybreak-securing-the-world">OpenAI News</a></p>
+</div>
 </article>
 <h2>Infra</h2>
 <article>
-<h3><span class="score">9</span><a href="https://openai.com/index/openai-broadcom-jalapeno-inference-chip">OpenAI and Broadcom Unveil Jalapeño: A Custom LLM Inference Chip</a></h3>
-<p>OpenAI and Broadcom jointly introduced Jalapeño, a custom chip designed specifically for large language model inference workloads to improve performance, energy efficiency, and deployment scale. The chip is intended to reduce inference costs and improve throughput across OpenAI&#x27;s production systems.</p>
+<span class="score" title="importance 9/10">9</span>
+<div class="art-body">
+<h3><a href="https://openai.com/index/openai-broadcom-jalapeno-inference-chip">OpenAI and Broadcom Unveil Jalapeño: A Custom LLM Inference Chip</a></h3>
+<p class="summary">OpenAI and Broadcom jointly introduced Jalapeño, a custom chip designed specifically for large language model inference workloads to improve performance, energy efficiency, and deployment scale. The chip is intended to reduce inference costs and improve throughput across OpenAI&#x27;s production systems.</p>
 <p class="rationale">Custom silicon purpose-built for LLM inference from a top-2 AI lab is a landmark compute event directly aligned with chip and infrastructure interests.</p>
-<p class="sources">Covered by: <a href="https://openai.com/index/openai-broadcom-jalapeno-inference-chip">OpenAI News</a></p>
+<p class="sources">Covered by <a href="https://openai.com/index/openai-broadcom-jalapeno-inference-chip">OpenAI News</a></p>
+</div>
 </article>
 <h2>Policy</h2>
 <article>
-<h3><span class="score">6</span><a href="https://simonwillison.net/2026/Jun/25/ai-and-liability/#atom-everything">German Court Holds Google Liable for AI Overview Errors; Calls Grow for Broad AI Publisher Liability</a><span class="flag">needs verification</span></h3>
-<p>A German court ruled that Google is liable for factual errors in its AI Overviews feature, treating AI-generated content as the publisher&#x27;s legal responsibility rather than a technical disclaimer. Security researcher Bruce Schneier argues this principle should apply broadly: AI agents deployed by companies should be treated in law as those companies&#x27; agents, closing any accountability gap.</p>
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<h3><a href="https://simonwillison.net/2026/Jun/25/ai-and-liability/#atom-everything">German Court Holds Google Liable for AI Overview Errors; Calls Grow for Broad AI Publisher Liability</a><span class="flag">needs verification</span></h3>
+<p class="summary">A German court ruled that Google is liable for factual errors in its AI Overviews feature, treating AI-generated content as the publisher&#x27;s legal responsibility rather than a technical disclaimer. Security researcher Bruce Schneier argues this principle should apply broadly: AI agents deployed by companies should be treated in law as those companies&#x27; agents, closing any accountability gap.</p>
 <p class="rationale">A concrete court ruling establishing AI product liability has direct implications for enterprise AI deployment governance and risk assessment.</p>
-<p class="sources">Covered by: <a href="https://simonwillison.net/2026/Jun/25/ai-and-liability/#atom-everything">Simon Willison</a></p>
+<p class="sources">Covered by <a href="https://simonwillison.net/2026/Jun/25/ai-and-liability/#atom-everything">Simon Willison</a></p>
+</div>
 </article>
 <h2>Business</h2>
 <article>
-<h3><span class="score">8</span><a href="https://openai.com/index/samsung-electronics-chatgpt-codex-deployment">Samsung Electronics Deploys ChatGPT Enterprise and Codex to Employees Worldwide</a></h3>
-<p>Samsung Electronics is rolling out ChatGPT Enterprise and OpenAI&#x27;s Codex to employees across the company in what OpenAI describes as one of its largest enterprise AI deployments to date. The initiative covers coding assistance and knowledge-worker productivity use cases at global scale.</p>
+<span class="score" title="importance 8/10">8</span>
+<div class="art-body">
+<h3><a href="https://openai.com/index/samsung-electronics-chatgpt-codex-deployment">Samsung Electronics Deploys ChatGPT Enterprise and Codex to Employees Worldwide</a></h3>
+<p class="summary">Samsung Electronics is rolling out ChatGPT Enterprise and OpenAI&#x27;s Codex to employees across the company in what OpenAI describes as one of its largest enterprise AI deployments to date. The initiative covers coding assistance and knowledge-worker productivity use cases at global scale.</p>
 <p class="rationale">Named, large-scale enterprise AI rollout with specific tools deployed to a global workforce is exactly the kind of concrete deployment data the reader values.</p>
-<p class="sources">Covered by: <a href="https://openai.com/index/samsung-electronics-chatgpt-codex-deployment">OpenAI News</a></p>
+<p class="sources">Covered by <a href="https://openai.com/index/samsung-electronics-chatgpt-codex-deployment">OpenAI News</a></p>
+</div>
 </article>
 <article>
-<h3><span class="score">6</span><a href="https://www.the-independent.com/tech/ford-ai-automation-human-workers-b3003787.html">Ford AI Automation Initiative &#x27;Backfired Badly,&#x27; Report Says</a><span class="flag">needs verification</span></h3>
-<p>The Independent reports that Ford&#x27;s push to replace human workers with AI-driven automation encountered significant problems, with the effort described as having &#x27;backfired badly.&#x27; Specific failure modes are not detailed in available summaries and primary company statements should be sought to corroborate the account.</p>
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<h3><a href="https://www.the-independent.com/tech/ford-ai-automation-human-workers-b3003787.html">Ford AI Automation Initiative &#x27;Backfired Badly,&#x27; Report Says</a><span class="flag">needs verification</span></h3>
+<p class="summary">The Independent reports that Ford&#x27;s push to replace human workers with AI-driven automation encountered significant problems, with the effort described as having &#x27;backfired badly.&#x27; Specific failure modes are not detailed in available summaries and primary company statements should be sought to corroborate the account.</p>
 <p class="rationale">A named large-enterprise AI deployment failure is a concrete cautionary data point on real-world AI adoption, even though specifics require verification.</p>
-<p class="sources">Covered by: <a href="https://www.the-independent.com/tech/ford-ai-automation-human-workers-b3003787.html">Hacker News Front Page</a></p>
+<p class="sources">Covered by <a href="https://www.the-independent.com/tech/ford-ai-automation-human-workers-b3003787.html">Hacker News Front Page</a></p>
+</div>
 </article>
+<footer>Curated weekly from your feeds — one Claude call, everything else local and free.</footer>
 </body>
 </html>

@@ -10,6 +10,9 @@ DEFAULT_MODEL = "claude-opus-4-8"
 DEFAULT_MAX_ITEMS = 10
 DEFAULT_MIN_SCORE = 1
 DEFAULT_SMTP_PORT = 587
+DEFAULT_THINKING = "off"
+THINKING_MODES = ("off", "adaptive")
+EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
 
 
 @dataclass(frozen=True)
@@ -38,6 +41,8 @@ class Config:
     interest_profile: str
     mute: tuple[str, ...] = ()
     min_score: int = DEFAULT_MIN_SCORE
+    thinking: str = DEFAULT_THINKING
+    effort: str | None = None
     email: EmailConfig | None = None
 
 
@@ -97,6 +102,16 @@ def load_config(path: Path) -> Config:
 
     mute = tuple(str(topic).strip() for topic in sift_cfg.get("mute", []) if str(topic).strip())
 
+    thinking = str(sift_cfg.get("thinking", DEFAULT_THINKING)).lower()
+    if thinking not in THINKING_MODES:
+        raise ValueError(f"sift.thinking must be one of {THINKING_MODES}")
+
+    effort = sift_cfg.get("effort")
+    if effort is not None:
+        effort = str(effort).lower()
+        if effort not in EFFORT_LEVELS:
+            raise ValueError(f"sift.effort must be one of {EFFORT_LEVELS}")
+
     return Config(
         feeds=feeds,
         model=str(sift_cfg.get("model", DEFAULT_MODEL)),
@@ -104,6 +119,8 @@ def load_config(path: Path) -> Config:
         interest_profile=profile,
         mute=mute,
         min_score=min_score,
+        thinking=thinking,
+        effort=effort,
         email=_parse_email(raw.get("email")),
     )
 

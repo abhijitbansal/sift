@@ -144,20 +144,30 @@ def parse_response(response: object, cluster_count: int, model: str) -> RankResu
     )
 
 
+def build_call_kwargs(payload: list[dict], config: Config) -> dict:
+    """Assemble the messages.stream kwargs. Thinking is omitted unless adaptive."""
+    output_config: dict = {"format": {"type": "json_schema", "schema": RANKING_SCHEMA}}
+    if config.effort:
+        output_config["effort"] = config.effort
+    kwargs: dict = {
+        "model": config.model,
+        "max_tokens": MAX_RESPONSE_TOKENS,
+        "system": SYSTEM_PROMPT,
+        "messages": [{"role": "user", "content": build_prompt(payload, config)}],
+        "output_config": output_config,
+    }
+    if config.thinking == "adaptive":
+        kwargs["thinking"] = {"type": "adaptive"}
+    return kwargs
+
+
 def rank_clusters(clusters: list[list[Item]], config: Config) -> RankResult:
     """The single API call of the weekly run. Returns validated stories + usage."""
     import anthropic
 
     payload = build_payload(clusters)
     client = anthropic.Anthropic()
-    with client.messages.stream(
-        model=config.model,
-        max_tokens=MAX_RESPONSE_TOKENS,
-        thinking={"type": "adaptive"},
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": build_prompt(payload, config)}],
-        output_config={"format": {"type": "json_schema", "schema": RANKING_SCHEMA}},
-    ) as stream:
+    with client.messages.stream(**build_call_kwargs(payload, config)) as stream:
         response = stream.get_final_message()
     log.info(
         "API call done: %s in / %s out tokens, stop_reason=%s",

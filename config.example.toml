@@ -5,6 +5,11 @@
 [sift]
 # Any current Anthropic model id works here.
 model = "claude-opus-4-8"
+# Extended thinking for the ranking call: "off" (default) or "adaptive".
+# Output is schema-constrained, so "off" is usually plenty and much cheaper.
+thinking = "off"
+# Optional reasoning depth when thinking = "adaptive": low | medium | high | xhigh | max.
+# effort = "low"
 # How many stories the rendered digest keeps (top-scored first).
 max_items_per_digest = 10
 # Drop any story the model scores below this (1-10). Default 1 keeps everything.

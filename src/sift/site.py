@@ -1,9 +1,9 @@
 """Generate the static GitHub Pages site under docs/.
 
-Pages: an explainer (index), a usage guide, a roadmap (all from content/*.md),
-and a digest archive index. All share docs/assets/sift.css for one visual
-language; the weekly digests themselves stay self-contained so they also work
-in email and offline.
+Pages: an explainer (index), how-it-works, features, a usage guide, a roadmap
+(all from content/*.md), and a digest archive with a week picker. All share
+docs/assets/sift.css for one editorial visual language; the weekly digests stay
+self-contained (render.py) so they also work in email and offline.
 """
 
 from __future__ import annotations
@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import logging
 from dataclasses import dataclass
+from datetime import date
 from html import escape
 from pathlib import Path
 
@@ -20,6 +21,8 @@ from sift import store
 from sift.config import Config
 
 log = logging.getLogger("sift.site")
+
+TAGLINE = "A weekly dispatch of AI signal — curated for one reader"
 
 # slug -> (nav label, page title, content filename)
 PROSE_PAGES = {
@@ -36,13 +39,14 @@ NAV = [
     ("features.html", "Features", "features"),
     ("guide.html", "Guide", "guide"),
     ("roadmap.html", "Roadmap", "roadmap"),
-    ("digests/index.html", "Digests", "digests"),
+    ("digests/index.html", "Archive", "digests"),
 ]
 
 
 @dataclass(frozen=True)
 class ArchiveEntry:
     week: str
+    range_label: str
     count: int
     cost_usd: float
 
@@ -53,19 +57,23 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
     assets = docs / "assets"
     assets.mkdir(parents=True, exist_ok=True)
     (assets / "sift.css").write_text(SITE_CSS, encoding="utf-8")
+    (assets / "favicon.svg").write_text(FAVICON_SVG, encoding="utf-8")
+
+    out_dir = docs / "digests"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    entries = _archive_entries(out_dir, _history_by_week(db_path))
 
     content_dir = root / "content"
     pages = 0
     for slug, (_, title, filename) in PROSE_PAGES.items():
         body = _render_prose(content_dir / filename)
+        if slug == "index" and entries:
+            body = _latest_issue_hero(entries[0]) + body
         (docs / f"{slug}.html").write_text(
             _wrap(title, body, prefix="", active=slug), encoding="utf-8"
         )
         pages += 1
 
-    out_dir = docs / "digests"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    entries = _archive_entries(out_dir, _history_by_week(db_path))
     (out_dir / "index.html").write_text(
         _wrap("Sift — digest archive", _archive_body(entries), prefix="../", active="digests"),
         encoding="utf-8",
@@ -90,6 +98,19 @@ def _history_by_week(db_path: Path) -> dict[str, store.DigestRecord]:
         return {}
 
 
+def _week_range(week: str) -> str:
+    """Human label for an ISO week id 'YYYY-WW', e.g. 'Jun 22–28, 2026'."""
+    try:
+        year_s, week_s = week.split("-")
+        start = date.fromisocalendar(int(year_s), int(week_s), 1)
+        end = date.fromisocalendar(int(year_s), int(week_s), 7)
+    except (ValueError, TypeError):
+        return ""
+    if start.month == end.month:
+        return f"{start:%b} {start.day}–{end.day}, {end.year}"
+    return f"{start:%b} {start.day} – {end:%b} {end.day}, {end.year}"
+
+
 def _archive_entries(
     out_dir: Path, history: dict[str, store.DigestRecord]
 ) -> list[ArchiveEntry]:
@@ -105,6 +126,7 @@ def _archive_entries(
         entries.append(
             ArchiveEntry(
                 week=week,
+                range_label=_week_range(week),
                 count=len(data.get("stories", [])),
                 cost_usd=record.cost_usd if record else 0.0,
             )
@@ -112,19 +134,80 @@ def _archive_entries(
     return entries
 
 
+def _meta_line(entry: ArchiveEntry) -> str:
+    bits = [f"{entry.count} stories"]
+    if entry.cost_usd:
+        bits.append(f"${entry.cost_usd:.2f}")
+    return " &middot; ".join(bits)
+
+
+def _latest_issue_hero(entry: ArchiveEntry) -> str:
+    return (
+        '<aside class="latest">'
+        '<span class="kicker">Latest issue</span>'
+        f'<a class="latest-link" href="digests/{escape(entry.week)}.html">'
+        f"<span class=\"latest-wk\">Week {escape(entry.week)}</span>"
+        f'<span class="latest-rng">{escape(entry.range_label)}</span></a>'
+        f'<span class="latest-meta">{_meta_line(entry)}</span>'
+        "</aside>\n"
+    )
+
+
 def _archive_body(entries: list[ArchiveEntry]) -> str:
     if not entries:
         return (
+            "<h1>Digest archive</h1>\n"
             "<p>No digests yet. Run <code>uv run sift run</code> to generate the first one.</p>"
         )
-    rows = "\n".join(
-        f'<li><a href="{escape(e.week)}.html">Week {escape(e.week)}</a>'
-        f'<span class="meta">{e.count} stories'
-        + (f" &middot; ${e.cost_usd:.4f}" if e.cost_usd else "")
-        + "</span></li>"
+    options = "\n".join(
+        f'<option value="{escape(e.week)}.html">Week {escape(e.week)} &middot; '
+        f"{escape(e.range_label)}</option>"
         for e in entries
     )
-    return f'<h1>Digest archive</h1>\n<ul class="archive">\n{rows}\n</ul>'
+    rows = "\n".join(
+        f'<li data-label="{escape((e.week + " " + e.range_label).lower())}">'
+        f'<a href="{escape(e.week)}.html">'
+        f'<span class="wk">Week {escape(e.week)}</span>'
+        f'<span class="rng">{escape(e.range_label)}</span></a>'
+        f'<span class="meta">{_meta_line(e)}</span></li>'
+        for e in entries
+    )
+    return (
+        "<h1>Digest archive</h1>\n"
+        '<div class="archive-controls">\n'
+        '<input id="archive-filter" type="search" placeholder="Filter issues…" '
+        'aria-label="Filter issues">\n'
+        '<select id="archive-jump" aria-label="Jump to an issue">\n'
+        '<option value="">Jump to an issue…</option>\n'
+        f"{options}\n</select>\n</div>\n"
+        f'<ul class="archive" id="archive-list">\n{rows}\n</ul>\n'
+        f"<p class=\"archive-empty\" id=\"archive-empty\" hidden>No issues match that filter.</p>\n"
+        f"{_ARCHIVE_JS}"
+    )
+
+
+_ARCHIVE_JS = """<script>
+(function () {
+  var jump = document.getElementById('archive-jump');
+  if (jump) jump.addEventListener('change', function () {
+    if (this.value) window.location.href = this.value;
+  });
+  var filter = document.getElementById('archive-filter');
+  var items = [].slice.call(document.querySelectorAll('#archive-list > li'));
+  var empty = document.getElementById('archive-empty');
+  if (filter) filter.addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function (li) {
+      var match = li.getAttribute('data-label').indexOf(q) !== -1;
+      li.hidden = !match;
+      if (match) shown++;
+    });
+    if (empty) empty.hidden = shown !== 0;
+  });
+})();
+</script>
+"""
 
 
 def _wrap(title: str, body_html: str, *, prefix: str, active: str) -> str:
@@ -137,7 +220,9 @@ def _wrap(title: str, body_html: str, *, prefix: str, active: str) -> str:
     return _PAGE_TEMPLATE.format(
         title=escape(title),
         css=f"{prefix}assets/sift.css",
+        favicon=f"{prefix}assets/favicon.svg",
         brand=f"{prefix}index.html",
+        tagline=escape(TAGLINE),
         nav=nav_links,
         body=body_html,
     )
@@ -149,80 +234,131 @@ _PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
+<link rel="icon" href="{favicon}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{css}">
 </head>
 <body>
-<header class="site-header">
+<header class="masthead">
 <a class="brand" href="{brand}">Sift</a>
+<p class="tagline">{tagline}</p>
 <nav>{nav}</nav>
 </header>
 <main>
 {body}
 </main>
 <footer class="site-footer">
-<p>Sift — a weekly AI-news curation pipeline for one reader. One Claude call per
-week; everything else local and free.</p>
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
 </footer>
 </body>
 </html>
 """
 
 
+FAVICON_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Sift">
+  <rect width="32" height="32" rx="7" fill="#b4542e"/>
+  <text x="16" y="23.5" font-family="Georgia, 'Times New Roman', serif" font-size="23" font-weight="bold" fill="#fdfdfb" text-anchor="middle">S</text>
+</svg>
+"""
+
+
 SITE_CSS = """:root {
   color-scheme: light dark;
-  --fg: #1a1a1a; --bg: #fdfdfb; --muted: #6b6b6b; --line: #e4e2dc; --accent: #b4542e;
-  --card: #f6f4ef;
+  --fg: #1f1b16; --bg: #f7f3ea; --muted: #6f675c; --line: #e0d8c8; --accent: #b4542e;
+  --accent-soft: #d98a5f; --card: #efe9dc; --shadow: rgba(60,45,30,.10);
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --body: Georgia, "Times New Roman", serif;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --fg: #e8e6e1; --bg: #16181d; --muted: #9a978f; --line: #2c2f36;
-    --accent: #e07a4f; --card: #1d2027; }
+  :root { --fg: #ece7df; --bg: #15130f; --muted: #9a9081; --line: #2e2a23;
+    --accent: #e07a4f; --accent-soft: #b4542e; --card: #1e1b15; --shadow: rgba(0,0,0,.4); }
 }
 * { box-sizing: border-box; }
-body {
-  margin: 0; background: var(--bg); color: var(--fg);
-  font: 17px/1.65 Georgia, 'Times New Roman', serif;
-}
-main { max-width: 44rem; margin: 2.5rem auto; padding: 0 1.25rem; }
-.site-header {
-  display: flex; align-items: baseline; gap: 1.5rem; flex-wrap: wrap;
-  max-width: 44rem; margin: 0 auto; padding: 1.25rem; border-bottom: 1px solid var(--line);
-}
-.brand { font-size: 1.4rem; font-weight: bold; color: var(--fg); text-decoration: none; }
-.site-header nav { display: flex; gap: 1.1rem; flex-wrap: wrap; }
-.site-header nav a {
-  color: var(--muted); text-decoration: none; font-size: 0.95rem;
-  text-transform: uppercase; letter-spacing: 0.06em;
-}
-.site-header nav a:hover, .site-header nav a.active { color: var(--accent); }
-h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 1rem; }
-h2 { font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.07em;
-  border-bottom: 1px solid var(--line); padding-bottom: 0.3rem; margin-top: 2.5rem; }
-h3 { font-size: 1.1rem; margin-top: 1.8rem; }
-a { color: var(--accent); }
-code { background: var(--card); padding: 0.1rem 0.35rem; border-radius: 3px;
-  font: 0.85em ui-monospace, SFMono-Regular, Menlo, monospace; }
-pre { background: var(--card); padding: 1rem; border-radius: 6px; overflow-x: auto;
-  border: 1px solid var(--line); }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 17px/1.7 var(--body); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+::selection { background: var(--accent); color: var(--bg); }
+
+/* Masthead */
+.masthead { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 1rem;
+  border-bottom: 2px solid var(--fg); }
+.brand { display: block; font-family: var(--display); font-weight: 900;
+  font-size: clamp(2.6rem, 9vw, 4rem); line-height: .95; letter-spacing: -.02em;
+  color: var(--fg); text-decoration: none; font-optical-sizing: auto; }
+.tagline { margin: .35rem 0 1rem; color: var(--muted); font-style: italic; font-size: 1.02rem; }
+.masthead nav { display: flex; flex-wrap: wrap; gap: 1.3rem; padding-top: .6rem;
+  border-top: 1px solid var(--line); }
+.masthead nav a { color: var(--muted); text-decoration: none; font-size: .82rem;
+  text-transform: uppercase; letter-spacing: .1em; padding-bottom: 2px;
+  border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+.masthead nav a:hover, .masthead nav a:focus-visible { color: var(--fg); }
+.masthead nav a.active { color: var(--accent); border-color: var(--accent); }
+
+main { max-width: 46rem; margin: 2.2rem auto; padding: 0 1.25rem; }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(1.8rem, 5vw, 2.5rem);
+  line-height: 1.1; letter-spacing: -.015em; margin: 0 0 1rem; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; letter-spacing: -.01em;
+  border-bottom: 1px solid var(--line); padding-bottom: .35rem; margin: 2.6rem 0 .8rem; }
+h3 { font-family: var(--display); font-weight: 600; font-size: 1.15rem; margin: 1.9rem 0 .4rem; }
+p { margin: .7rem 0; }
+code { background: var(--card); padding: .1rem .38rem; border-radius: 4px;
+  font: .85em ui-monospace, SFMono-Regular, Menlo, monospace; }
+pre { background: var(--card); padding: 1rem 1.1rem; border-radius: 8px; overflow-x: auto;
+  border: 1px solid var(--line); box-shadow: 0 1px 2px var(--shadow); }
 pre code { background: none; padding: 0; }
-table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: 0.95rem; }
-th, td { border: 1px solid var(--line); padding: 0.45rem 0.6rem; text-align: left; }
-th { background: var(--card); }
-blockquote { border-left: 3px solid var(--accent); margin: 1.2rem 0; padding: 0.2rem 1rem;
-  color: var(--muted); }
-ul.archive { list-style: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1.3rem 0; font-size: .95rem; }
+th, td { border: 1px solid var(--line); padding: .5rem .65rem; text-align: left; vertical-align: top; }
+th { background: var(--card); font-family: var(--display); font-weight: 600; }
+blockquote { border-left: 3px solid var(--accent); margin: 1.3rem 0; padding: .3rem 1.1rem;
+  color: var(--muted); font-style: italic; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+/* Latest-issue hero (home) */
+.latest { display: flex; flex-direction: column; gap: .15rem; background: var(--card);
+  border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px;
+  padding: 1.1rem 1.3rem; margin: 0 0 2.2rem; box-shadow: 0 2px 10px var(--shadow); }
+.latest .kicker { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em;
+  color: var(--accent); font-weight: bold; }
+.latest-link { text-decoration: none; color: var(--fg); display: flex; flex-wrap: wrap;
+  align-items: baseline; gap: .6rem; margin-top: .2rem; }
+.latest-wk { font-family: var(--display); font-weight: 600; font-size: 1.45rem; }
+.latest-rng { color: var(--muted); font-style: italic; }
+.latest-link:hover .latest-wk { color: var(--accent); }
+.latest-meta { color: var(--muted); font-size: .85rem; margin-top: .15rem; }
+
+/* Archive */
+.archive-controls { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.2rem 0 1.5rem; }
+.archive-controls input, .archive-controls select { font: inherit; font-size: .95rem;
+  color: var(--fg); background: var(--card); border: 1px solid var(--line);
+  border-radius: 7px; padding: .45rem .7rem; }
+.archive-controls input { flex: 1 1 12rem; }
+ul.archive { list-style: none; padding: 0; margin: 0; }
 ul.archive li { display: flex; justify-content: space-between; align-items: baseline;
-  gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
-ul.archive .meta { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
-.site-footer { max-width: 44rem; margin: 3rem auto 2rem; padding: 1.2rem 1.25rem 0;
-  border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
-.flow { margin: 1.5rem 0; }
-.flow .stage { border: 1px solid var(--line); border-radius: 8px; padding: 0.7rem 1rem;
-  background: var(--card); }
-.flow .stage.paid { border-color: var(--accent); border-width: 2px; }
-.flow .stage h4 { margin: 0 0 0.25rem; font-size: 1rem; }
-.flow .stage p { margin: 0.15rem 0 0.4rem; font-size: 0.9rem; }
-.flow .stage .mod { color: var(--muted); font-size: 0.78rem;
+  gap: 1rem; padding: .85rem .2rem; border-bottom: 1px solid var(--line); }
+ul.archive li a { text-decoration: none; color: var(--fg); display: flex; gap: .7rem;
+  align-items: baseline; flex-wrap: wrap; }
+ul.archive .wk { font-family: var(--display); font-weight: 600; font-size: 1.1rem; }
+ul.archive li a:hover .wk { color: var(--accent); }
+ul.archive .rng { color: var(--muted); font-style: italic; font-size: .92rem; }
+ul.archive .meta { color: var(--muted); font-size: .82rem; white-space: nowrap; }
+.archive-empty { color: var(--muted); font-style: italic; }
+
+/* Pipeline flow diagram */
+.flow { margin: 1.6rem 0; }
+.flow .stage { border: 1px solid var(--line); border-radius: 10px; padding: .8rem 1.1rem;
+  background: var(--card); box-shadow: 0 1px 3px var(--shadow); }
+.flow .stage.paid { border-color: var(--accent); border-width: 2px;
+  box-shadow: 0 2px 12px var(--shadow); }
+.flow .stage h4 { font-family: var(--display); font-weight: 600; margin: 0 0 .25rem; font-size: 1.05rem; }
+.flow .stage.paid h4 { color: var(--accent); }
+.flow .stage p { margin: .15rem 0 .45rem; font-size: .92rem; }
+.flow .stage .mod { color: var(--muted); font-size: .76rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-.flow .arrow { text-align: center; color: var(--accent); font-size: 1.3rem; line-height: 1;
-  margin: 0.3rem 0; }
+.flow .arrow { text-align: center; color: var(--accent); font-size: 1.35rem; line-height: 1; margin: .3rem 0; }
+
+.site-footer { max-width: 46rem; margin: 3.5rem auto 2.5rem; padding: 1.3rem 1.25rem 0;
+  border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; font-style: italic; }
 """

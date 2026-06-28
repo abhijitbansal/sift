@@ -4,16 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sift — weekly AI-news curation</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/sift.css">
 </head>
 <body>
-<header class="site-header">
+<header class="masthead">
 <a class="brand" href="index.html">Sift</a>
-<nav><a href="index.html" class="active">Home</a><a href="how-it-works.html">How it works</a><a href="features.html">Features</a><a href="guide.html">Guide</a><a href="roadmap.html">Roadmap</a><a href="digests/index.html">Digests</a></nav>
+<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
+<nav><a href="index.html" class="active">Home</a><a href="how-it-works.html">How it works</a><a href="features.html">Features</a><a href="guide.html">Guide</a><a href="roadmap.html">Roadmap</a><a href="digests/index.html">Archive</a></nav>
 </header>
 <main>
-<h1>Sift</h1>
-<p><strong>A weekly AI-news curation pipeline for one reader.</strong></p>
+<aside class="latest"><span class="kicker">Latest issue</span><a class="latest-link" href="digests/2026-26.html"><span class="latest-wk">Week 2026-26</span><span class="latest-rng">Jun 22–28, 2026</span></a><span class="latest-meta">10 stories &middot; $0.39</span></aside>
+<h1>Signal, not noise</h1>
+<p>A weekly AI-news curation pipeline for one reader.</p>
 <p>Sift fetches the AI feeds you care about, throws away what you've already seen,
 clusters obvious duplicates locally for free, then makes <strong>one</strong> Claude API call
 to merge, categorize, score, and summarize the week — and renders a clean,
@@ -58,8 +64,8 @@ history, the email, this site — is local and free. A typical week costs a few
 cents; <code>sift history</code> shows the exact running total.</p>
 </main>
 <footer class="site-footer">
-<p>Sift — a weekly AI-news curation pipeline for one reader. One Claude call per
-week; everything else local and free.</p>
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
 </footer>
 </body>
 </html>

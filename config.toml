@@ -1,9 +1,11 @@
 # Sift configuration. The ANTHROPIC_API_KEY never goes here — env or keychain only.
 
 [sift]
-# Sonnet 4.6 while testing (~40% cheaper than Opus, supports adaptive thinking +
-# structured outputs). Switch back to "claude-opus-4-8" for production quality.
-model = "claude-sonnet-4-6"
+model = "claude-opus-4-8"
+# Thinking off: the ranking output is schema-constrained, so adaptive thinking
+# mostly burned tokens (~21k/run) for little gain. "off" keeps cost ~$0.12/run on
+# Opus. Set to "adaptive" (optionally with effort = "low".."max") if you want it.
+thinking = "off"
 max_items_per_digest = 10
 interest_profile = """
 I care about enterprise AI adoption (real deployments, not press-release vapor),

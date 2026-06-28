@@ -12,6 +12,7 @@ import pytest
 from sift.config import Config, Feed
 from sift.rank import (
     RankError,
+    build_call_kwargs,
     build_payload,
     build_prompt,
     parse_response,
@@ -136,6 +137,25 @@ def test_build_payload_collapses_cluster_sources():
 
     assert payload[0]["id"] == 0
     assert payload[0]["sources"] == ["Feed A", "Feed B"]
+
+
+def test_build_call_kwargs_omits_thinking_when_off():
+    cfg = make_config(thinking="off")
+
+    kwargs = build_call_kwargs([], cfg)
+
+    assert "thinking" not in kwargs
+    assert kwargs["output_config"]["format"]["type"] == "json_schema"
+    assert "effort" not in kwargs["output_config"]
+
+
+def test_build_call_kwargs_adds_adaptive_thinking_and_effort():
+    cfg = make_config(thinking="adaptive", effort="low")
+
+    kwargs = build_call_kwargs([], cfg)
+
+    assert kwargs["thinking"] == {"type": "adaptive"}
+    assert kwargs["output_config"]["effort"] == "low"
 
 
 def test_build_prompt_includes_mute_topics():

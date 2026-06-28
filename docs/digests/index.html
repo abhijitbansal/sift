@@ -4,22 +4,57 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sift — digest archive</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/sift.css">
 </head>
 <body>
-<header class="site-header">
+<header class="masthead">
 <a class="brand" href="../index.html">Sift</a>
-<nav><a href="../index.html">Home</a><a href="../how-it-works.html">How it works</a><a href="../features.html">Features</a><a href="../guide.html">Guide</a><a href="../roadmap.html">Roadmap</a><a href="../digests/index.html" class="active">Digests</a></nav>
+<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
+<nav><a href="../index.html">Home</a><a href="../how-it-works.html">How it works</a><a href="../features.html">Features</a><a href="../guide.html">Guide</a><a href="../roadmap.html">Roadmap</a><a href="../digests/index.html" class="active">Archive</a></nav>
 </header>
 <main>
 <h1>Digest archive</h1>
-<ul class="archive">
-<li><a href="2026-26.html">Week 2026-26</a><span class="meta">10 stories &middot; $0.3891</span></li>
+<div class="archive-controls">
+<input id="archive-filter" type="search" placeholder="Filter issues…" aria-label="Filter issues">
+<select id="archive-jump" aria-label="Jump to an issue">
+<option value="">Jump to an issue…</option>
+<option value="2026-26.html">Week 2026-26 &middot; Jun 22–28, 2026</option>
+</select>
+</div>
+<ul class="archive" id="archive-list">
+<li data-label="2026-26 jun 22–28, 2026"><a href="2026-26.html"><span class="wk">Week 2026-26</span><span class="rng">Jun 22–28, 2026</span></a><span class="meta">10 stories &middot; $0.39</span></li>
 </ul>
+<p class="archive-empty" id="archive-empty" hidden>No issues match that filter.</p>
+<script>
+(function () {
+  var jump = document.getElementById('archive-jump');
+  if (jump) jump.addEventListener('change', function () {
+    if (this.value) window.location.href = this.value;
+  });
+  var filter = document.getElementById('archive-filter');
+  var items = [].slice.call(document.querySelectorAll('#archive-list > li'));
+  var empty = document.getElementById('archive-empty');
+  if (filter) filter.addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function (li) {
+      var match = li.getAttribute('data-label').indexOf(q) !== -1;
+      li.hidden = !match;
+      if (match) shown++;
+    });
+    if (empty) empty.hidden = shown !== 0;
+  });
+})();
+</script>
+
 </main>
 <footer class="site-footer">
-<p>Sift — a weekly AI-news curation pipeline for one reader. One Claude call per
-week; everything else local and free.</p>
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
 </footer>
 </body>
 </html>
