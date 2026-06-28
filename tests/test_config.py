@@ -250,6 +250,61 @@ use_tls = true
     assert cfg.email.port == 465
 
 
+def test_append_feed_escapes_injection_and_keeps_config_parseable(tmp_path):
+    path = write_config(tmp_path, BASE + """
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    # Hostile remote feed title attempting TOML breakout to override the model.
+    config_mod.append_feed(path, 'Evil"\nmodel = "pwned', "https://evil.example.com/feed")
+
+    cfg = config_mod.load_config(path)  # must still parse
+
+    assert cfg.model == config_mod.DEFAULT_MODEL  # injection did NOT override model
+    assert any("Evil" in f.name for f in cfg.feeds)
+
+
+def test_append_feed_collapses_whitespace_in_name(tmp_path):
+    path = write_config(tmp_path, BASE + """
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    config_mod.append_feed(path, "Multi\nLine\tTitle", "https://ok.example.com/feed")
+
+    cfg = config_mod.load_config(path)
+
+    assert "Multi Line Title" in [f.name for f in cfg.feeds]
+
+
+def test_append_feed_rolls_back_unchanged_on_unencodable_name(tmp_path):
+    path = write_config(tmp_path, BASE + """
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+    before = path.read_text(encoding="utf-8")
+
+    with pytest.raises(ValueError):  # lone surrogate can't encode to utf-8
+        config_mod.append_feed(path, "bad\ud800title", "https://ok.example.com/feed")
+
+    assert path.read_text(encoding="utf-8") == before  # file untouched, not corrupted
+
+
+def test_append_feed_rejects_non_http_url(tmp_path):
+    path = write_config(tmp_path, BASE + """
+[[feeds]]
+name = "F"
+url = "https://f"
+""")
+
+    with pytest.raises(ValueError):
+        config_mod.append_feed(path, "Bad", "javascript:alert(1)")
+
+
 def test_missing_interest_profile_rejected(tmp_path):
     path = write_config(tmp_path, """
 [[feeds]]

@@ -19,6 +19,7 @@ import markdown as md
 
 from sift import store
 from sift.config import Config
+from sift.urls import safe_href
 
 log = logging.getLogger("sift.site")
 
@@ -101,7 +102,7 @@ def _configured_feeds_html(cfg: Config) -> str:
             meta.append(f"weight {feed.weight:g}")
         meta_html = f' <span class="feed-meta">{" &middot; ".join(meta)}</span>' if meta else ""
         rows.append(
-            f'<li><a href="{escape(feed.url)}">{escape(feed.name)}</a>{meta_html}</li>'
+            f'<li><a href="{escape(safe_href(feed.url))}">{escape(feed.name)}</a>{meta_html}</li>'
         )
     return (
         "<h1>Sources</h1>\n"

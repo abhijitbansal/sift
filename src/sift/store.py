@@ -62,8 +62,16 @@ def connect(path: Path) -> sqlite3.Connection:
     return conn
 
 
-def seen_urls(conn: sqlite3.Connection) -> set[str]:
-    return {row[0] for row in conn.execute("SELECT url FROM items")}
+def seen_urls(conn: sqlite3.Connection, since: str | None = None) -> set[str]:
+    """URLs already recorded. Pass ``since`` (an ISO timestamp) to bound the
+    query to recent rows, keeping the in-memory set and query cost flat as
+    history grows; the window must exceed the freshness cutoff so an item that
+    could still re-qualify as fresh is never forgotten."""
+    if since is None:
+        rows = conn.execute("SELECT url FROM items")
+    else:
+        rows = conn.execute("SELECT url FROM items WHERE first_seen >= ?", (since,))
+    return {row[0] for row in rows}
 
 
 def record_items(conn: sqlite3.Connection, items: list[Item], week: str) -> None:

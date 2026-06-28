@@ -7,6 +7,7 @@ from html import escape
 from pathlib import Path
 
 from sift.fetch import Item
+from sift.urls import safe_href
 
 CATEGORY_LABELS = {
     "models_research": "Models & Research",
@@ -165,14 +166,14 @@ def _article(story: dict) -> str:
     primary_url = story["links"][0]["url"] if story["links"] else "#"
     flag = '<span class="flag">needs verification</span>' if story["needs_verification"] else ""
     sources = ", ".join(
-        f'<a href="{escape(link["url"])}">{escape(link["source"])}</a>'
+        f'<a href="{escape(safe_href(link["url"]))}">{escape(link["source"])}</a>'
         for link in story["links"]
     )
     return (
         "<article>\n"
         f'<span class="score" title="importance {story["score"]}/10">{story["score"]}</span>\n'
         '<div class="art-body">\n'
-        f'<h3><a href="{escape(primary_url)}">{escape(story["title"])}</a>{flag}</h3>\n'
+        f'<h3><a href="{escape(safe_href(primary_url))}">{escape(story["title"])}</a>{flag}</h3>\n'
         f'<p class="summary">{escape(story["summary"])}</p>\n'
         f'<p class="rationale">{escape(story["rationale"])}</p>\n'
         f'<p class="sources">Covered by {sources}</p>\n'

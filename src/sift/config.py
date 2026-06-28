@@ -6,6 +6,8 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
+from sift.urls import is_http_url
+
 DEFAULT_MODEL = "claude-opus-4-8"
 DEFAULT_MAX_ITEMS = 10
 DEFAULT_MIN_SCORE = 1
@@ -133,9 +135,55 @@ def load_config(path: Path) -> Config:
     )
 
 
+# Control chars + the two chars that have meaning inside a TOML basic string.
+_TOML_BASIC_ESCAPES = {
+    "\\": "\\\\",
+    '"': '\\"',
+    "\n": "\\n",
+    "\r": "\\r",
+    "\t": "\\t",
+    "\b": "\\b",
+    "\f": "\\f",
+}
+
+
+def _toml_basic_string(value: str) -> str:
+    """Escape ``value`` for safe interpolation inside a TOML basic ("...") string."""
+    out = []
+    for ch in value:
+        if ch in _TOML_BASIC_ESCAPES:
+            out.append(_TOML_BASIC_ESCAPES[ch])
+        elif ord(ch) < 0x20 or ord(ch) == 0x7F:
+            out.append(f"\\u{ord(ch):04X}")
+        else:
+            out.append(ch)
+    return "".join(out)
+
+
 def append_feed(path: Path, name: str, url: str) -> None:
-    """Append a [[feeds]] entry to config.toml (tomllib is read-only)."""
-    name = name.replace('"', "'")
-    block = f'\n[[feeds]]\nname = "{name}"\nurl = "{url}"\n'
-    with path.open("a", encoding="utf-8") as fh:
-        fh.write(block)
+    """Append a [[feeds]] entry to config.toml, treating name/url as untrusted.
+
+    The feed name often comes from a remote feed's <title>; both fields are
+    escaped per the TOML basic-string spec (not just a quote swap), the url must
+    be http(s), and the file is re-parsed after the write — rolling back on
+    failure so a hostile feed can never corrupt or inject into config.toml.
+    """
+    if not is_http_url(url):
+        raise ValueError(f"Refusing to add non-http(s) feed url: {url!r}")
+    name = " ".join(name.split())  # collapse newlines/tabs in remote titles
+    block = (
+        f'\n[[feeds]]\nname = "{_toml_basic_string(name)}"\n'
+        f'url = "{_toml_basic_string(url)}"\n'
+    )
+    original = path.read_text(encoding="utf-8") if path.exists() else None
+    try:
+        with path.open("a", encoding="utf-8") as fh:
+            fh.write(block)
+        with path.open("rb") as fh:
+            tomllib.load(fh)
+    except (tomllib.TOMLDecodeError, UnicodeError) as exc:
+        if original is None:
+            path.unlink(missing_ok=True)
+        else:
+            path.write_text(original, encoding="utf-8")
+        raise ValueError(f"Adding feed would corrupt config.toml; rolled back ({exc})") from exc

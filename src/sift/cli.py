@@ -14,6 +14,9 @@ from sift import dedup, fetch, render, store
 log = logging.getLogger("sift")
 
 MAX_ITEM_AGE_DAYS = 8
+# Dedup-history retention for the seen-URL set. Must exceed MAX_ITEM_AGE_DAYS so
+# an item that could still re-qualify as fresh is never dropped from the set.
+SEEN_RETENTION_DAYS = 60
 
 
 def week_id(now: datetime) -> str:
@@ -49,9 +52,11 @@ def gather_clusters(
     items, feed_results = fetch.fetch_all(cfg.feeds)
     log.info("Fetched %d items total", len(items))
 
-    cutoff = datetime.now(timezone.utc) - timedelta(days=MAX_ITEM_AGE_DAYS)
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=MAX_ITEM_AGE_DAYS)
+    seen_since = (now - timedelta(days=SEEN_RETENTION_DAYS)).isoformat()
     with store.connect(db_path) as conn:
-        seen = store.seen_urls(conn)
+        seen = store.seen_urls(conn, since=seen_since)
     fresh = [
         item
         for item in items
@@ -198,6 +203,10 @@ def _validate_feed(url: str) -> tuple[str | None, str | None]:
     import feedparser
     import httpx
 
+    from sift.urls import is_safe_fetch_target
+
+    if not is_safe_fetch_target(url):
+        return None, "is not an http(s) URL or targets a private/internal host"
     try:
         response = httpx.get(
             url,

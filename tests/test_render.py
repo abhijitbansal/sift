@@ -100,6 +100,20 @@ def test_render_html_omits_scanned_section_when_absent(tmp_path):
     assert "Sources scanned" not in out.read_text(encoding="utf-8")
 
 
+def test_render_html_neutralizes_javascript_url_in_links(tmp_path):
+    # Defense-in-depth: even if a hostile URL bypasses fetch, render must not
+    # emit a javascript: href into the published/emailed HTML.
+    clusters = [[Item("Evil", "javascript:alert(document.cookie)", "Feed", None, "")]]
+    digest = render.build_digest("2026-26", [story("Evil", 7, [0])], clusters)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out)
+    html = out.read_text(encoding="utf-8")
+
+    assert "javascript:alert" not in html
+    assert 'href="#"' in html
+
+
 def test_render_json_roundtrips(tmp_path):
     clusters = [[Item("A", "https://a", "Feed A", None, "")]]
     digest = render.build_digest("2026-26", [story("X", 5, [0])], clusters)

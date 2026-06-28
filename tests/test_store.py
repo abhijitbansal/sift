@@ -23,6 +23,18 @@ def test_record_and_read_seen_urls(tmp_path):
     assert seen == {"https://a", "https://b"}
 
 
+def test_seen_urls_filters_by_since(tmp_path):
+    db = tmp_path / "sift.db"
+    with store.connect(db) as conn:
+        store.record_items(conn, [make_item("https://a/1")], "2026-26")
+
+        assert store.seen_urls(conn) == {"https://a/1"}
+        # first_seen is "now" (2026); a far-future cutoff excludes it.
+        assert store.seen_urls(conn, since="2999-01-01T00:00:00+00:00") == set()
+        # a far-past cutoff includes it.
+        assert store.seen_urls(conn, since="2000-01-01T00:00:00+00:00") == {"https://a/1"}
+
+
 def test_record_digest_persists_cost_fields(tmp_path):
     db = tmp_path / "sift.db"
     with store.connect(db) as conn:
