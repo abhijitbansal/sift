@@ -1,0 +1,4 @@
+# Default owner for the whole repo. With branch protection requiring code-owner
+# review, this means any PR opened by someone else needs @abhijitbansal's
+# approval before it can merge; the owner self-merges via admin.
+* @abhijitbansal
