@@ -33,3 +33,7 @@ mocked in tests).
 1. Branch off `main`.
 2. Keep the change focused; explain the "why" in the description.
 3. Make sure CI is green before requesting review.
+
+`main` is protected: direct pushes are blocked, the `test` CI check must pass,
+and a code-owner review is required (see `.github/CODEOWNERS`). The maintainer
+self-merges via admin; everyone else's PR needs the maintainer's approval.
