@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — how it works</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32" type="image/x-icon">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#b4542e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sift.css">
+</head>
+<body>
+<header class="masthead">
+<a class="brand" href="index.html">Sift</a>
+<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
+<nav><a href="index.html">Home</a><a href="how-it-works.html" class="active">How it works</a><a href="features.html">Features</a><a href="sources.html">Sources</a><a href="guide.html">Guide</a><a href="roadmap.html">Roadmap</a><a href="digests/index.html">Archive</a></nav>
+</header>
+<main>
+<h1>How Sift works</h1>
+<p>Sift turns a firehose of AI feeds into a two-minute weekly read. The whole design
+follows one rule: <strong>do everything possible locally and for free, and spend exactly
+one Claude API call per week</strong> — on the one step that actually needs judgment.</p>
+<h2>The pipeline</h2>
+<div class="flow">
+  <div class="stage"><h4>1 · Fetch</h4><p>Pull every configured RSS/Atom feed over HTTP. A dead or slow feed is logged and skipped — it never kills the run.</p><span class="mod">fetch.py</span></div>
+  <div class="arrow">↓</div>
+  <div class="stage"><h4>2 · Filter</h4><p>Drop anything already seen (tracked in SQLite) or older than eight days. Most of the firehose disappears here, for free.</p><span class="mod">cli.py · store.py</span></div>
+  <div class="arrow">↓</div>
+  <div class="stage"><h4>3 · Dedup</h4><p>Cluster near-identical headlines with local string similarity, so the same story from five feeds collapses into one cluster.</p><span class="mod">dedup.py</span></div>
+  <div class="arrow">↓</div>
+  <div class="stage paid"><h4>4 · Rank — the one API call</h4><p>A single Claude call merges clusters that still cover the same story, assigns a category, scores importance 1–10 against your interest profile, writes a two-sentence summary, and flags non-primary-source claims. Structured JSON output, adaptive thinking.</p><span class="mod">rank.py · model from config.toml (the only paid step)</span></div>
+  <div class="arrow">↓</div>
+  <div class="stage"><h4>5 · Weight &amp; cut</h4><p>Apply per-feed trust weights and drop anything below your <code>min_score</code>, then keep the top N.</p><span class="mod">filters.py</span></div>
+  <div class="arrow">↓</div>
+  <div class="stage"><h4>6 · Render</h4><p>Write a self-contained HTML digest (and JSON) into the site's archive. Self-contained so it also works in email and offline.</p><span class="mod">render.py → docs/digests/</span></div>
+  <div class="arrow">↓</div>
+  <div class="stage"><h4>7 · Record, deliver, publish</h4><p>Record the run and its exact cost, optionally email the digest, and rebuild this site so the new week shows in the archive.</p><span class="mod">store.py · deliver.py · site.py</span></div>
+</div>
+
+<p>Everything except step 4 is local and free.</p>
+<h2>Architecture</h2>
+<p>Sift is a handful of small, single-purpose Python modules, each independently
+testable. Business logic is separated from the I/O boundaries (network, the API
+call, SMTP, the filesystem) so the logic is unit-tested and the boundaries are
+mocked.</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config.py</code></td>
+<td>Load + validate <code>config.toml</code> into immutable dataclasses (feeds, weights, mute, min_score, email)</td>
+</tr>
+<tr>
+<td><code>fetch.py</code></td>
+<td>Fetch feeds, normalize entries to a common <code>Item</code>; a dead feed is logged, not fatal</td>
+</tr>
+<tr>
+<td><code>dedup.py</code></td>
+<td>Greedy title-similarity clustering of near-duplicate items</td>
+</tr>
+<tr>
+<td><code>rank.py</code></td>
+<td>The single Claude call: merge / categorize / score / summarize, as validated JSON</td>
+</tr>
+<tr>
+<td><code>filters.py</code></td>
+<td>Mechanical post-rank source weighting and the min-score cutoff</td>
+</tr>
+<tr>
+<td><code>render.py</code></td>
+<td>Build the digest and render self-contained HTML + JSON</td>
+</tr>
+<tr>
+<td><code>site.py</code></td>
+<td>Generate the static site (explainer, guide, roadmap, archive)</td>
+</tr>
+<tr>
+<td><code>deliver.py</code></td>
+<td>Email the digest over SMTP, password from the keychain</td>
+</tr>
+<tr>
+<td><code>cost.py</code></td>
+<td>Per-model price table → the USD cost of a run</td>
+</tr>
+<tr>
+<td><code>store.py</code></td>
+<td>SQLite history: seen URLs, and one row per run with tokens + cost</td>
+</tr>
+<tr>
+<td><code>cli.py</code></td>
+<td>Wire it together; the <code>run</code> / <code>add</code> / <code>list</code> / <code>email</code> / <code>history</code> / <code>site</code> commands</td>
+</tr>
+</tbody>
+</table>
+<h2>What persists</h2>
+<ul>
+<li><strong><code>sift.db</code></strong> (SQLite, local, gitignored) — every URL ever seen (so nothing is
+  shown twice) and one row per run with its token counts and cost.</li>
+<li><strong><code>docs/digests/</code></strong> (committed) — each week's HTML + JSON digest, and the
+  archive index. This is what the site serves.</li>
+<li><strong><code>logs/sift.log</code></strong> (local, gitignored) — counts and errors for every step.</li>
+</ul>
+<p>Secrets live only in the macOS keychain (or env vars) — never in the repo.</p>
+<h2>Design principles</h2>
+<ul>
+<li><strong>One paid call.</strong> The expensive judgment — what matters, what's a dupe, how to
+  summarize — is exactly one Claude call. Fetching, filtering, dedup, rendering,
+  history, email, and the site are all local and free.</li>
+<li><strong>Local-first &amp; offline-friendly.</strong> History is a local SQLite file; digests are
+  self-contained HTML that open anywhere.</li>
+<li><strong>Minimal dependencies.</strong> Standard library wherever possible (<code>smtplib</code>,
+  <code>sqlite3</code>, <code>tomllib</code>); a small handful of focused libraries otherwise.</li>
+<li><strong>Immutable data.</strong> Functions build new objects rather than mutating inputs.</li>
+<li><strong>Fail soft on the edges.</strong> A dead feed, a failed email, or a site-rebuild hiccup
+  never costs you the digest — they're logged and the run continues.</li>
+<li><strong>One reader.</strong> The interest profile and digest are tuned for one person by
+  design; that's the point, not a limitation.</li>
+</ul>
+<h2>Cost</h2>
+<p>A typical week is a few thousand input tokens and a couple thousand output —
+cents per run on Opus, less on Sonnet. <code>sift history</code> shows the exact running
+total. See the <a href="features.html">features</a> page for the full capability list and
+the <a href="guide.html">guide</a> to set it up.</p>
+</main>
+<footer class="site-footer">
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
+</footer>
+</body>
+</html>

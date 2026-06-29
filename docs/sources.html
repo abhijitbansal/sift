@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — sources</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32" type="image/x-icon">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#b4542e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sift.css">
+</head>
+<body>
+<header class="masthead">
+<a class="brand" href="index.html">Sift</a>
+<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
+<nav><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="features.html">Features</a><a href="sources.html" class="active">Sources</a><a href="guide.html">Guide</a><a href="roadmap.html">Roadmap</a><a href="digests/index.html">Archive</a></nav>
+</header>
+<main>
+<h1>Sources</h1>
+<p>Sift scans these <strong>20</strong> feeds every run — fetched and filtered locally, with one Claude call to rank what's left. Tune any source with a <code>weight</code> in <code>config.toml</code>.</p>
+<ul class="feeds">
+<li><a href="https://raw.githubusercontent.com/Olshansk/rss-feeds/main/feeds/feed_anthropic_news.xml">Anthropic News</a> <span class="feed-meta">models_research</span></li>
+<li><a href="https://openai.com/news/rss.xml">OpenAI News</a> <span class="feed-meta">models_research &middot; weight 0.6</span></li>
+<li><a href="https://deepmind.google/blog/rss.xml">Google DeepMind Blog</a> <span class="feed-meta">models_research</span></li>
+<li><a href="https://blog.google/technology/ai/rss/">Google AI Blog</a> <span class="feed-meta">models_research</span></li>
+<li><a href="https://engineering.fb.com/category/ai-research/feed/">Meta Engineering (AI Research)</a> <span class="feed-meta">models_research</span></li>
+<li><a href="https://hnrss.org/frontpage">Hacker News Front Page</a> <span class="feed-meta">weight 0.5</span></li>
+<li><a href="https://simonwillison.net/atom/everything/">Simon Willison</a> <span class="feed-meta">tooling</span></li>
+<li><a href="https://importai.substack.com/feed">Import AI</a> <span class="feed-meta">policy</span></li>
+<li><a href="https://rss.arxiv.org/rss/cs.AI">arXiv cs.AI</a> <span class="feed-meta">models_research</span></li>
+<li><a href="https://www.interconnects.ai/feed">Interconnects AI</a></li>
+<li><a href="https://www.semianalysis.com/feed">SemiAnalysis</a></li>
+<li><a href="https://www.latent.space/feed">Latent.Space</a></li>
+<li><a href="https://newsletter.pragmaticengineer.com/feed">The Pragmatic Engineer</a></li>
+<li><a href="https://www.oneusefulthing.org/feed">One Useful Thing</a></li>
+<li><a href="https://magazine.sebastianraschka.com/feed">Ahead of AI</a></li>
+<li><a href="https://huggingface.co/blog/feed.xml">Hugging Face - Blog</a></li>
+<li><a href="https://karpathy.github.io/feed.xml">Andrej Karpathy blog</a></li>
+<li><a href="https://nitter.net/karpathy/rss">X · @karpathy</a></li>
+<li><a href="https://nitter.net/DrJimFan/rss">X · @DrJimFan</a></li>
+<li><a href="https://nitter.net/ylecun/rss">X · @ylecun</a></li>
+</ul>
+<h2>Who to follow on X</h2>
+<p>X has no open RSS, but Sift can now follow X handles through a <strong>bridge</strong> — run
+<code>sift add-x &lt;handle&gt;</code> (see the <a href="guide.html">guide</a>). The accounts below are worth
+following; <strong>scanned</strong> means Sift already pulls it, via a blog/newsletter feed or
+the X bridge.</p>
+<h3>Researchers &amp; builders</h3>
+<ul>
+<li><a href="https://x.com/karpathy">Andrej Karpathy</a> — foundational explainers; ex-OpenAI/Tesla. <em>(blog + X scanned)</em></li>
+<li><a href="https://x.com/AndrewYNg">Andrew Ng</a> — DeepLearning.AI, applied AI.</li>
+<li><a href="https://x.com/DrJimFan">Jim Fan</a> — NVIDIA, embodied agents &amp; robotics. <em>(X scanned)</em></li>
+<li><a href="https://x.com/ylecun">Yann LeCun</a> — Meta chief AI scientist. <em>(X scanned)</em></li>
+<li><a href="https://x.com/simonw">Simon Willison</a> — LLM tooling, hands-on. <em>(blog scanned)</em></li>
+<li><a href="https://x.com/rasbt">Sebastian Raschka</a> — model architecture &amp; training. <em>(Ahead of AI scanned)</em></li>
+</ul>
+<h3>Agents, tooling &amp; engineering</h3>
+<ul>
+<li><a href="https://x.com/swyx">swyx</a> — AI engineering. <em>(Latent Space scanned)</em></li>
+<li><a href="https://x.com/GergelyOrosz">Gergely Orosz</a> — SDLC &amp; dev tooling. <em>(Pragmatic Engineer scanned)</em></li>
+<li><a href="https://x.com/emollick">Ethan Mollick</a> — real enterprise AI adoption. <em>(One Useful Thing scanned)</em></li>
+</ul>
+<h3>Infra, chips &amp; analysis</h3>
+<ul>
+<li><a href="https://x.com/dylan522p">Dylan Patel</a> — chips, datacenters, energy. <em>(SemiAnalysis scanned)</em></li>
+<li><a href="https://x.com/natolambert">Nathan Lambert</a> — model &amp; RLHF research. <em>(Interconnects scanned)</em></li>
+<li><a href="https://x.com/jackclarkSF">Jack Clark</a> — policy &amp; capabilities. <em>(Import AI scanned)</em></li>
+</ul>
+<h3>Labs (official)</h3>
+<ul>
+<li><a href="https://x.com/OpenAI">OpenAI</a> &middot; <a href="https://x.com/AnthropicAI">Anthropic</a> &middot;
+  <a href="https://x.com/GoogleDeepMind">Google DeepMind</a> &middot; <a href="https://x.com/AIatMeta">Meta AI</a> &middot;
+  <a href="https://x.com/huggingface">Hugging Face</a></li>
+</ul>
+<h2>Wanted, but no working feed right now</h2>
+<p>These fit the profile but don't have a usable RSS feed at the moment — revisit later:</p>
+<ul>
+<li><strong>The Batch</strong> (Andrew Ng / DeepLearning.AI) — feed URL currently 404s.</li>
+<li><strong>arXiv cs.LG / cs.CL</strong> — the <code>rss.arxiv.org</code> endpoints returned empty on the
+  last check (the same intermittency that hit cs.AI). Worth re-adding when they
+  recover.</li>
+</ul>
+<blockquote>
+<p><strong>How X gets in:</strong> <code>sift add-x &lt;handle&gt;</code> routes the handle through the bridge in
+<code>config.toml</code> (<code>[x] bridge_url</code>). Public Nitter instances are unstable — for
+reliability, self-host Nitter/RSSHub or use an RSS.app feed. The official X API
+is the heavyweight alternative (pay-per-use reads + auth) and is overkill here.</p>
+</blockquote>
+</main>
+<footer class="site-footer">
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
+</footer>
+</body>
+</html>

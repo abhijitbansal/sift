@@ -2,6 +2,10 @@
 
 [sift]
 model = "claude-opus-4-8"
+# Thinking off: the ranking output is schema-constrained, so adaptive thinking
+# mostly burned tokens (~21k/run) for little gain. "off" keeps cost ~$0.12/run on
+# Opus. Set to "adaptive" (optionally with effort = "low".."max") if you want it.
+thinking = "off"
 max_items_per_digest = 10
 interest_profile = """
 I care about enterprise AI adoption (real deployments, not press-release vapor),
@@ -22,6 +26,8 @@ category_hint = "models_research"
 name = "OpenAI News"
 url = "https://openai.com/news/rss.xml"
 category_hint = "models_research"
+# Down-weighted: a prolific vendor feed (1000+ items/run) that otherwise dominates.
+weight = 0.6
 
 [[feeds]]
 name = "Google DeepMind Blog"
@@ -42,6 +48,8 @@ category_hint = "models_research"
 [[feeds]]
 name = "Hacker News Front Page"
 url = "https://hnrss.org/frontpage"
+# Down-weighted: a general aggregator with lots of non-AI noise.
+weight = 0.5
 
 [[feeds]]
 name = "Simon Willison"
@@ -57,3 +65,54 @@ category_hint = "policy"
 name = "arXiv cs.AI"
 url = "https://rss.arxiv.org/rss/cs.AI"
 category_hint = "models_research"
+
+[[feeds]]
+name = "Interconnects AI"
+url = "https://www.interconnects.ai/feed"
+
+[[feeds]]
+name = "SemiAnalysis"
+url = "https://www.semianalysis.com/feed"
+
+[[feeds]]
+name = "Latent.Space"
+url = "https://www.latent.space/feed"
+
+[[feeds]]
+name = "The Pragmatic Engineer"
+url = "https://newsletter.pragmaticengineer.com/feed"
+
+[[feeds]]
+name = "One Useful Thing"
+url = "https://www.oneusefulthing.org/feed"
+
+[[feeds]]
+name = "Ahead of AI"
+url = "https://magazine.sebastianraschka.com/feed"
+
+[[feeds]]
+name = "Hugging Face - Blog"
+url = "https://huggingface.co/blog/feed.xml"
+
+[[feeds]]
+name = "Andrej Karpathy blog"
+url = "https://karpathy.github.io/feed.xml"
+
+# X has no open RSS, so Sift reads it through a bridge that turns a handle into a
+# feed. {handle} is substituted by `sift add-x <handle>`. nitter.net works today
+# but public Nitter instances are unstable — swap this for a self-hosted Nitter /
+# RSSHub, or an RSS.app feed URL, if it stops resolving.
+[x]
+bridge_url = "https://nitter.net/{handle}/rss"
+
+[[feeds]]
+name = "X · @karpathy"
+url = "https://nitter.net/karpathy/rss"
+
+[[feeds]]
+name = "X · @DrJimFan"
+url = "https://nitter.net/DrJimFan/rss"
+
+[[feeds]]
+name = "X · @ylecun"
+url = "https://nitter.net/ylecun/rss"

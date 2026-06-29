@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — weekly AI-news curation</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32" type="image/x-icon">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#b4542e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sift.css">
+</head>
+<body>
+<header class="masthead">
+<a class="brand" href="index.html">Sift</a>
+<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
+<nav><a href="index.html" class="active">Home</a><a href="how-it-works.html">How it works</a><a href="features.html">Features</a><a href="sources.html">Sources</a><a href="guide.html">Guide</a><a href="roadmap.html">Roadmap</a><a href="digests/index.html">Archive</a></nav>
+</header>
+<main>
+<aside class="latest"><span class="kicker">Latest issue</span><a class="latest-link" href="digests/2026-27.html"><span class="latest-wk">Week 2026-27</span><span class="latest-rng">Jun 29 – Jul 5, 2026</span></a><span class="latest-meta">10 stories &middot; $0.17</span></aside>
+<h1>Signal, not noise</h1>
+<p>A weekly AI-news curation pipeline for one reader.</p>
+<p>Sift fetches the AI feeds you care about, throws away what you've already seen,
+clusters obvious duplicates locally for free, then makes <strong>one</strong> Claude API call
+to merge, categorize, score, and summarize the week — and renders a clean,
+dark-mode-friendly digest you can read in two minutes.</p>
+<p>It is deliberately small: one API call per week, everything else local and free.</p>
+<h2>Why it exists</h2>
+<p>The firehose of AI news is mostly noise: press-release vapor, chatbot drama,
+incremental product marketing. Sift is built for a reader who wants <strong>signal</strong> —
+real deployments, concrete numbers, primary sources — and who would rather spend
+two minutes on a curated digest than an hour doom-scrolling feeds.</p>
+<p>You describe what you care about once, in plain language. Sift scores every story
+against that profile and keeps only the top handful.</p>
+<h2>How it works</h2>
+<p>The pipeline is five steps, and only one of them costs anything:</p>
+<ol>
+<li><strong>Fetch</strong> — pull every configured RSS/Atom feed. A dead feed is logged and
+   skipped, never fatal.</li>
+<li><strong>Filter</strong> — drop anything already seen (tracked in a local SQLite database)
+   or older than eight days.</li>
+<li><strong>Dedup</strong> — cluster near-identical headlines locally with string similarity,
+   so the same story from five feeds becomes one cluster. Free.</li>
+<li><strong>Rank</strong> — the single Claude call. It merges clusters that still cover the
+   same story, assigns a category, scores importance 1–10 against your interest
+   profile, writes a two-sentence neutral summary, and flags any story whose
+   central claim isn't from a primary source.</li>
+<li><strong>Render &amp; deliver</strong> — write a self-contained HTML digest (and JSON), record
+   the run and its cost, optionally email it to you, and update this site's
+   archive.</li>
+</ol>
+<h2>What you steer</h2>
+<ul>
+<li><strong>Interest profile</strong> — a paragraph describing your signal vs. noise.</li>
+<li><strong>Feed weights</strong> — trust some sources more than others.</li>
+<li><strong>Minimum score</strong> — drop weak stories even when the digest isn't full.</li>
+<li><strong>Muted topics</strong> — tell Sift what you never want to see.</li>
+</ul>
+<p>See the <a href="guide.html">usage guide</a> to set it up, and the
+<a href="roadmap.html">roadmap</a> for where it's headed.</p>
+<h2>Cost</h2>
+<p>One Claude API call per weekly run. Everything else — fetching, dedup, rendering,
+history, the email, this site — is local and free. A typical week costs a few
+cents; <code>sift history</code> shows the exact running total.</p><section class="home-sources">
+<h2>What Sift is watching</h2>
+<p><strong>20</strong> sources scanned every week:</p>
+<p class="feed-names">Anthropic News &middot; OpenAI News &middot; Google DeepMind Blog &middot; Google AI Blog &middot; Meta Engineering (AI Research) &middot; Hacker News Front Page &middot; Simon Willison &middot; Import AI &middot; arXiv cs.AI &middot; Interconnects AI &middot; SemiAnalysis &middot; Latent.Space &middot; The Pragmatic Engineer &middot; One Useful Thing &middot; Ahead of AI &middot; Hugging Face - Blog &middot; Andrej Karpathy blog &middot; X · @karpathy &middot; X · @DrJimFan &middot; X · @ylecun</p>
+<p><a href="sources.html">Full source list &amp; who to follow on X &rarr;</a></p>
+</section>
+
+</main>
+<footer class="site-footer">
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
+</footer>
+</body>
+</html>

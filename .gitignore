@@ -4,7 +4,12 @@ __pycache__/
 .venv/
 *.egg-info/
 .pytest_cache/
+.coverage
+htmlcov/
 
-# Runtime state (digests are committed deliberately)
+# Runtime state (digests are committed deliberately, under docs/digests/)
 sift.db
 logs/
+
+# Local scratch (manual-test checklists, throwaway artifacts)
+.scratch/

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — features</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32" type="image/x-icon">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#b4542e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sift.css">
+</head>
+<body>
+<header class="masthead">
+<a class="brand" href="index.html">Sift</a>
+<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
+<nav><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="features.html" class="active">Features</a><a href="sources.html">Sources</a><a href="guide.html">Guide</a><a href="roadmap.html">Roadmap</a><a href="digests/index.html">Archive</a></nav>
+</header>
+<main>
+<h1>Features</h1>
+<p>Everything Sift does, grouped by what it's for. Each line names the command or
+config knob that drives it.</p>
+<h2>Curation</h2>
+<ul>
+<li><strong>Multi-feed fetch</strong> — any number of RSS/Atom feeds. <code>sift add &lt;url&gt;</code> validates a
+  feed before adding it; <code>sift list</code> shows them all.</li>
+<li><strong>Seen-once memory</strong> — every URL ever shown is remembered in SQLite, so a story
+  never appears in two digests.</li>
+<li><strong>Freshness window</strong> — items older than eight days are dropped automatically.</li>
+<li><strong>Free local dedup</strong> — near-identical headlines from different feeds collapse
+  into one cluster before anything is sent to the model.</li>
+<li><strong>One-call ranking</strong> — a single Claude call merges remaining duplicates,
+  categorizes (models &amp; research / tooling / infra / policy / business), scores
+  importance 1–10, and writes a two-sentence neutral summary per story.</li>
+<li><strong>Primary-source flag</strong> — any story whose central claim isn't from a primary
+  source (official blog, paper, announcement) is marked <em>needs verification</em>.</li>
+</ul>
+<h2>Tuning &amp; control (all in <code>config.toml</code>)</h2>
+<ul>
+<li><strong>Interest profile</strong> — a paragraph of plain language describing your signal vs.
+  noise; it drives every score.</li>
+<li><strong>Per-feed weight</strong> — <code>weight = 2.0</code> floats a trusted source's stories up
+  (a score multiplier, plus a trust hint to the model).</li>
+<li><strong>Minimum score</strong> — <code>min_score</code> drops weak stories before the digest's item cap.</li>
+<li><strong>Muted topics</strong> — <code>mute = [...]</code> tells the model to down-rank or exclude
+  subjects you never want to see.</li>
+<li><strong>Item cap</strong> — <code>max_items_per_digest</code> keeps only the top-scored N.</li>
+<li><strong>Model choice</strong> — <code>model</code> is any current Anthropic id (Opus for quality, Sonnet
+  for cheaper runs).</li>
+</ul>
+<h2>Delivery</h2>
+<ul>
+<li><strong>Self-contained HTML digest</strong> — dark-mode-friendly, opens anywhere, no external
+  assets, written to <code>docs/digests/</code>.</li>
+<li><strong>JSON digest</strong> — the same data as machine-readable JSON for anything downstream.</li>
+<li><strong>Email</strong> — <code>[email] enabled = true</code> sends each digest over SMTP; re-send any
+  past week with <code>sift email &lt;week&gt;</code>. The password is read from the keychain,
+  never stored or logged.</li>
+<li><strong>Live site archive</strong> — every digest is browsable from the site's archive index.</li>
+</ul>
+<h2>Observability &amp; cost</h2>
+<ul>
+<li><strong>Exact per-run cost</strong> — token counts and USD are computed from the model's
+  pricing and stored per run.</li>
+<li><strong>Run history</strong> — <code>sift history</code> lists every run with tokens, cost, and a running
+  total.</li>
+<li><strong>Full logging</strong> — <code>logs/sift.log</code> records counts and errors for every step.</li>
+<li><strong>Free dry-run</strong> — <code>sift run --dry-run</code> runs the whole pipeline up to (but not
+  including) the API call and prints exactly what would be sent — $0.</li>
+</ul>
+<h2>The site</h2>
+<ul>
+<li><strong>All-in-one</strong> — explainer, this feature list, the <a href="how-it-works.html">how-it-works</a>
+  flow + architecture, a usage <a href="guide.html">guide</a>, the <a href="roadmap.html">roadmap</a>,
+  and the digest archive.</li>
+<li><strong>One visual language</strong> — a single shared stylesheet; the digests match it but
+  stay self-contained.</li>
+<li><strong>Generated from the pipeline</strong> — <code>sift run</code> rebuilds the site automatically;
+  <code>sift site</code> rebuilds it on demand.</li>
+<li><strong>GitHub Pages–ready</strong> — served from <code>main</code> / <code>/docs</code>.</li>
+</ul>
+<h2>Operations</h2>
+<ul>
+<li><strong>Scheduled runs</strong> — a launchd plist runs the pipeline weekly (Sunday 6am) and
+  reads secrets from the keychain at run time.</li>
+<li><strong>Resilient</strong> — a dead feed, a failed email, or a site-rebuild error is logged
+  and skipped; the digest is never lost.</li>
+<li><strong>Schema migration</strong> — the SQLite history migrates itself forward in place, so
+  old databases keep working.</li>
+</ul>
+<h2>Quality</h2>
+<ul>
+<li><strong>Tested</strong> — unit + integration tests across the pipeline, with an 80% coverage
+  gate enforced in CI.</li>
+<li><strong>Reviewed</strong> — the v2 changes went through a multi-agent adversarial review.</li>
+<li><strong>Secrets stay out of git</strong> — keychain-only secrets, verified by a working-tree
+  and full-history scan before going public.</li>
+</ul>
+</main>
+<footer class="site-footer">
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
+</footer>
+</body>
+</html>

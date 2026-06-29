@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — roadmap</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.ico" sizes="32x32" type="image/x-icon">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#b4542e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sift.css">
+</head>
+<body>
+<header class="masthead">
+<a class="brand" href="index.html">Sift</a>
+<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
+<nav><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="features.html">Features</a><a href="sources.html">Sources</a><a href="guide.html">Guide</a><a href="roadmap.html" class="active">Roadmap</a><a href="digests/index.html">Archive</a></nav>
+</header>
+<main>
+<h1>Roadmap</h1>
+<p>Where Sift is and where it's going. This page is the living plan — it changes as
+the tool does.</p>
+<h2>Shipped in v2</h2>
+<ul>
+<li><strong>Robust ranking call</strong> — adaptive thinking, and clear errors on model refusal
+  or truncated output instead of a broken digest.</li>
+<li><strong>Cost tracking</strong> — every run records token counts and USD cost; <code>sift history</code>
+  shows the running total.</li>
+<li><strong>Tuning controls</strong> — per-feed <code>weight</code>, a <code>min_score</code> cutoff, and a <code>mute</code>
+  list, all driven from <code>config.toml</code>.</li>
+<li><strong>Email delivery</strong> — the weekly digest can be emailed over SMTP, with the
+  password kept in the keychain.</li>
+<li><strong>This site</strong> — an all-in-one explainer, usage guide, roadmap, and a browsable
+  archive of every digest, generated from the pipeline itself.</li>
+<li><strong>Full test coverage</strong> across the pipeline.</li>
+</ul>
+<h2>Near-term</h2>
+<ul>
+<li><strong>First real end-to-end run</strong> — pending an <code>ANTHROPIC_API_KEY</code> in the keychain;
+  once it runs, the first digest gets committed and appears in the archive.</li>
+<li><strong>GitHub Pages</strong> — publish this site (served from <code>/docs</code>) once the repo is
+  ready to go public.</li>
+<li><strong>Go public</strong> — after a working-tree and git-history secret scan passes.</li>
+</ul>
+<h2>Ideas / backlog</h2>
+<ul>
+<li>A search box over the digest archive.</li>
+<li>Per-category caps (e.g. at most three "business" stories per week).</li>
+<li>A "read it / skip it" feedback signal that nudges future scoring.</li>
+<li>An RSS feed of the digests themselves, for reading in a feed reader.</li>
+<li>Optional push notification (ntfy/Pushover) linking to the latest digest.</li>
+</ul>
+<h2>Known limitations</h2>
+<ul>
+<li>macOS-first: keychain helpers and the launchd schedule assume macOS. The core
+  pipeline is plain Python and runs anywhere with the key in an env var.</li>
+<li>Single reader: the interest profile and digest are built for one person by
+  design. Multi-reader support is explicitly out of scope.</li>
+<li>Local dedup is greedy title-similarity; the model catches the rest during
+  ranking.</li>
+</ul>
+</main>
+<footer class="site-footer">
+<p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
+per week; everything else local and free.</p>
+</footer>
+</body>
+</html>

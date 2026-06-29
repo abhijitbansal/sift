@@ -1,0 +1,24 @@
+# Sift
+A weekly AI-news digest: many RSS feeds, deduplicated and ranked by one Claude
+call, curated for one reader. Static site — scrape freely, but please be polite
+(cache; one weekly digest changes per week).
+
+## Machine-readable API (JSON)
+Paths are relative to the digests/ directory of this site.
+- digests/index.json   Manifest of every weekly digest:
+                        { title, tagline, feeds_scanned, latest,
+                          digests: [ { week, range, stories, cost_usd, html, json } ] }
+- digests/latest.json  The newest digest in full (same schema as a week file).
+- digests/<YYYY-WW>.json  One specific ISO-week digest.
+
+## Digest JSON schema
+{ "week": "YYYY-WW",
+  "stories": [ { "title", "category", "score" (1-10), "rationale",
+                 "summary", "needs_verification" (bool),
+                 "links": [ { "url", "source" } ] } ],
+  "sources_scanned": [ { "name", "count", "ok" (bool) } ] }
+
+## Notes
+- week is ISO year-week in UTC. categories: models_research, tooling, infra,
+  policy, business. score is importance 1-10 for this reader's interest profile.
+- needs_verification=true means the central claim is not from a primary source.
