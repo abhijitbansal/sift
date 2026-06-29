@@ -1,6 +1,8 @@
 """Unit tests for static-site generation."""
 
 import json
+from datetime import date
+from pathlib import Path
 
 from sift import site
 from sift.config import Config, Feed
@@ -131,14 +133,27 @@ def test_build_site_agent_json_empty_when_no_digests(tmp_path):
 
 def test_next_issue_label_is_sunday_after_latest_week():
     # 2026-26 ends Sun Jun 28 → next digest is the following Sunday, Jul 5.
-    assert site._next_issue_label("2026-26").startswith("Sunday, Jul 5")
+    assert site._next_issue_label("2026-26", date(2026, 6, 29)).startswith("Sunday, Jul 5")
+
+
+def test_next_issue_label_floors_at_today_when_runs_slip():
+    # Latest digest is week 26 (ends Jun 28), but today is already Jul 10 — the
+    # naive next Sunday (Jul 5) is in the past. Roll forward to the next future
+    # Sunday so the hero never advertises a date that has already passed.
+    assert site._next_issue_label("2026-26", date(2026, 7, 10)).startswith("Sunday, Jul 12")
+
+
+def test_next_issue_label_includes_today_when_issue_is_due_today(tmp_path):
+    # On the very Sunday the next issue is due (and no newer digest exists yet),
+    # show that Sunday — it is not "past".
+    assert site._next_issue_label("2026-26", date(2026, 7, 5)).startswith("Sunday, Jul 5")
 
 
 def test_next_issue_label_blank_on_bad_week():
-    assert site._next_issue_label("not-a-week") == ""
+    assert site._next_issue_label("not-a-week", date(2026, 6, 29)) == ""
 
 
-def test_home_shows_next_issue_and_agent_links(tmp_path):
+def test_home_shows_next_issue(tmp_path):
     seed_content(tmp_path)
     out = tmp_path / "docs" / "digests"
     out.mkdir(parents=True)
@@ -148,6 +163,27 @@ def test_home_shows_next_issue_and_agent_links(tmp_path):
 
     home = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
     assert "Next issue" in home  # expected-next-digest line in the hero
+
+
+def test_home_renders_agent_api_links_from_real_content(tmp_path):
+    # The "For AI agents" links are prose in the real content/index.md, not code.
+    # Guard them with the actual file so deleting/breaking those links fails CI;
+    # stub content (used by the other tests) cannot catch that regression.
+    repo_index = Path(__file__).resolve().parents[1] / "content" / "index.md"
+    seed_content(tmp_path)
+    (tmp_path / "content" / "index.md").write_text(
+        repo_index.read_text(encoding="utf-8"), encoding="utf-8"
+    )
+    out = tmp_path / "docs" / "digests"
+    out.mkdir(parents=True)
+    (out / "2026-26.json").write_text(json.dumps({"week": "2026-26", "stories": [{}]}))
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    home = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "llms.txt" in home
+    assert "digests/index.json" in home
+    assert "digests/latest.json" in home
 
 
 def test_missing_content_file_does_not_crash(tmp_path):

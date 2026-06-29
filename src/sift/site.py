@@ -72,12 +72,13 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
     entries = _archive_entries(out_dir, _history_by_week(db_path))
 
     content_dir = root / "content"
+    today = date.today()
     pages = 0
     for slug, (_, title, filename) in PROSE_PAGES.items():
         body = _render_prose(content_dir / filename)
         if slug == "index":
             if entries:
-                body = _latest_issue_hero(entries[0], _next_issue_label(entries[0].week)) + body
+                body = _latest_issue_hero(entries[0], today) + body
             body = body + _home_sources_html(cfg)
         elif slug == "sources":
             body = _configured_feeds_html(cfg) + body
@@ -180,14 +181,23 @@ def _history_by_week(db_path: Path) -> dict[str, store.DigestRecord]:
         return {}
 
 
-def _week_range(week: str) -> str:
-    """Human label for an ISO week id 'YYYY-WW', e.g. 'Jun 22–28, 2026'."""
+def _week_end(week: str) -> date | None:
+    """The Sunday that ISO week id 'YYYY-WW' ends on, or None if unparseable.
+    Single source of truth for the week-id → date math shared by the range label
+    and the next-issue label."""
     try:
         year_s, week_s = week.split("-")
-        start = date.fromisocalendar(int(year_s), int(week_s), 1)
-        end = date.fromisocalendar(int(year_s), int(week_s), 7)
+        return date.fromisocalendar(int(year_s), int(week_s), 7)
     except (ValueError, TypeError):
+        return None
+
+
+def _week_range(week: str) -> str:
+    """Human label for an ISO week id 'YYYY-WW', e.g. 'Jun 22–28, 2026'."""
+    end = _week_end(week)
+    if end is None:
         return ""
+    start = end - timedelta(days=6)
     if start.month == end.month:
         return f"{start:%b} {start.day}–{end.day}, {end.year}"
     return f"{start:%b} {start.day} – {end:%b} {end.day}, {end.year}"
@@ -225,19 +235,24 @@ def _meta_line(entry: ArchiveEntry) -> str:
     return " &middot; ".join(bits)
 
 
-def _next_issue_label(latest_week: str) -> str:
+def _next_issue_label(latest_week: str, today: date) -> str:
     """Human date of the next expected digest: the Sunday after the latest week's
-    ending Sunday. Empty string if the week id is unparseable."""
-    try:
-        year_s, week_s = latest_week.split("-")
-        ending_sunday = date.fromisocalendar(int(year_s), int(week_s), 7)
-    except (ValueError, TypeError, AttributeError):
+    ending Sunday, floored at ``today`` so a slipped/missed run never advertises a
+    date already in the past — it rolls forward to the next future Sunday instead.
+    Empty string if the week id is unparseable."""
+    ending_sunday = _week_end(latest_week)
+    if ending_sunday is None:
         return ""
     nxt = ending_sunday + timedelta(days=7)
+    while nxt < today:  # a Sunday that has already passed → roll to the next one
+        nxt += timedelta(days=7)
     return f"{nxt:%A, %b} {nxt.day}, {nxt.year}"
 
 
-def _latest_issue_hero(entry: ArchiveEntry, next_label: str = "") -> str:
+def _latest_issue_hero(entry: ArchiveEntry, today: date) -> str:
+    # The next-issue label is fully derivable from the entry's week + today, so we
+    # compute it here rather than threading a separate (forgettable) argument.
+    next_label = _next_issue_label(entry.week, today)
     next_html = (
         f'<span class="latest-next">Next issue &middot; {escape(next_label)}</span>'
         if next_label
