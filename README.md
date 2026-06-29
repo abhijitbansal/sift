@@ -79,7 +79,19 @@ launchctl start com.abhijitbansal.sift   # test it immediately
 ```
 
 The plist reads the keychain secrets at run time and schedules Sunday 06:00 in
-the machine's local timezone.
+the machine's local timezone. After a successful run it commits the new digest
+under `docs/` and pushes, so the GitHub Pages site updates automatically. For the
+push to publish, the repo must be checked out on the branch Pages serves (`main`)
+with a clean working tree, and launchd needs push credentials — add your SSH key
+to the keychain once with:
+
+```sh
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+A week with nothing new writes no digest, so nothing is committed.
+
+Logs: `/tmp/com.abhijitbansal.sift.out.log` and `.err.log`.
 
 ## Tests
 
