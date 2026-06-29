@@ -54,6 +54,31 @@ def test_record_digest_persists_cost_fields(tmp_path):
     assert record.cost_usd == 0.026
 
 
+def test_record_digest_accumulates_cost_on_same_week_rerun(tmp_path):
+    # A second run for an already-recorded week must NOT discard the first run's
+    # recorded spend (the old INSERT OR REPLACE did). Cost and tokens accumulate
+    # so history reflects true spend; item_count tracks the latest digest.
+    db = tmp_path / "sift.db"
+    with store.connect(db) as conn:
+        store.record_digest(
+            conn, "2026-26", 5,
+            model="claude-opus-4-8", input_tokens=1000, output_tokens=500, cost_usd=0.02,
+        )
+        store.record_digest(
+            conn, "2026-26", 8,
+            model="claude-opus-4-8", input_tokens=300, output_tokens=200, cost_usd=0.01,
+        )
+
+        history = store.digest_history(conn)
+
+    assert len(history) == 1  # still one row for the week
+    record = history[0]
+    assert record.item_count == 8  # latest digest's story count
+    assert record.input_tokens == 1300  # accumulated, not overwritten
+    assert record.output_tokens == 700
+    assert abs(record.cost_usd - 0.03) < 1e-9  # 0.02 + 0.01, not 0.01
+
+
 def test_digest_history_newest_week_first(tmp_path):
     db = tmp_path / "sift.db"
     with store.connect(db) as conn:

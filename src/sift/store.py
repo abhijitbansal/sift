@@ -106,10 +106,21 @@ def record_digest(
     cost_usd: float = 0.0,
 ) -> None:
     now = datetime.now(timezone.utc).isoformat()
+    # A re-run of an already-recorded week must never lose the prior run's spend.
+    # On conflict we ACCUMULATE cost/tokens (both API calls really cost money) and
+    # refresh item_count/model/created_at to the latest run — unlike the old
+    # INSERT OR REPLACE, which silently discarded the earlier cost row.
     conn.execute(
-        "INSERT OR REPLACE INTO digests"
+        "INSERT INTO digests"
         " (week, created_at, item_count, model, input_tokens, output_tokens, cost_usd)"
-        " VALUES (?, ?, ?, ?, ?, ?, ?)",
+        " VALUES (?, ?, ?, ?, ?, ?, ?)"
+        " ON CONFLICT(week) DO UPDATE SET"
+        "   created_at = excluded.created_at,"
+        "   item_count = excluded.item_count,"
+        "   model = excluded.model,"
+        "   input_tokens = digests.input_tokens + excluded.input_tokens,"
+        "   output_tokens = digests.output_tokens + excluded.output_tokens,"
+        "   cost_usd = digests.cost_usd + excluded.cost_usd",
         (week, now, item_count, model, input_tokens, output_tokens, cost_usd),
     )
     conn.commit()
