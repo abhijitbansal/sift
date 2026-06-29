@@ -3,183 +3,335 @@
   "stories": [
     {
       "cluster_ids": [
-        3
+        14,
+        24,
+        59
       ],
-      "title": "OpenAI and Broadcom Unveil Jalape\u00f1o: A Custom LLM Inference Chip",
-      "category": "infra",
+      "title": "GLM-5.2 beats Claude in cyber benchmarks, marking a step change for open agents",
+      "category": "models_research",
       "score": 9,
-      "rationale": "Custom silicon purpose-built for LLM inference from a top-2 AI lab is a landmark compute event directly aligned with chip and infrastructure interests.",
-      "summary": "OpenAI and Broadcom jointly introduced Jalape\u00f1o, a custom chip designed specifically for large language model inference workloads to improve performance, energy efficiency, and deployment scale. The chip is intended to reduce inference costs and improve throughput across OpenAI's production systems.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/openai-broadcom-jalapeno-inference-chip",
-          "source": "OpenAI News"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        1,
-        37
-      ],
-      "title": "OpenAI Previews GPT-5.6 Series: Sol, Terra, and Luna with Concrete Pricing Tiers",
-      "category": "models_research",
-      "score": 8,
-      "rationale": "Multi-tier flagship model release with concrete cost data (Terra 2\u00d7 cheaper than GPT-5.5; Luna lowest-cost) and a U.S. government preview constitutes a primary-source major model event.",
-      "summary": "OpenAI began a limited preview of the GPT-5.6 series comprising Sol (flagship with stronger coding, science, and cybersecurity capabilities), Terra (competitive with GPT-5.5 at 2\u00d7 lower cost), and Luna (fastest and most affordable tier). The company shared plans with the U.S. government ahead of anticipated general availability in the coming weeks.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/previewing-gpt-5-6-sol",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Jun/26/openai/#atom-everything",
-          "source": "Simon Willison"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        10
-      ],
-      "title": "Samsung Electronics Deploys ChatGPT Enterprise and Codex to Employees Worldwide",
-      "category": "business",
-      "score": 8,
-      "rationale": "Named, large-scale enterprise AI rollout with specific tools deployed to a global workforce is exactly the kind of concrete deployment data the reader values.",
-      "summary": "Samsung Electronics is rolling out ChatGPT Enterprise and OpenAI's Codex to employees across the company in what OpenAI describes as one of its largest enterprise AI deployments to date. The initiative covers coding assistance and knowledge-worker productivity use cases at global scale.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/samsung-electronics-chatgpt-codex-deployment",
-          "source": "OpenAI News"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        11
-      ],
-      "title": "Google DeepMind Introduces Computer Use in Gemini 3.5 Flash",
-      "category": "models_research",
-      "score": 7,
-      "rationale": "Agentic computer-use capability in a fast, low-cost model from a top lab is directly relevant to coding agents and SDLC automation interests.",
-      "summary": "Google DeepMind announced computer use capabilities in Gemini 3.5 Flash, enabling the model to autonomously control computer interfaces and complete desktop and web tasks. The feature extends Gemini's agentic footprint in a model tier optimized for speed and cost efficiency.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://deepmind.google/blog/introducing-computer-use-in-gemini-3-5-flash/",
-          "source": "Google DeepMind Blog"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        30
-      ],
-      "title": "Asian AI Startups Launch Frontier-Class Models as Anthropic Export Restrictions Drag On",
-      "category": "models_research",
-      "score": 7,
-      "rationale": "Geopolitical fragmentation of the frontier model market is structurally important; TechCrunch coverage warrants verification but the trend has significant market implications.",
-      "summary": "According to TechCrunch, Asian AI startups are releasing models with capabilities comparable to Anthropic's export-restricted models as U.S. controls continue to delay access to Anthropic technology in those markets. The report frames this as accelerating non-U.S. frontier AI development and contributing to geopolitical divergence in model availability.",
+      "rationale": "Major open-model capability milestone with concrete benchmark and enterprise post-training signal, high-engagement.",
+      "summary": "Semgrep reports that GLM-5.2 outperforms Claude on its cyber benchmarks, while Interconnects frames the model as a capability threshold for open agentic use. Observers note rising enterprise interest in securing compute to post-train models on top of GLM-5.2.",
       "needs_verification": true,
       "links": [
         {
-          "url": "https://techcrunch.com/2026/06/27/asian-ai-startups-launch-mythos-like-models-as-anthropics-export-ban-drags-on/",
+          "url": "https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/",
           "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://www.interconnects.ai/p/glm-52-is-the-step-change-for-open",
+          "source": "Interconnects AI"
+        },
+        {
+          "url": "https://nitter.net/willccbb/status/2070298418262721008#m",
+          "source": "X \u00b7 @ylecun"
         }
       ]
     },
     {
       "cluster_ids": [
-        7,
-        8
+        26
       ],
-      "title": "OpenAI Launches Daybreak: AI-Powered Vulnerability Discovery, Patch Automation, and Open-Source Security Support",
+      "title": "OpenAI reports internal Codex output token growth: 56x Research, 32x Support, 27x Engineering, 13x Legal",
+      "category": "business",
+      "score": 9,
+      "rationale": "Concrete enterprise/agentic adoption numbers from a primary-adjacent source, directly matching reader interests.",
+      "summary": "OpenAI reportedly disclosed that median internal Codex output tokens grew 56x in Research, 32x in Customer Support, 27x in Engineering, and 13x in Legal since November 2025. The figures point to rapidly scaling internal agentic coding usage across functions.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-openai-reports-median-internal",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        25
+      ],
+      "title": "OpenAI GPT-5.6 (Sol/Terra/Luna) released to trusted partners",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "Major model release, though tiered/restricted and reported via newsletter rather than primary blog.",
+      "summary": "OpenAI reportedly rolled out a tiered GPT-5.6 family codenamed Sol, Terra, and Luna, restricted to trusted partners. The release coincided with a same-day Anthropic update.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        29,
+        46
+      ],
+      "title": "Claude becomes a persistent org-wide agent in Slack (Claude Tag)",
       "category": "tooling",
-      "score": 6,
-      "rationale": "AI-driven security tooling for software supply chains (Codex Security, GPT-5.5-Cyber, Patch the Planet) is directly relevant to SDLC automation interests.",
-      "summary": "OpenAI introduced Daybreak, a security initiative bundling Codex Security for large-scale AI-assisted vulnerability discovery, GPT-5.5-Cyber for cybersecurity tasks, and a 'Patch the Planet' program to help open-source maintainers find and remediate vulnerabilities with AI and expert review. The initiative is positioned as enterprise-scale security automation for organizations of all sizes.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/patch-the-planet",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/index/daybreak-securing-the-world",
-          "source": "OpenAI News"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        15
-      ],
-      "title": "Ford AI Automation Initiative 'Backfired Badly,' Report Says",
-      "category": "business",
-      "score": 6,
-      "rationale": "A named large-enterprise AI deployment failure is a concrete cautionary data point on real-world AI adoption, even though specifics require verification.",
-      "summary": "The Independent reports that Ford's push to replace human workers with AI-driven automation encountered significant problems, with the effort described as having 'backfired badly.' Specific failure modes are not detailed in available summaries and primary company statements should be sought to corroborate the account.",
+      "score": 7,
+      "rationale": "Notable agent-harness/UX shift for enterprise workflows, echoed by Karpathy's commentary.",
+      "summary": "Anthropic introduced Claude Tag, enabling multiplayer, proactive, and persistent agents inside Slack. Karpathy describes this as a third major LLM UX paradigm where the model acts as a self-contained asynchronous entity working alongside teams.",
       "needs_verification": true,
       "links": [
         {
-          "url": "https://www.the-independent.com/tech/ford-ai-automation-human-workers-b3003787.html",
-          "source": "Hacker News Front Page"
+          "url": "https://www.latent.space/p/ainews-claude-tag-multiplayer-proactive",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://nitter.net/karpathy/status/2069547676849557725#m",
+          "source": "X \u00b7 @karpathy"
         }
       ]
     },
     {
       "cluster_ids": [
-        38
+        27,
+        35,
+        28,
+        40
       ],
-      "title": "German Court Holds Google Liable for AI Overview Errors; Calls Grow for Broad AI Publisher Liability",
+      "title": "Agent harnesses go mainstream: meta-harnesses, local coding agents, and open agent clouds",
+      "category": "tooling",
+      "score": 7,
+      "rationale": "Directly targets agentic SDLC tooling and evals the reader prioritizes.",
+      "summary": "Multiple pieces explore the agent-harness ecosystem, from meta-harnesses and Databricks' case for open agent clouds to running open-weight models in local coding harnesses as Claude Code/Codex alternatives. IBM's CUGA also ships two dozen working agentic app examples on a lightweight harness.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-its-meta-harness-summer",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://magazine.sebastianraschka.com/p/using-local-coding-agents",
+          "source": "Ahead of AI"
+        },
+        {
+          "url": "https://www.latent.space/p/databricks",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://huggingface.co/blog/ibm-research/cuga-apps",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        30,
+        64
+      ],
+      "title": "AI compute economics: SpaceX as a $28B/yr neocloud and xAI renting out its cluster",
+      "category": "infra",
+      "score": 6,
+      "rationale": "Compute/datacenter business dynamics with numbers, though analysis-driven and partly punditry.",
+      "summary": "Analysis pegs SpaceX as already a $28B/yr neocloud, highlighting the scale of compute as a business. Separately, LeCun argues xAI now rents out its large cluster to rivals because it cannot staff a frontier lab after founder departures.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-spacex-is-already-a-28byr",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://nitter.net/ihtesham2005/status/2069827998271099365#m",
+          "source": "X \u00b7 @ylecun"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        52,
+        57,
+        58,
+        60,
+        62
+      ],
+      "title": "Debate over AI regulation: frontier APIs vs open-weight models and data-center backlash",
       "category": "policy",
       "score": 6,
-      "rationale": "A concrete court ruling establishing AI product liability has direct implications for enterprise AI deployment governance and risk assessment.",
-      "summary": "A German court ruled that Google is liable for factual errors in its AI Overviews feature, treating AI-generated content as the publisher's legal responsibility rather than a technical disclaimer. Security researcher Bruce Schneier argues this principle should apply broadly: AI agents deployed by companies should be treated in law as those companies' agents, closing any accountability gap.",
+      "rationale": "Substantive policy debate on open vs closed regulation relevant to infra/enterprise, but opinion-heavy.",
+      "summary": "Commentators argue frontier API models should be regulated for transparency while open-weight models stay unregulated, warning that regulatory capture could harm competitiveness. Related posts frame the data-center backlash as a proxy for broader anti-AI sentiment.",
       "needs_verification": true,
       "links": [
         {
-          "url": "https://simonwillison.net/2026/Jun/25/ai-and-liability/#atom-everything",
-          "source": "Simon Willison"
+          "url": "https://nitter.net/ClementDelangue/status/2071247445204369625#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/Dan_Jeffries1/status/2070423958902456795#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/Dan_Jeffries1/status/2070407070180892973#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/mcuban/status/2070211760196587534#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/williamswjt/status/2070428521420185869#m",
+          "source": "X \u00b7 @ylecun"
         }
       ]
     },
     {
       "cluster_ids": [
-        2
+        23
       ],
-      "title": "OpenAI Research: AI Agents Enable Longer-Horizon, More Complex Work Tasks Across Professional Roles",
+      "title": "Open-weight ecosystem expands with Zyphra, Cohere, and Poolside releases",
       "category": "models_research",
       "score": 6,
-      "rationale": "Primary research on agent productivity and task complexity expansion is directly relevant to agentic AI interests, with potential for concrete findings.",
-      "summary": "OpenAI published research documenting how AI agents are shifting work patterns by enabling longer-horizon and more complex tasks across professional roles, expanding the capability ceiling rather than merely accelerating existing workflows. The paper examines productivity effects as agents take on multi-step, sustained workloads that previously required sustained human coordination.",
-      "needs_verification": false,
+      "rationale": "Survey of new open artifacts relevant to model-release tracking.",
+      "summary": "Interconnects assesses the latest open-weight artifacts from Zyphra, Cohere, and Poolside. The piece examines the breadth of the ecosystem and the motivations behind releasing these models.",
+      "needs_verification": true,
       "links": [
         {
-          "url": "https://openai.com/index/how-agents-are-transforming-work",
-          "source": "OpenAI News"
+          "url": "https://www.interconnects.ai/p/artifacts-22-zyphra-cohere-and-poolside",
+          "source": "Interconnects AI"
         }
       ]
     },
     {
       "cluster_ids": [
-        44
+        18,
+        53
       ],
-      "title": "Research: Prompt Injection Reframed as Role Confusion Between Privileged and Attacker-Controlled Text",
+      "title": "AI in medicine: Claude Code MRI second-opinion and a Nature cardiac-arrest study",
       "category": "models_research",
       "score": 5,
-      "rationale": "Foundational security research with a novel theoretical framework for prompt injection has direct implications for safe agentic system deployment.",
-      "summary": "MIT researchers Charles Ye, Jasmine Cui, and Dylan Hadfield-Menell propose that prompt injection attacks are best understood as role confusion\u2014models failing to distinguish their own privileged system-level text from attacker-controlled input wrapped in similar formats. The paper suggests that enforcing clearer role boundaries in model architecture and prompting strategies could reduce injection vulnerability.",
-      "needs_verification": false,
+      "rationale": "Concrete applied-AI examples, one peer-reviewed primary source, one anecdotal.",
+      "summary": "A widely-discussed post describes using Claude Code with Opus to get a second opinion on an MRI, while a Nature paper applies AI to sudden cardiac death prediction. Together they illustrate growing applied medical AI use cases.",
+      "needs_verification": true,
       "links": [
         {
-          "url": "https://simonwillison.net/2026/Jun/22/prompt-injection-as-role-confusion/#atom-everything",
-          "source": "Simon Willison"
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://nitter.net/oziadias/status/2070474367213903923#m",
+          "source": "X \u00b7 @ylecun"
         }
       ]
+    },
+    {
+      "cluster_ids": [
+        31
+      ],
+      "title": "AI security and red-teaming beyond traditional cybersecurity",
+      "category": "policy",
+      "score": 5,
+      "rationale": "Substantive on AI security/evals, but interview format from a secondary source.",
+      "summary": "Zico Kolter and Matt Fredrikson of Gray Swan argue AI security is distinct from applying AI to cybersecurity. The discussion covers red-teaming frontier models after the Mythos benchmark.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/gray-swan",
+          "source": "Latent.Space"
+        }
+      ]
+    }
+  ],
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 231,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1023,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 811,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 19,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 20,
+      "ok": true
     }
   ]
 }

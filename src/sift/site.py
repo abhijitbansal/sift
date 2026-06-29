@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import logging
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, timedelta
 from html import escape
 from pathlib import Path
 
@@ -77,7 +77,7 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
         body = _render_prose(content_dir / filename)
         if slug == "index":
             if entries:
-                body = _latest_issue_hero(entries[0]) + body
+                body = _latest_issue_hero(entries[0], _next_issue_label(entries[0].week)) + body
             body = body + _home_sources_html(cfg)
         elif slug == "sources":
             body = _configured_feeds_html(cfg) + body
@@ -225,7 +225,24 @@ def _meta_line(entry: ArchiveEntry) -> str:
     return " &middot; ".join(bits)
 
 
-def _latest_issue_hero(entry: ArchiveEntry) -> str:
+def _next_issue_label(latest_week: str) -> str:
+    """Human date of the next expected digest: the Sunday after the latest week's
+    ending Sunday. Empty string if the week id is unparseable."""
+    try:
+        year_s, week_s = latest_week.split("-")
+        ending_sunday = date.fromisocalendar(int(year_s), int(week_s), 7)
+    except (ValueError, TypeError, AttributeError):
+        return ""
+    nxt = ending_sunday + timedelta(days=7)
+    return f"{nxt:%A, %b} {nxt.day}, {nxt.year}"
+
+
+def _latest_issue_hero(entry: ArchiveEntry, next_label: str = "") -> str:
+    next_html = (
+        f'<span class="latest-next">Next issue &middot; {escape(next_label)}</span>'
+        if next_label
+        else ""
+    )
     return (
         '<aside class="latest">'
         '<span class="kicker">Latest issue</span>'
@@ -233,6 +250,7 @@ def _latest_issue_hero(entry: ArchiveEntry) -> str:
         f"<span class=\"latest-wk\">Week {escape(entry.week)}</span>"
         f'<span class="latest-rng">{escape(entry.range_label)}</span></a>'
         f'<span class="latest-meta">{_meta_line(entry)}</span>'
+        f"{next_html}"
         "</aside>\n"
     )
 
@@ -464,6 +482,8 @@ blockquote { border-left: 3px solid var(--accent); margin: 1.3rem 0; padding: .3
 .latest-rng { color: var(--muted); font-style: italic; }
 .latest-link:hover .latest-wk { color: var(--accent); }
 .latest-meta { color: var(--muted); font-size: .85rem; margin-top: .15rem; }
+.latest-next { color: var(--accent); font-size: .78rem; text-transform: uppercase;
+  letter-spacing: .08em; margin-top: .35rem; }
 
 /* Archive */
 .archive-controls { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.2rem 0 1.5rem; }

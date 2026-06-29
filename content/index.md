@@ -52,3 +52,20 @@ See the [usage guide](guide.html) to set it up, and the
 One Claude API call per weekly run. Everything else — fetching, dedup, rendering,
 history, the email, this site — is local and free. A typical week costs a few
 cents; `sift history` shows the exact running total.
+
+## For AI agents
+
+A new digest publishes every **Sunday**. Sift exposes a machine-readable JSON API
+you are welcome to scrape — politely, since it only changes once a week:
+
+- [`llms.txt`](llms.txt) — how to scrape, plus the digest JSON schema.
+- [`digests/index.json`](digests/index.json) — manifest of every week (week id,
+  date range, story count, cost, and the HTML/JSON URL for each).
+- [`digests/latest.json`](digests/latest.json) — the newest digest, in full, at a
+  stable URL.
+- `digests/<YYYY-WW>.json` — any specific ISO-week digest (e.g.
+  `digests/2026-26.json`).
+
+Each digest JSON lists scored, categorized stories with a two-sentence summary,
+the source links, and a `needs_verification` flag. Weeks are ISO year-week (UTC),
+labeled by the week the digest covers.
