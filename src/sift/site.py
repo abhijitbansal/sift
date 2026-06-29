@@ -25,6 +25,10 @@ log = logging.getLogger("sift.site")
 
 TAGLINE = "A weekly dispatch of AI signal — curated for one reader"
 
+# JSON files we generate into docs/digests/ that are NOT weekly digests, so the
+# archive scanner must skip them.
+_RESERVED_JSON_STEMS = {"index", "latest"}
+
 # slug -> (nav label, page title, content filename)
 PROSE_PAGES = {
     "index": ("Home", "Sift — weekly AI-news curation", "index.md"),
@@ -87,8 +91,43 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
         encoding="utf-8",
     )
     pages += 1
+    _write_agent_json(docs, out_dir, entries, cfg)
     log.info("Built %d site pages (%d archived digests)", pages, len(entries))
     return pages
+
+
+def _write_agent_json(
+    docs: Path, out_dir: Path, entries: list[ArchiveEntry], cfg: Config
+) -> None:
+    """Machine-readable surface for AI agents: a digest index manifest, a stable
+    latest.json (the newest week's full digest), and an llms.txt guide."""
+    manifest = {
+        "title": "Sift",
+        "tagline": TAGLINE,
+        "feeds_scanned": len(cfg.feeds),
+        "latest": entries[0].week if entries else None,
+        "digests": [
+            {
+                "week": e.week,
+                "range": e.range_label,
+                "stories": e.count,
+                "cost_usd": round(e.cost_usd, 4),
+                "html": f"{e.week}.html",
+                "json": f"{e.week}.json",
+            }
+            for e in entries
+        ],
+    }
+    (out_dir / "index.json").write_text(
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+    )
+    if entries:
+        latest_src = out_dir / f"{entries[0].week}.json"
+        if latest_src.exists():
+            (out_dir / "latest.json").write_text(
+                latest_src.read_text(encoding="utf-8"), encoding="utf-8"
+            )
+    (docs / "llms.txt").write_text(LLMS_TXT, encoding="utf-8")
 
 
 def _configured_feeds_html(cfg: Config) -> str:
@@ -160,6 +199,8 @@ def _archive_entries(
     entries = []
     for json_path in sorted(out_dir.glob("*.json"), reverse=True):
         week = json_path.stem
+        if week in _RESERVED_JSON_STEMS:  # our own agent-API files, not digests
+            continue
         try:
             data = json.loads(json_path.read_text(encoding="utf-8"))
         except (OSError, ValueError):  # ValueError covers JSON + UnicodeDecodeError
@@ -305,6 +346,33 @@ per week; everything else local and free.</p>
 </footer>
 </body>
 </html>
+"""
+
+
+LLMS_TXT = """# Sift
+A weekly AI-news digest: many RSS feeds, deduplicated and ranked by one Claude
+call, curated for one reader. Static site — scrape freely, but please be polite
+(cache; one weekly digest changes per week).
+
+## Machine-readable API (JSON)
+Paths are relative to the digests/ directory of this site.
+- digests/index.json   Manifest of every weekly digest:
+                        { title, tagline, feeds_scanned, latest,
+                          digests: [ { week, range, stories, cost_usd, html, json } ] }
+- digests/latest.json  The newest digest in full (same schema as a week file).
+- digests/<YYYY-WW>.json  One specific ISO-week digest.
+
+## Digest JSON schema
+{ "week": "YYYY-WW",
+  "stories": [ { "title", "category", "score" (1-10), "rationale",
+                 "summary", "needs_verification" (bool),
+                 "links": [ { "url", "source" } ] } ],
+  "sources_scanned": [ { "name", "count", "ok" (bool) } ] }
+
+## Notes
+- week is ISO year-week in UTC. categories: models_research, tooling, infra,
+  policy, business. score is importance 1-10 for this reader's interest profile.
+- needs_verification=true means the central claim is not from a primary source.
 """
 
 

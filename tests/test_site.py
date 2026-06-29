@@ -79,6 +79,56 @@ def test_archive_empty_state(tmp_path):
     assert "No digests yet" in archive
 
 
+def test_build_site_writes_agent_json_api(tmp_path):
+    seed_content(tmp_path)
+    out = tmp_path / "docs" / "digests"
+    out.mkdir(parents=True)
+    (out / "2026-26.json").write_text(json.dumps({"week": "2026-26", "stories": [{}, {}]}))
+    (out / "2026-27.json").write_text(json.dumps({"week": "2026-27", "stories": [{"title": "t"}]}))
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    docs = tmp_path / "docs"
+    manifest = json.loads((out / "index.json").read_text(encoding="utf-8"))
+    assert manifest["latest"] == "2026-27"
+    assert [d["week"] for d in manifest["digests"]] == ["2026-27", "2026-26"]
+    assert manifest["digests"][0]["json"] == "2026-27.json"
+    assert manifest["digests"][0]["stories"] == 1
+    # latest.json mirrors the newest week's full digest
+    latest = json.loads((out / "latest.json").read_text(encoding="utf-8"))
+    assert latest["week"] == "2026-27"
+    # llms.txt agent guide at site root
+    llms = (docs / "llms.txt").read_text(encoding="utf-8")
+    assert "index.json" in llms and "latest.json" in llms
+
+
+def test_agent_json_does_not_treat_itself_as_a_digest_on_rebuild(tmp_path):
+    seed_content(tmp_path)
+    out = tmp_path / "docs" / "digests"
+    out.mkdir(parents=True)
+    (out / "2026-27.json").write_text(json.dumps({"week": "2026-27", "stories": [{"title": "t"}]}))
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())  # writes index.json + latest.json
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())  # rebuild must ignore them
+
+    manifest = json.loads((out / "index.json").read_text(encoding="utf-8"))
+    weeks = [d["week"] for d in manifest["digests"]]
+    assert weeks == ["2026-27"]  # NOT ["latest", "index", "2026-27"]
+
+
+def test_build_site_agent_json_empty_when_no_digests(tmp_path):
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    out = tmp_path / "docs" / "digests"
+    manifest = json.loads((out / "index.json").read_text(encoding="utf-8"))
+    assert manifest["latest"] is None
+    assert manifest["digests"] == []
+    assert not (out / "latest.json").exists()  # no digests → no latest pointer
+    assert (tmp_path / "docs" / "llms.txt").exists()  # guide still written
+
+
 def test_missing_content_file_does_not_crash(tmp_path):
     (tmp_path / "content").mkdir()
     (tmp_path / "content" / "index.md").write_text("# Only index", encoding="utf-8")
