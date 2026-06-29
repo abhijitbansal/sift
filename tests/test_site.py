@@ -129,6 +129,27 @@ def test_build_site_agent_json_empty_when_no_digests(tmp_path):
     assert (tmp_path / "docs" / "llms.txt").exists()  # guide still written
 
 
+def test_next_issue_label_is_sunday_after_latest_week():
+    # 2026-26 ends Sun Jun 28 → next digest is the following Sunday, Jul 5.
+    assert site._next_issue_label("2026-26").startswith("Sunday, Jul 5")
+
+
+def test_next_issue_label_blank_on_bad_week():
+    assert site._next_issue_label("not-a-week") == ""
+
+
+def test_home_shows_next_issue_and_agent_links(tmp_path):
+    seed_content(tmp_path)
+    out = tmp_path / "docs" / "digests"
+    out.mkdir(parents=True)
+    (out / "2026-26.json").write_text(json.dumps({"week": "2026-26", "stories": [{}]}))
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    home = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "Next issue" in home  # expected-next-digest line in the hero
+
+
 def test_missing_content_file_does_not_crash(tmp_path):
     (tmp_path / "content").mkdir()
     (tmp_path / "content" / "index.md").write_text("# Only index", encoding="utf-8")

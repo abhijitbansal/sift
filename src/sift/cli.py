@@ -20,8 +20,14 @@ SEEN_RETENTION_DAYS = 60
 
 
 def week_id(now: datetime) -> str:
-    iso = now.isocalendar()
-    return f"{iso.year}-{iso.week:02d}"
+    """ISO year-week of the most recently completed week (the one ending on the
+    most recent Sunday on/before ``now``). A digest is labeled by the week it
+    covers, so a late-Sunday run that has rolled into Monday UTC still names the
+    week that just ended, not the upcoming one."""
+    days_since_sunday = (now.weekday() + 1) % 7  # Mon=0..Sun=6 → Sun=0, Mon=1, …
+    last_sunday = now.date() - timedelta(days=days_since_sunday)
+    iso = last_sunday.isocalendar()
+    return f"{iso[0]}-{iso[1]:02d}"
 
 
 def digests_dir(root: Path) -> Path:

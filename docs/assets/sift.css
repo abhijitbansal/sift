@@ -61,6 +61,8 @@ blockquote { border-left: 3px solid var(--accent); margin: 1.3rem 0; padding: .3
 .latest-rng { color: var(--muted); font-style: italic; }
 .latest-link:hover .latest-wk { color: var(--accent); }
 .latest-meta { color: var(--muted); font-size: .85rem; margin-top: .15rem; }
+.latest-next { color: var(--accent); font-size: .78rem; text-transform: uppercase;
+  letter-spacing: .08em; margin-top: .35rem; }
 
 /* Archive */
 .archive-controls { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.2rem 0 1.5rem; }

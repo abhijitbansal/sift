@@ -16,10 +16,21 @@ def write_cfg(tmp_path, email_block=""):
 
 
 def test_week_id_uses_iso_week():
-    when = datetime(2026, 6, 28, tzinfo=timezone.utc)
+    when = datetime(2026, 6, 28, tzinfo=timezone.utc)  # a Sunday (week-ending day)
     iso = when.isocalendar()
 
     assert cli.week_id(when) == f"{iso.year}-{iso.week:02d}"
+
+
+def test_week_id_labels_the_completed_week_not_the_upcoming_one():
+    # A late-Sunday-ET run lands on Monday UTC (a new ISO week), but the digest
+    # covers the week that just ended on Sunday — label it with that prior week.
+    monday = datetime(2026, 6, 29, 2, 8, tzinfo=timezone.utc)
+    assert cli.week_id(monday) == "2026-26"
+    # Mid-week runs still label the most recently completed week.
+    assert cli.week_id(datetime(2026, 7, 1, tzinfo=timezone.utc)) == "2026-26"
+    # The next Sunday rolls forward.
+    assert cli.week_id(datetime(2026, 7, 5, tzinfo=timezone.utc)) == "2026-27"
 
 
 def test_history_empty(tmp_path, capsys):
