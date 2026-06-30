@@ -17,9 +17,11 @@ from pathlib import Path
 
 import markdown as md
 
-from sift import store
+from sift import card, store
 from sift.config import Config
+from sift.meta import abs_url, og_tags
 from sift.urls import safe_href
+from sift.weeks import week_end, week_range
 
 log = logging.getLogger("sift.site")
 
@@ -181,28 +183,6 @@ def _history_by_week(db_path: Path) -> dict[str, store.DigestRecord]:
         return {}
 
 
-def _week_end(week: str) -> date | None:
-    """The Sunday that ISO week id 'YYYY-WW' ends on, or None if unparseable.
-    Single source of truth for the week-id → date math shared by the range label
-    and the next-issue label."""
-    try:
-        year_s, week_s = week.split("-")
-        return date.fromisocalendar(int(year_s), int(week_s), 7)
-    except (ValueError, TypeError):
-        return None
-
-
-def _week_range(week: str) -> str:
-    """Human label for an ISO week id 'YYYY-WW', e.g. 'Jun 22–28, 2026'."""
-    end = _week_end(week)
-    if end is None:
-        return ""
-    start = end - timedelta(days=6)
-    if start.month == end.month:
-        return f"{start:%b} {start.day}–{end.day}, {end.year}"
-    return f"{start:%b} {start.day} – {end:%b} {end.day}, {end.year}"
-
-
 def _archive_entries(
     out_dir: Path, history: dict[str, store.DigestRecord]
 ) -> list[ArchiveEntry]:
@@ -220,7 +200,7 @@ def _archive_entries(
         entries.append(
             ArchiveEntry(
                 week=week,
-                range_label=_week_range(week),
+                range_label=week_range(week),
                 count=len(data.get("stories", [])),
                 cost_usd=record.cost_usd if record else 0.0,
             )
@@ -240,7 +220,7 @@ def _next_issue_label(latest_week: str, today: date) -> str:
     ending Sunday, floored at ``today`` so a slipped/missed run never advertises a
     date already in the past — it rolls forward to the next future Sunday instead.
     Empty string if the week id is unparseable."""
-    ending_sunday = _week_end(latest_week)
+    ending_sunday = week_end(latest_week)
     if ending_sunday is None:
         return ""
     nxt = ending_sunday + timedelta(days=7)
