@@ -10,6 +10,10 @@ dependencies = [
     "httpx>=0.27",
     "anthropic>=0.40",
     "markdown>=3.10.2",
+    # Pillow renders the static-raster OG / per-issue cover cards. Card
+    # generation is best-effort (sift.card), so a missing Pillow never breaks a
+    # run — but the weekly run needs it to produce per-issue share images.
+    "pillow>=11.0",
 ]
 
 [project.scripts]
@@ -17,7 +21,6 @@ sift = "sift.cli:main"
 
 [dependency-groups]
 dev = [
-    "pillow>=12.2.0",
     "pytest>=8.0",
     "pytest-cov>=7.1.0",
 ]

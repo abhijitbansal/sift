@@ -7,6 +7,17 @@ model = "claude-opus-4-8"
 # Opus. Set to "adaptive" (optionally with effort = "low".."max") if you want it.
 thinking = "off"
 max_items_per_digest = 10
+
+# Absolute base URL of the published site, with a trailing slash. Used to build
+# absolute og:url / og:image so pasted links unfurl as a titled, large-image
+# card in Microsoft Teams / Slack.
+site_url = "https://abhijitbansal.github.io/sift/"
+
+# Watchlist: entities/topics to up-weight in ranking so they surface more
+# reliably. The single Claude call raises their importance score and keeps them
+# even when borderline. Leave empty ([]) to disable.
+boost = ["Ford"]
+
 interest_profile = """
 I care about enterprise AI adoption (real deployments, not press-release vapor),
 agentic software development and dev tooling (coding agents, SDLC automation,

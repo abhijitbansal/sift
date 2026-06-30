@@ -39,6 +39,16 @@ def safe_href(url: str) -> str:
     return url if is_http_url(url) else "#"
 
 
+def display_domain(url: str) -> str:
+    """Bare display host for a source chip: lowercased netloc minus a leading
+    ``www.`` and any port. Returns '' for non-http(s) urls so a hostile link can
+    never render an unsafe chip label."""
+    if not is_http_url(url):
+        return ""
+    host = (urlsplit(_clean(url)).hostname or "").lower()
+    return host[4:] if host.startswith("www.") else host
+
+
 def is_safe_fetch_target(url: str) -> bool:
     """http(s) scheme AND host does not resolve to a private/internal address.
 

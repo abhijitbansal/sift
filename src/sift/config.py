@@ -13,6 +13,7 @@ DEFAULT_MAX_ITEMS = 10
 DEFAULT_MIN_SCORE = 1
 DEFAULT_SMTP_PORT = 587
 DEFAULT_THINKING = "off"
+DEFAULT_SITE_URL = "https://abhijitbansal.github.io/sift/"
 THINKING_MODES = ("off", "adaptive")
 EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
 
@@ -42,9 +43,11 @@ class Config:
     max_items_per_digest: int
     interest_profile: str
     mute: tuple[str, ...] = ()
+    boost: tuple[str, ...] = ()
     min_score: int = DEFAULT_MIN_SCORE
     thinking: str = DEFAULT_THINKING
     effort: str | None = None
+    site_url: str = DEFAULT_SITE_URL
     x_bridge_url: str | None = None
     email: EmailConfig | None = None
 
@@ -104,6 +107,14 @@ def load_config(path: Path) -> Config:
         raise ValueError("sift.min_score must be between 1 and 10")
 
     mute = tuple(str(topic).strip() for topic in sift_cfg.get("mute", []) if str(topic).strip())
+    boost = tuple(str(item).strip() for item in sift_cfg.get("boost", []) if str(item).strip())
+    site_url = str(sift_cfg.get("site_url", DEFAULT_SITE_URL)).strip()
+    if not is_http_url(site_url):
+        raise ValueError("sift.site_url must be an absolute http(s) URL")
+    if not site_url.endswith("/"):
+        # urljoin drops the last path segment without a trailing slash, which
+        # would silently break every absolute og:url / og:image.
+        site_url += "/"
 
     thinking = str(sift_cfg.get("thinking", DEFAULT_THINKING)).lower()
     if thinking not in THINKING_MODES:
@@ -127,9 +138,11 @@ def load_config(path: Path) -> Config:
         max_items_per_digest=max_items,
         interest_profile=profile,
         mute=mute,
+        boost=boost,
         min_score=min_score,
         thinking=thinking,
         effort=effort,
+        site_url=site_url,
         x_bridge_url=x_bridge_url,
         email=_parse_email(raw.get("email")),
     )

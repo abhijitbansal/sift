@@ -16,6 +16,12 @@ max_items_per_digest = 10
 min_score = 4
 # Topics to down-rank or exclude (passed to the model as guidance).
 mute = ["consumer chatbot drama", "ai doom punditry"]
+# Watchlist: entities/topics to up-weight so they surface more reliably (the
+# model raises their score and keeps them even when borderline). [] disables.
+boost = ["Ford"]
+# Absolute base URL of the published site (trailing slash). Used for absolute
+# og:url / og:image so pasted links unfurl as a titled card in Teams / Slack.
+site_url = "https://abhijitbansal.github.io/sift/"
 # A paragraph describing what you care about; drives the ranking prompt.
 interest_profile = """
 Describe your interests here: which topics matter, what you consider signal

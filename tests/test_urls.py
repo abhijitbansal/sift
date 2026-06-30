@@ -44,6 +44,17 @@ def test_safe_href_neutralizes_javascript():
     assert urls.safe_href("javascript:alert(document.cookie)") == "#"
 
 
+def test_display_domain_strips_www_and_port():
+    assert urls.display_domain("https://www.latent.space/p/x") == "latent.space"
+    assert urls.display_domain("https://semgrep.dev:443/blog") == "semgrep.dev"
+    assert urls.display_domain("http://Example.COM/feed") == "example.com"
+
+
+def test_display_domain_non_http_is_empty():
+    assert urls.display_domain("javascript:alert(1)") == ""
+    assert urls.display_domain("not a url") == ""
+
+
 def test_is_safe_fetch_target_rejects_loopback_and_link_local():
     # Literal IPs: getaddrinfo resolves them locally (no network).
     assert urls.is_safe_fetch_target("http://127.0.0.1/x") is False

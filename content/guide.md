@@ -36,6 +36,7 @@ model = "claude-opus-4-8"
 max_items_per_digest = 10
 min_score = 4          # drop anything the model scores below this
 mute = ["chatbot drama", "ai doom punditry"]
+boost = ["Ford"]       # watchlist: up-weight these so they surface more reliably
 interest_profile = """
 I care about enterprise AI adoption, agentic dev tooling, major model
 releases, and AI infrastructure. I prefer primary sources and concrete
@@ -49,6 +50,7 @@ numbers over hype.
 | `max_items_per_digest` | How many top-scored stories the digest keeps. |
 | `min_score` | 1–10 cutoff; stories below it are dropped before the cap. |
 | `mute` | Topics the model should down-rank or exclude. |
+| `boost` | Watchlist of entities/topics to up-weight so they surface more reliably (e.g. `["Ford"]`). |
 | `interest_profile` | Plain-language description of your signal vs. noise. |
 
 ### Feeds and weights

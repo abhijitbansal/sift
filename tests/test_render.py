@@ -114,6 +114,91 @@ def test_render_html_neutralizes_javascript_url_in_links(tmp_path):
     assert 'href="#"' in html
 
 
+def test_digest_html_has_static_image_og_card(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("Headline", 7, [0])], clusters)
+    out = tmp_path / "2026-26.html"
+
+    render.render_html(digest, out, site_url="https://x.test/sift/", cost_usd=0.12)
+    html = out.read_text(encoding="utf-8")
+
+    assert 'property="og:image" content="https://x.test/sift/digests/2026-26.png"' in html
+    assert 'property="og:image:width" content="1200"' in html
+    assert 'name="twitter:card" content="summary_large_image"' in html
+    assert 'property="og:url" content="https://x.test/sift/digests/2026-26.html"' in html
+
+
+def test_digest_is_self_contained_no_web_fonts(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("Headline", 7, [0])], clusters)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out)
+
+    html = out.read_text(encoding="utf-8")
+    assert "googleapis" not in html  # no external web fonts
+    assert "<link rel=\"stylesheet\"" not in html  # no external CSS
+
+
+def test_digest_shows_source_domain_chip(tmp_path):
+    clusters = [[Item("A", "https://www.latent.space/p/x", "Latent.Space", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out, site_url="https://x.test/sift/")
+
+    assert "latent.space" in out.read_text(encoding="utf-8")
+
+
+def test_digest_metrics_strip_shows_cost(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters, cost_usd=0.12)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out)
+    html = out.read_text(encoding="utf-8")
+
+    assert "$0.12" in html
+    assert "1 stories" in html or "<b>1</b> stories" in html
+
+
+def test_render_cost_arg_overrides_stored_cost(tmp_path):
+    # On a same-week re-render the threaded (accumulated) cost must win over the
+    # value baked into the stored JSON.
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters, cost_usd=0.01)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out, cost_usd=0.42)
+
+    assert "$0.42" in out.read_text(encoding="utf-8")
+
+
+def test_render_og_image_override_for_fallback(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters)
+    out = tmp_path / "d.html"
+
+    render.render_html(
+        digest, out, site_url="https://x.test/sift/",
+        og_image="https://x.test/sift/assets/og.png",
+    )
+
+    assert 'property="og:image" content="https://x.test/sift/assets/og.png"' in out.read_text(
+        encoding="utf-8"
+    )
+
+
+def test_digest_has_single_h1(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out)
+
+    assert out.read_text(encoding="utf-8").count("<h1") == 1  # a11y: one top-level heading
+
+
 def test_render_json_roundtrips(tmp_path):
     clusters = [[Item("A", "https://a", "Feed A", None, "")]]
     digest = render.build_digest("2026-26", [story("X", 5, [0])], clusters)

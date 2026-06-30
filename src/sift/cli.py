@@ -125,13 +125,15 @@ def cmd_run(args: argparse.Namespace) -> int:
         record(0)
         return 0
 
-    digest = render.build_digest(week, stories, clusters, feed_results)
+    digest = render.build_digest(
+        week, stories, clusters, feed_results, cost_usd=breakdown.total_usd
+    )
     digest["stories"] = digest["stories"][: cfg.max_items_per_digest]
 
     out_dir = digests_dir(root)
     out_dir.mkdir(parents=True, exist_ok=True)
     html_path = out_dir / f"{week}.html"
-    render.render_html(digest, html_path)
+    render.render_html(digest, html_path, site_url=cfg.site_url, cost_usd=breakdown.total_usd)
     render.render_json(digest, out_dir / f"{week}.json")
     log.info(
         "Wrote docs/digests/%s.html and .json (%d stories); run cost $%.4f",

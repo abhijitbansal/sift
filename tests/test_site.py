@@ -47,6 +47,26 @@ def test_build_site_writes_all_pages_and_css(tmp_path):
     assert "What Sift is watching" in (docs / "index.html").read_text(encoding="utf-8")
 
 
+def test_prose_pages_have_static_image_og(tmp_path):
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    idx = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert 'property="og:image"' in idx and "assets/og.png" in idx
+    assert 'name="twitter:card" content="summary_large_image"' in idx
+    assert 'property="og:url" content="https://' in idx
+    assert "Skip to content" in idx  # accessibility skip link
+
+
+def test_build_site_writes_static_og_png(tmp_path):
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    assert (tmp_path / "docs" / "assets" / "og.png").exists()
+
+
 def test_prose_markdown_is_rendered(tmp_path):
     seed_content(tmp_path)
 

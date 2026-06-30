@@ -3,150 +3,222 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sift — 2026-26</title>
+<title>Sift — Week 2026-26</title>
+<meta name="description" content="GLM-5.2 beats Claude in cyber benchmarks, marking a step change for open agents">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4542e'/%3E%3Ctext x='16' y='23.5' font-family='Georgia,serif' font-size='23' font-weight='bold' fill='%23fdfdfb' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sift">
+<meta property="og:title" content="Sift — Week 2026-26">
+<meta property="og:description" content="GLM-5.2 beats Claude in cyber benchmarks, marking a step change for open agents">
+<meta property="og:url" content="https://abhijitbansal.github.io/sift/digests/2026-26.html">
+<meta property="og:image" content="https://abhijitbansal.github.io/sift/digests/2026-26.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sift digest cover — Week 2026-26">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sift — Week 2026-26">
+<meta name="twitter:description" content="GLM-5.2 beats Claude in cyber benchmarks, marking a step change for open agents">
+<meta name="twitter:image" content="https://abhijitbansal.github.io/sift/digests/2026-26.png">
 <style>
-  :root { color-scheme: light dark;
-    --fg: #1f1b16; --bg: #f7f3ea; --muted: #6f675c; --line: #e0d8c8; --accent: #b4542e; }
-  @media (prefers-color-scheme: dark) {
-    :root { --fg: #ece7df; --bg: #15130f; --muted: #9a9081; --line: #2e2a23; --accent: #e07a4f; } }
-  body { margin: 2.5rem auto; max-width: 44rem; padding: 0 1.25rem; background: var(--bg);
-    color: var(--fg); font: 17px/1.7 Georgia, 'Times New Roman', serif; }
-  header { border-bottom: 2px solid var(--fg); padding-bottom: 1rem; margin-bottom: 1.5rem; }
-  h1 { font-size: 2.4rem; letter-spacing: -.02em; margin: .2rem 0 0; }
-  .meta { color: var(--muted); font-size: .9rem; font-style: italic; margin: .25rem 0 0; }
-  .meta, .rationale, .sources { color: var(--muted); }
-  .rationale, .sources { font-size: .85rem; }
-  h2 { font-size: .95rem; text-transform: uppercase; letter-spacing: .12em;
-    border-bottom: 1px solid var(--line); padding-bottom: .3rem; margin-top: 2.6rem;
-    color: var(--accent); }
-  article { display: flex; gap: 1rem; margin: 1.7rem 0; }
-  .score { flex: 0 0 auto; width: 2.5rem; height: 2.5rem; border-radius: 50%;
-    background: var(--accent); color: var(--bg); font-weight: bold; font-size: 1.05rem;
-    display: flex; align-items: center; justify-content: center; }
-  .art-body { flex: 1; min-width: 0; }
-  article h3 { font-size: 1.2rem; line-height: 1.25; margin: .1rem 0 .35rem; }
-  article h3 a { color: var(--fg); text-decoration: none; }
-  article h3 a:hover { color: var(--accent); }
-  .summary { margin: .25rem 0; }
-  .rationale { margin: .3rem 0 0; font-style: italic; }
-  .sources { margin: .35rem 0 0; }
-  .sources a { color: var(--muted); }
-  .flag { color: var(--accent); font-size: .68rem; text-transform: uppercase;
-    letter-spacing: .06em; border: 1px solid var(--accent); border-radius: 3px;
-    padding: .05rem .35rem; margin-left: .45rem; white-space: nowrap; }
-  .backlink { font-size: .82rem; margin: 0 0 .4rem; }
-  .backlink a { color: var(--muted); text-decoration: none; }
-  .backlink a:hover { color: var(--accent); }
-  .scanned { margin-top: 2.8rem; }
-  .scanned-list { list-style: none; padding: 0; margin: .4rem 0 0; display: flex;
-    flex-wrap: wrap; gap: .35rem .9rem; font-size: .82rem; color: var(--muted); }
-  .scanned-list li { white-space: nowrap; }
-  .cnt { color: var(--fg); font-weight: bold; }
-  .cnt.dead { color: var(--accent); font-weight: normal; font-style: italic; }
-  footer { margin-top: 3rem; padding-top: 1.1rem; border-top: 1px solid var(--line);
-    color: var(--muted); font-size: .82rem; font-style: italic; }
+:root { color-scheme: light dark;
+  --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
+  --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
+  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
+  --cat-business:#15803d; --live:#15803d; }
+/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
+    --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
+    --cat-models:#8b84f0; --cat-tooling:#2dd4bf; --cat-infra:#f59e0b; --cat-policy:#fb7185;
+    --cat-business:#4ade80; --live:#4ade80; } }
+[data-cat=models_research]{--c:var(--cat-models);} [data-cat=tooling]{--c:var(--cat-tooling);}
+[data-cat=infra]{--c:var(--cat-infra);} [data-cat=policy]{--c:var(--cat-policy);}
+[data-cat=business]{--c:var(--cat-business);}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:46rem; padding:2.2rem 1.25rem 0; background:var(--bg); color:var(--text);
+  font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
+.mono { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+a { color:var(--accent); text-underline-offset:2px; }
+.backlink { font:.78rem/1 ui-monospace,Menlo,monospace; margin:0 0 1.4rem; }
+.backlink a { color:var(--muted); text-decoration:none; } .backlink a:hover { color:var(--accent); }
+header.top { border-bottom:2px solid var(--text); padding-bottom:1rem; margin-bottom:1.3rem; }
+.brand { font-family:Georgia,"Times New Roman",serif; font-weight:bold; font-size:2.4rem;
+  letter-spacing:-.02em; line-height:1; margin:0; }
+.brand .dot { color:var(--accent); }
+.issue { font-family:ui-monospace,Menlo,monospace; color:var(--muted); font-size:.82rem;
+  letter-spacing:.02em; margin:.5rem 0 0; }
+.metrics { display:flex; flex-wrap:wrap; gap:.3rem .7rem; margin:.7rem 0 0; font-family:ui-monospace,Menlo,monospace;
+  font-size:.78rem; color:var(--text-2); }
+.metrics b { color:var(--accent); font-weight:700; }
+.glance { background:var(--surface); border:1px solid var(--line); border-radius:11px;
+  padding:1rem 1.1rem; margin:0 0 1.8rem; }
+.glance h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 .7rem; border:0; padding:0; }
+.mixbar { display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--surface-2); }
+.mixbar span { display:block; min-width:2px; }
+.legend { display:flex; flex-wrap:wrap; gap:.3rem .9rem; margin:.65rem 0 0; font-size:.72rem; color:var(--text-2); }
+.legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:.35rem; vertical-align:middle; }
+.spread { margin:.9rem 0 0; }
+.spread .bars { display:flex; align-items:flex-end; gap:3px; height:34px; }
+.spread .bars i { flex:1; background:var(--c,var(--accent)); border-radius:2px 2px 0 0; min-height:3px; opacity:.85; }
+.spread .cap { font:.7rem/1 ui-monospace,Menlo,monospace; color:var(--muted); margin:.4rem 0 0; }
+h2.lane { display:flex; align-items:center; gap:.5rem; font:600 .8rem/1 ui-monospace,Menlo,monospace;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--text-2); margin:2.4rem 0 .2rem;
+  padding:0 0 .4rem; border-bottom:1px solid var(--line); }
+h2.lane i { width:10px; height:10px; border-radius:3px; background:var(--c); }
+article { display:flex; gap:.85rem; padding:1.15rem 0 1.1rem; border-bottom:1px solid var(--line); border-left:3px solid var(--c);
+  padding-left:.9rem; }
+.score { flex:0 0 auto; width:2.1rem; height:2.1rem; border-radius:8px; background:var(--c); color:var(--badge-ink);
+  font-family:ui-monospace,Menlo,monospace; font-weight:700; font-size:1rem; display:flex; align-items:center;
+  justify-content:center; }
+.art-body { flex:1; min-width:0; }
+.rank { font:.68rem/1 ui-monospace,Menlo,monospace; color:var(--muted); }
+article h3 { font-size:1.06rem; line-height:1.3; margin:.15rem 0 .35rem; font-weight:600; }
+article h3 a { color:var(--text); text-decoration:none; } article h3 a:hover { color:var(--accent); }
+.flag { display:inline-block; font:.6rem/1.3 ui-monospace,Menlo,monospace; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--accent); border:1px solid var(--accent); border-radius:4px;
+  padding:.12rem .35rem; margin-left:.45rem; white-space:nowrap; vertical-align:middle; }
+.summary { margin:.25rem 0; color:var(--text-2); }
+.rationale { margin:.35rem 0 .5rem; font-size:.85rem; color:var(--muted); }
+.rationale::before { content:"› "; color:var(--accent); }
+.chips { display:flex; flex-wrap:wrap; gap:.35rem; }
+.chip { display:inline-flex; align-items:center; gap:.35rem; font-size:.74rem; text-decoration:none;
+  color:var(--text-2); background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
+  padding:.15rem .55rem .15rem .2rem; }
+.chip:hover { border-color:var(--accent); color:var(--accent); }
+.chip i { width:1.05rem; height:1.05rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font:700 .62rem/1 ui-monospace,Menlo,monospace; color:#fff; }
+.scanned { margin-top:2.6rem; }
+.scanned h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:.4rem; }
+.scanned-list { list-style:none; padding:0; margin:.7rem 0 0; display:flex; flex-wrap:wrap; gap:.4rem .6rem; }
+.scanned-list li { font:.74rem/1 ui-monospace,Menlo,monospace; color:var(--muted); background:var(--surface);
+  border:1px solid var(--line); border-radius:6px; padding:.28rem .5rem; }
+.cnt { color:var(--text); font-weight:700; } .cnt.dead { color:var(--accent); font-style:italic; font-weight:400; }
+footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--line); color:var(--muted);
+  font-size:.8rem; font-style:italic; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+@media (max-width:480px){ .brand{font-size:2rem;} article{gap:.6rem;} .score{width:1.9rem;height:1.9rem;} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
 </style>
 </head>
 <body>
-<header>
 <p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
-<h1>Sift</h1>
-<p class="meta">Week 2026-26 &middot; 10 stories</p>
+<header class="top">
+<h1 class="brand">Sift<span class="dot">.</span></h1>
+<p class="issue">Week 2026-26 &middot; Jun 22–28, 2026</p>
+<p class="metrics"><b>10</b> stories &middot; <b>20/20</b> feeds live &middot; <b>$0.17</b> run</p>
 </header>
-<h2>Models &amp; Research</h2>
-<article>
+<section class="glance" aria-label="Week at a glance">
+<h2>Week at a glance</h2>
+<div class="mixbar" role="img" aria-label="Category mix"><span data-cat="models_research" style="width:40.0%;background:var(--c)" title="Models &amp; Research: 4"></span><span data-cat="tooling" style="width:20.0%;background:var(--c)" title="Tooling: 2"></span><span data-cat="infra" style="width:10.0%;background:var(--c)" title="Infra: 1"></span><span data-cat="policy" style="width:20.0%;background:var(--c)" title="Policy: 2"></span><span data-cat="business" style="width:10.0%;background:var(--c)" title="Business: 1"></span></div>
+<div class="legend"><span data-cat="models_research"><i style="background:var(--c)"></i>Models &amp; Research 4</span><span data-cat="tooling"><i style="background:var(--c)"></i>Tooling 2</span><span data-cat="infra"><i style="background:var(--c)"></i>Infra 1</span><span data-cat="policy"><i style="background:var(--c)"></i>Policy 2</span><span data-cat="business"><i style="background:var(--c)"></i>Business 1</span></div>
+<div class="spread"><div class="bars" role="img" aria-label="Score spread"><i data-cat="models_research" style="height:90%"></i><i data-cat="business" style="height:90%"></i><i data-cat="models_research" style="height:80%"></i><i data-cat="tooling" style="height:70%"></i><i data-cat="tooling" style="height:70%"></i><i data-cat="infra" style="height:60%"></i><i data-cat="policy" style="height:60%"></i><i data-cat="models_research" style="height:60%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="policy" style="height:50%"></i></div><p class="cap mono">hi 9 &middot; lo 5 &middot; avg 6.8</p></div>
+</section>
+
+<h2 class="lane" data-cat="models_research"><i></i>Models &amp; Research</h2>
+<article data-cat="models_research">
 <span class="score" title="importance 9/10">9</span>
 <div class="art-body">
+<span class="rank mono">#1</span>
 <h3><a href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/">GLM-5.2 beats Claude in cyber benchmarks, marking a step change for open agents</a><span class="flag">needs verification</span></h3>
 <p class="summary">Semgrep reports that GLM-5.2 outperforms Claude on its cyber benchmarks, while Interconnects frames the model as a capability threshold for open agentic use. Observers note rising enterprise interest in securing compute to post-train models on top of GLM-5.2.</p>
 <p class="rationale">Major open-model capability milestone with concrete benchmark and enterprise post-training signal, high-engagement.</p>
-<p class="sources">Covered by <a href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/">Hacker News Front Page</a>, <a href="https://www.interconnects.ai/p/glm-52-is-the-step-change-for-open">Interconnects AI</a>, <a href="https://nitter.net/willccbb/status/2070298418262721008#m">X · @ylecun</a></p>
+<div class="chips"><a class="chip" href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/"><i style="background:hsl(40 50% 33%)">S</i><span>semgrep.dev</span></a><a class="chip" href="https://www.interconnects.ai/p/glm-52-is-the-step-change-for-open"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a><a class="chip" href="https://nitter.net/willccbb/status/2070298418262721008#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
-<article>
+<article data-cat="models_research">
 <span class="score" title="importance 8/10">8</span>
 <div class="art-body">
+<span class="rank mono">#3</span>
 <h3><a href="https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna">OpenAI GPT-5.6 (Sol/Terra/Luna) released to trusted partners</a><span class="flag">needs verification</span></h3>
 <p class="summary">OpenAI reportedly rolled out a tiered GPT-5.6 family codenamed Sol, Terra, and Luna, restricted to trusted partners. The release coincided with a same-day Anthropic update.</p>
 <p class="rationale">Major model release, though tiered/restricted and reported via newsletter rather than primary blog.</p>
-<p class="sources">Covered by <a href="https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna">Latent.Space</a></p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
 </div>
 </article>
-<article>
+<article data-cat="models_research">
 <span class="score" title="importance 6/10">6</span>
 <div class="art-body">
+<span class="rank mono">#8</span>
 <h3><a href="https://www.interconnects.ai/p/artifacts-22-zyphra-cohere-and-poolside">Open-weight ecosystem expands with Zyphra, Cohere, and Poolside releases</a><span class="flag">needs verification</span></h3>
 <p class="summary">Interconnects assesses the latest open-weight artifacts from Zyphra, Cohere, and Poolside. The piece examines the breadth of the ecosystem and the motivations behind releasing these models.</p>
 <p class="rationale">Survey of new open artifacts relevant to model-release tracking.</p>
-<p class="sources">Covered by <a href="https://www.interconnects.ai/p/artifacts-22-zyphra-cohere-and-poolside">Interconnects AI</a></p>
+<div class="chips"><a class="chip" href="https://www.interconnects.ai/p/artifacts-22-zyphra-cohere-and-poolside"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a></div>
 </div>
 </article>
-<article>
+<article data-cat="models_research">
 <span class="score" title="importance 5/10">5</span>
 <div class="art-body">
+<span class="rank mono">#9</span>
 <h3><a href="https://antoine.fi/mri-analysis-using-claude-code-opus">AI in medicine: Claude Code MRI second-opinion and a Nature cardiac-arrest study</a><span class="flag">needs verification</span></h3>
 <p class="summary">A widely-discussed post describes using Claude Code with Opus to get a second opinion on an MRI, while a Nature paper applies AI to sudden cardiac death prediction. Together they illustrate growing applied medical AI use cases.</p>
 <p class="rationale">Concrete applied-AI examples, one peer-reviewed primary source, one anecdotal.</p>
-<p class="sources">Covered by <a href="https://antoine.fi/mri-analysis-using-claude-code-opus">Hacker News Front Page</a>, <a href="https://nitter.net/oziadias/status/2070474367213903923#m">X · @ylecun</a></p>
+<div class="chips"><a class="chip" href="https://antoine.fi/mri-analysis-using-claude-code-opus"><i style="background:hsl(283 50% 33%)">A</i><span>antoine.fi</span></a><a class="chip" href="https://nitter.net/oziadias/status/2070474367213903923#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
-<h2>Tooling</h2>
-<article>
+<h2 class="lane" data-cat="tooling"><i></i>Tooling</h2>
+<article data-cat="tooling">
 <span class="score" title="importance 7/10">7</span>
 <div class="art-body">
+<span class="rank mono">#4</span>
 <h3><a href="https://www.latent.space/p/ainews-claude-tag-multiplayer-proactive">Claude becomes a persistent org-wide agent in Slack (Claude Tag)</a><span class="flag">needs verification</span></h3>
 <p class="summary">Anthropic introduced Claude Tag, enabling multiplayer, proactive, and persistent agents inside Slack. Karpathy describes this as a third major LLM UX paradigm where the model acts as a self-contained asynchronous entity working alongside teams.</p>
 <p class="rationale">Notable agent-harness/UX shift for enterprise workflows, echoed by Karpathy&#x27;s commentary.</p>
-<p class="sources">Covered by <a href="https://www.latent.space/p/ainews-claude-tag-multiplayer-proactive">Latent.Space</a>, <a href="https://nitter.net/karpathy/status/2069547676849557725#m">X · @karpathy</a></p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-claude-tag-multiplayer-proactive"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://nitter.net/karpathy/status/2069547676849557725#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
-<article>
+<article data-cat="tooling">
 <span class="score" title="importance 7/10">7</span>
 <div class="art-body">
+<span class="rank mono">#5</span>
 <h3><a href="https://www.latent.space/p/ainews-its-meta-harness-summer">Agent harnesses go mainstream: meta-harnesses, local coding agents, and open agent clouds</a><span class="flag">needs verification</span></h3>
 <p class="summary">Multiple pieces explore the agent-harness ecosystem, from meta-harnesses and Databricks&#x27; case for open agent clouds to running open-weight models in local coding harnesses as Claude Code/Codex alternatives. IBM&#x27;s CUGA also ships two dozen working agentic app examples on a lightweight harness.</p>
 <p class="rationale">Directly targets agentic SDLC tooling and evals the reader prioritizes.</p>
-<p class="sources">Covered by <a href="https://www.latent.space/p/ainews-its-meta-harness-summer">Latent.Space</a>, <a href="https://magazine.sebastianraschka.com/p/using-local-coding-agents">Ahead of AI</a>, <a href="https://www.latent.space/p/databricks">Latent.Space</a>, <a href="https://huggingface.co/blog/ibm-research/cuga-apps">Hugging Face - Blog</a></p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-its-meta-harness-summer"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://magazine.sebastianraschka.com/p/using-local-coding-agents"><i style="background:hsl(62 50% 33%)">M</i><span>magazine.sebastianraschka.com</span></a><a class="chip" href="https://www.latent.space/p/databricks"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://huggingface.co/blog/ibm-research/cuga-apps"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
 </div>
 </article>
-<h2>Infra</h2>
-<article>
+<h2 class="lane" data-cat="infra"><i></i>Infra</h2>
+<article data-cat="infra">
 <span class="score" title="importance 6/10">6</span>
 <div class="art-body">
+<span class="rank mono">#6</span>
 <h3><a href="https://www.latent.space/p/ainews-spacex-is-already-a-28byr">AI compute economics: SpaceX as a $28B/yr neocloud and xAI renting out its cluster</a><span class="flag">needs verification</span></h3>
 <p class="summary">Analysis pegs SpaceX as already a $28B/yr neocloud, highlighting the scale of compute as a business. Separately, LeCun argues xAI now rents out its large cluster to rivals because it cannot staff a frontier lab after founder departures.</p>
 <p class="rationale">Compute/datacenter business dynamics with numbers, though analysis-driven and partly punditry.</p>
-<p class="sources">Covered by <a href="https://www.latent.space/p/ainews-spacex-is-already-a-28byr">Latent.Space</a>, <a href="https://nitter.net/ihtesham2005/status/2069827998271099365#m">X · @ylecun</a></p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-spacex-is-already-a-28byr"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://nitter.net/ihtesham2005/status/2069827998271099365#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
-<h2>Policy</h2>
-<article>
+<h2 class="lane" data-cat="policy"><i></i>Policy</h2>
+<article data-cat="policy">
 <span class="score" title="importance 6/10">6</span>
 <div class="art-body">
+<span class="rank mono">#7</span>
 <h3><a href="https://nitter.net/ClementDelangue/status/2071247445204369625#m">Debate over AI regulation: frontier APIs vs open-weight models and data-center backlash</a><span class="flag">needs verification</span></h3>
 <p class="summary">Commentators argue frontier API models should be regulated for transparency while open-weight models stay unregulated, warning that regulatory capture could harm competitiveness. Related posts frame the data-center backlash as a proxy for broader anti-AI sentiment.</p>
 <p class="rationale">Substantive policy debate on open vs closed regulation relevant to infra/enterprise, but opinion-heavy.</p>
-<p class="sources">Covered by <a href="https://nitter.net/ClementDelangue/status/2071247445204369625#m">X · @ylecun</a>, <a href="https://nitter.net/Dan_Jeffries1/status/2070423958902456795#m">X · @ylecun</a>, <a href="https://nitter.net/Dan_Jeffries1/status/2070407070180892973#m">X · @ylecun</a>, <a href="https://nitter.net/mcuban/status/2070211760196587534#m">X · @ylecun</a>, <a href="https://nitter.net/williamswjt/status/2070428521420185869#m">X · @ylecun</a></p>
+<div class="chips"><a class="chip" href="https://nitter.net/ClementDelangue/status/2071247445204369625#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2070423958902456795#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2070407070180892973#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/mcuban/status/2070211760196587534#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/williamswjt/status/2070428521420185869#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
-<article>
+<article data-cat="policy">
 <span class="score" title="importance 5/10">5</span>
 <div class="art-body">
+<span class="rank mono">#10</span>
 <h3><a href="https://www.latent.space/p/gray-swan">AI security and red-teaming beyond traditional cybersecurity</a><span class="flag">needs verification</span></h3>
 <p class="summary">Zico Kolter and Matt Fredrikson of Gray Swan argue AI security is distinct from applying AI to cybersecurity. The discussion covers red-teaming frontier models after the Mythos benchmark.</p>
 <p class="rationale">Substantive on AI security/evals, but interview format from a secondary source.</p>
-<p class="sources">Covered by <a href="https://www.latent.space/p/gray-swan">Latent.Space</a></p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/gray-swan"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
 </div>
 </article>
-<h2>Business</h2>
-<article>
+<h2 class="lane" data-cat="business"><i></i>Business</h2>
+<article data-cat="business">
 <span class="score" title="importance 9/10">9</span>
 <div class="art-body">
+<span class="rank mono">#2</span>
 <h3><a href="https://www.latent.space/p/ainews-openai-reports-median-internal">OpenAI reports internal Codex output token growth: 56x Research, 32x Support, 27x Engineering, 13x Legal</a><span class="flag">needs verification</span></h3>
 <p class="summary">OpenAI reportedly disclosed that median internal Codex output tokens grew 56x in Research, 32x in Customer Support, 27x in Engineering, and 13x in Legal since November 2025. The figures point to rapidly scaling internal agentic coding usage across functions.</p>
 <p class="rationale">Concrete enterprise/agentic adoption numbers from a primary-adjacent source, directly matching reader interests.</p>
-<p class="sources">Covered by <a href="https://www.latent.space/p/ainews-openai-reports-median-internal">Latent.Space</a></p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-openai-reports-median-internal"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
 </div>
 </article>
 <section class="scanned">
