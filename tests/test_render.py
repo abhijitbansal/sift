@@ -162,6 +162,43 @@ def test_digest_metrics_strip_shows_cost(tmp_path):
     assert "1 stories" in html or "<b>1</b> stories" in html
 
 
+def test_render_cost_arg_overrides_stored_cost(tmp_path):
+    # On a same-week re-render the threaded (accumulated) cost must win over the
+    # value baked into the stored JSON.
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters, cost_usd=0.01)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out, cost_usd=0.42)
+
+    assert "$0.42" in out.read_text(encoding="utf-8")
+
+
+def test_render_og_image_override_for_fallback(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters)
+    out = tmp_path / "d.html"
+
+    render.render_html(
+        digest, out, site_url="https://x.test/sift/",
+        og_image="https://x.test/sift/assets/og.png",
+    )
+
+    assert 'property="og:image" content="https://x.test/sift/assets/og.png"' in out.read_text(
+        encoding="utf-8"
+    )
+
+
+def test_digest_has_single_h1(tmp_path):
+    clusters = [[Item("A", "https://a", "Feed A", None, "")]]
+    digest = render.build_digest("2026-26", [story("X", 6, [0])], clusters)
+    out = tmp_path / "d.html"
+
+    render.render_html(digest, out)
+
+    assert out.read_text(encoding="utf-8").count("<h1") == 1  # a11y: one top-level heading
+
+
 def test_render_json_roundtrips(tmp_path):
     clusters = [[Item("A", "https://a", "Feed A", None, "")]]
     digest = render.build_digest("2026-26", [story("X", 5, [0])], clusters)

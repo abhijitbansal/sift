@@ -121,14 +121,15 @@ def _refresh_digests(out_dir: Path, history: dict, cfg: Config) -> None:
             stories = digest.get("stories", [])
             record = history.get(week)
             cost = record.cost_usd if record else None
-            render.render_html(
-                digest, out_dir / f"{week}.html", site_url=cfg.site_url, cost_usd=cost
-            )
+            # Render the cover card first so the digest's og:image only points at
+            # the per-issue PNG when it actually exists; otherwise fall back to the
+            # committed static og.png so the unfurl image never 404s.
+            card_ok = False
             if stories:
                 counts: dict[str, int] = {}
                 for s in stories:
                     counts[s["category"]] = counts.get(s["category"], 0) + 1
-                card.render_issue_card(
+                card_ok = card.render_issue_card(
                     out_dir / f"{week}.png",
                     week=week,
                     range_label=week_range(week),
@@ -137,6 +138,16 @@ def _refresh_digests(out_dir: Path, history: dict, cfg: Config) -> None:
                     story_count=len(stories),
                     feed_count=len(digest.get("sources_scanned", []) or cfg.feeds),
                 )
+            og_image = abs_url(
+                cfg.site_url, f"digests/{week}.png" if card_ok else "assets/og.png"
+            )
+            render.render_html(
+                digest,
+                out_dir / f"{week}.html",
+                site_url=cfg.site_url,
+                cost_usd=cost,
+                og_image=og_image,
+            )
         except Exception:  # noqa: BLE001 - best-effort archive refresh
             log.warning("Could not refresh digest %s; left as-is", week, exc_info=True)
 
@@ -474,7 +485,7 @@ SITE_CSS = """:root {
   --fg: #241f18; --bg: #f7f3ea; --muted: #6c6353; --line: #e5dcc8; --line-2: #d3c8b0;
   --accent: #b4542e; --accent-soft: #d98a5f; --card: #fffdf7; --card-2: #f1ead9;
   --shadow: rgba(60,45,30,.10);
-  --cat-models: #5b54d6; --cat-tooling: #0d9488; --cat-infra: #b45309;
+  --cat-models: #5b54d6; --cat-tooling: #0a7a70; --cat-infra: #b45309;
   --cat-policy: #be123c; --cat-business: #15803d;
   --display: "Fraunces", Georgia, "Times New Roman", serif;
   --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;

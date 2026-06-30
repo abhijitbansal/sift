@@ -23,8 +23,9 @@
 :root { color-scheme: light dark;
   --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
   --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
-  --cat-models:#5b54d6; --cat-tooling:#0d9488; --cat-infra:#b45309; --cat-policy:#be123c;
+  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
   --cat-business:#15803d; --live:#15803d; }
+/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
 @media (prefers-color-scheme: dark) {
   :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
     --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
@@ -104,7 +105,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <body>
 <p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
 <header class="top">
-<p class="brand">Sift<span class="dot">.</span></p>
+<h1 class="brand">Sift<span class="dot">.</span></h1>
 <p class="issue">Week 2026-26 &middot; Jun 22–28, 2026</p>
 <p class="metrics"><b>10</b> stories &middot; <b>20/20</b> feeds live &middot; <b>$0.17</b> run</p>
 </header>
@@ -123,7 +124,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/">GLM-5.2 beats Claude in cyber benchmarks, marking a step change for open agents</a><span class="flag">needs verification</span></h3>
 <p class="summary">Semgrep reports that GLM-5.2 outperforms Claude on its cyber benchmarks, while Interconnects frames the model as a capability threshold for open agentic use. Observers note rising enterprise interest in securing compute to post-train models on top of GLM-5.2.</p>
 <p class="rationale">Major open-model capability milestone with concrete benchmark and enterprise post-training signal, high-engagement.</p>
-<div class="chips"><a class="chip" href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/"><i style="background:hsl(40 45% 42%)">S</i><span>semgrep.dev</span></a><a class="chip" href="https://www.interconnects.ai/p/glm-52-is-the-step-change-for-open"><i style="background:hsl(215 45% 42%)">I</i><span>interconnects.ai</span></a><a class="chip" href="https://nitter.net/willccbb/status/2070298418262721008#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a></div>
+<div class="chips"><a class="chip" href="https://semgrep.dev/blog/2026/we-have-mythos-at-home-glm-52-beats-claude-in-our-cyber-benchmarks/"><i style="background:hsl(40 50% 33%)">S</i><span>semgrep.dev</span></a><a class="chip" href="https://www.interconnects.ai/p/glm-52-is-the-step-change-for-open"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a><a class="chip" href="https://nitter.net/willccbb/status/2070298418262721008#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
 <article data-cat="models_research">
@@ -133,7 +134,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna">OpenAI GPT-5.6 (Sol/Terra/Luna) released to trusted partners</a><span class="flag">needs verification</span></h3>
 <p class="summary">OpenAI reportedly rolled out a tiered GPT-5.6 family codenamed Sol, Terra, and Luna, restricted to trusted partners. The release coincided with a same-day Anthropic update.</p>
 <p class="rationale">Major model release, though tiered/restricted and reported via newsletter rather than primary blog.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna"><i style="background:hsl(138 45% 42%)">L</i><span>latent.space</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-openai-gpt-56-sol-terra-luna"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
 </div>
 </article>
 <article data-cat="models_research">
@@ -143,7 +144,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.interconnects.ai/p/artifacts-22-zyphra-cohere-and-poolside">Open-weight ecosystem expands with Zyphra, Cohere, and Poolside releases</a><span class="flag">needs verification</span></h3>
 <p class="summary">Interconnects assesses the latest open-weight artifacts from Zyphra, Cohere, and Poolside. The piece examines the breadth of the ecosystem and the motivations behind releasing these models.</p>
 <p class="rationale">Survey of new open artifacts relevant to model-release tracking.</p>
-<div class="chips"><a class="chip" href="https://www.interconnects.ai/p/artifacts-22-zyphra-cohere-and-poolside"><i style="background:hsl(215 45% 42%)">I</i><span>interconnects.ai</span></a></div>
+<div class="chips"><a class="chip" href="https://www.interconnects.ai/p/artifacts-22-zyphra-cohere-and-poolside"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a></div>
 </div>
 </article>
 <article data-cat="models_research">
@@ -153,7 +154,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://antoine.fi/mri-analysis-using-claude-code-opus">AI in medicine: Claude Code MRI second-opinion and a Nature cardiac-arrest study</a><span class="flag">needs verification</span></h3>
 <p class="summary">A widely-discussed post describes using Claude Code with Opus to get a second opinion on an MRI, while a Nature paper applies AI to sudden cardiac death prediction. Together they illustrate growing applied medical AI use cases.</p>
 <p class="rationale">Concrete applied-AI examples, one peer-reviewed primary source, one anecdotal.</p>
-<div class="chips"><a class="chip" href="https://antoine.fi/mri-analysis-using-claude-code-opus"><i style="background:hsl(283 45% 42%)">A</i><span>antoine.fi</span></a><a class="chip" href="https://nitter.net/oziadias/status/2070474367213903923#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a></div>
+<div class="chips"><a class="chip" href="https://antoine.fi/mri-analysis-using-claude-code-opus"><i style="background:hsl(283 50% 33%)">A</i><span>antoine.fi</span></a><a class="chip" href="https://nitter.net/oziadias/status/2070474367213903923#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
 <h2 class="lane" data-cat="tooling"><i></i>Tooling</h2>
@@ -164,7 +165,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/ainews-claude-tag-multiplayer-proactive">Claude becomes a persistent org-wide agent in Slack (Claude Tag)</a><span class="flag">needs verification</span></h3>
 <p class="summary">Anthropic introduced Claude Tag, enabling multiplayer, proactive, and persistent agents inside Slack. Karpathy describes this as a third major LLM UX paradigm where the model acts as a self-contained asynchronous entity working alongside teams.</p>
 <p class="rationale">Notable agent-harness/UX shift for enterprise workflows, echoed by Karpathy&#x27;s commentary.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-claude-tag-multiplayer-proactive"><i style="background:hsl(138 45% 42%)">L</i><span>latent.space</span></a><a class="chip" href="https://nitter.net/karpathy/status/2069547676849557725#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-claude-tag-multiplayer-proactive"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://nitter.net/karpathy/status/2069547676849557725#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
 <article data-cat="tooling">
@@ -174,7 +175,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/ainews-its-meta-harness-summer">Agent harnesses go mainstream: meta-harnesses, local coding agents, and open agent clouds</a><span class="flag">needs verification</span></h3>
 <p class="summary">Multiple pieces explore the agent-harness ecosystem, from meta-harnesses and Databricks&#x27; case for open agent clouds to running open-weight models in local coding harnesses as Claude Code/Codex alternatives. IBM&#x27;s CUGA also ships two dozen working agentic app examples on a lightweight harness.</p>
 <p class="rationale">Directly targets agentic SDLC tooling and evals the reader prioritizes.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-its-meta-harness-summer"><i style="background:hsl(138 45% 42%)">L</i><span>latent.space</span></a><a class="chip" href="https://magazine.sebastianraschka.com/p/using-local-coding-agents"><i style="background:hsl(62 45% 42%)">M</i><span>magazine.sebastianraschka.com</span></a><a class="chip" href="https://www.latent.space/p/databricks"><i style="background:hsl(138 45% 42%)">L</i><span>latent.space</span></a><a class="chip" href="https://huggingface.co/blog/ibm-research/cuga-apps"><i style="background:hsl(320 45% 42%)">H</i><span>huggingface.co</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-its-meta-harness-summer"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://magazine.sebastianraschka.com/p/using-local-coding-agents"><i style="background:hsl(62 50% 33%)">M</i><span>magazine.sebastianraschka.com</span></a><a class="chip" href="https://www.latent.space/p/databricks"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://huggingface.co/blog/ibm-research/cuga-apps"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
 </div>
 </article>
 <h2 class="lane" data-cat="infra"><i></i>Infra</h2>
@@ -185,7 +186,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/ainews-spacex-is-already-a-28byr">AI compute economics: SpaceX as a $28B/yr neocloud and xAI renting out its cluster</a><span class="flag">needs verification</span></h3>
 <p class="summary">Analysis pegs SpaceX as already a $28B/yr neocloud, highlighting the scale of compute as a business. Separately, LeCun argues xAI now rents out its large cluster to rivals because it cannot staff a frontier lab after founder departures.</p>
 <p class="rationale">Compute/datacenter business dynamics with numbers, though analysis-driven and partly punditry.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-spacex-is-already-a-28byr"><i style="background:hsl(138 45% 42%)">L</i><span>latent.space</span></a><a class="chip" href="https://nitter.net/ihtesham2005/status/2069827998271099365#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-spacex-is-already-a-28byr"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://nitter.net/ihtesham2005/status/2069827998271099365#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
 <h2 class="lane" data-cat="policy"><i></i>Policy</h2>
@@ -196,7 +197,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://nitter.net/ClementDelangue/status/2071247445204369625#m">Debate over AI regulation: frontier APIs vs open-weight models and data-center backlash</a><span class="flag">needs verification</span></h3>
 <p class="summary">Commentators argue frontier API models should be regulated for transparency while open-weight models stay unregulated, warning that regulatory capture could harm competitiveness. Related posts frame the data-center backlash as a proxy for broader anti-AI sentiment.</p>
 <p class="rationale">Substantive policy debate on open vs closed regulation relevant to infra/enterprise, but opinion-heavy.</p>
-<div class="chips"><a class="chip" href="https://nitter.net/ClementDelangue/status/2071247445204369625#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2070423958902456795#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2070407070180892973#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/mcuban/status/2070211760196587534#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/williamswjt/status/2070428521420185869#m"><i style="background:hsl(315 45% 42%)">N</i><span>nitter.net</span></a></div>
+<div class="chips"><a class="chip" href="https://nitter.net/ClementDelangue/status/2071247445204369625#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2070423958902456795#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2070407070180892973#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/mcuban/status/2070211760196587534#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/williamswjt/status/2070428521420185869#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
 </div>
 </article>
 <article data-cat="policy">
@@ -206,7 +207,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/gray-swan">AI security and red-teaming beyond traditional cybersecurity</a><span class="flag">needs verification</span></h3>
 <p class="summary">Zico Kolter and Matt Fredrikson of Gray Swan argue AI security is distinct from applying AI to cybersecurity. The discussion covers red-teaming frontier models after the Mythos benchmark.</p>
 <p class="rationale">Substantive on AI security/evals, but interview format from a secondary source.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/gray-swan"><i style="background:hsl(138 45% 42%)">L</i><span>latent.space</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/gray-swan"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
 </div>
 </article>
 <h2 class="lane" data-cat="business"><i></i>Business</h2>
@@ -217,7 +218,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/ainews-openai-reports-median-internal">OpenAI reports internal Codex output token growth: 56x Research, 32x Support, 27x Engineering, 13x Legal</a><span class="flag">needs verification</span></h3>
 <p class="summary">OpenAI reportedly disclosed that median internal Codex output tokens grew 56x in Research, 32x in Customer Support, 27x in Engineering, and 13x in Legal since November 2025. The figures point to rapidly scaling internal agentic coding usage across functions.</p>
 <p class="rationale">Concrete enterprise/agentic adoption numbers from a primary-adjacent source, directly matching reader interests.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-openai-reports-median-internal"><i style="background:hsl(138 45% 42%)">L</i><span>latent.space</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-openai-reports-median-internal"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
 </div>
 </article>
 <section class="scanned">

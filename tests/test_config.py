@@ -50,6 +50,35 @@ url = "https://example.com/feed.xml"
     assert cfg.site_url == "https://x.test/sift/"
 
 
+def test_site_url_normalizes_missing_trailing_slash(tmp_path):
+    path = write_config(tmp_path, """
+[sift]
+interest_profile = "x"
+site_url = "https://x.test/sift"
+[[feeds]]
+name = "E"
+url = "https://e/feed"
+""")
+
+    cfg = config_mod.load_config(path)
+
+    assert cfg.site_url == "https://x.test/sift/"  # trailing slash enforced
+
+
+def test_site_url_rejects_non_http(tmp_path):
+    path = write_config(tmp_path, """
+[sift]
+interest_profile = "x"
+site_url = "ftp://x.test/sift/"
+[[feeds]]
+name = "E"
+url = "https://e/feed"
+""")
+
+    with pytest.raises(ValueError, match="site_url"):
+        config_mod.load_config(path)
+
+
 def test_boost_defaults_empty_and_site_url_default(tmp_path):
     path = write_config(tmp_path, BASE + """
 [[feeds]]

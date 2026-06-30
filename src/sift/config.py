@@ -108,7 +108,13 @@ def load_config(path: Path) -> Config:
 
     mute = tuple(str(topic).strip() for topic in sift_cfg.get("mute", []) if str(topic).strip())
     boost = tuple(str(item).strip() for item in sift_cfg.get("boost", []) if str(item).strip())
-    site_url = str(sift_cfg.get("site_url", DEFAULT_SITE_URL))
+    site_url = str(sift_cfg.get("site_url", DEFAULT_SITE_URL)).strip()
+    if not is_http_url(site_url):
+        raise ValueError("sift.site_url must be an absolute http(s) URL")
+    if not site_url.endswith("/"):
+        # urljoin drops the last path segment without a trailing slash, which
+        # would silently break every absolute og:url / og:image.
+        site_url += "/"
 
     thinking = str(sift_cfg.get("thinking", DEFAULT_THINKING)).lower()
     if thinking not in THINKING_MODES:

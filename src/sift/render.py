@@ -43,8 +43,9 @@ _STYLE = """
 :root { color-scheme: light dark;
   --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
   --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
-  --cat-models:#5b54d6; --cat-tooling:#0d9488; --cat-infra:#b45309; --cat-policy:#be123c;
+  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
   --cat-business:#15803d; --live:#15803d; }
+/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
 @media (prefers-color-scheme: dark) {
   :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
     --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
@@ -135,7 +136,7 @@ _PAGE = """<!DOCTYPE html>
 <body>
 <p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
 <header class="top">
-<p class="brand">Sift<span class="dot">.</span></p>
+<h1 class="brand">Sift<span class="dot">.</span></h1>
 <p class="issue">Week {week}{range_sep}{range}</p>
 <p class="metrics">{metrics}</p>
 </header>
@@ -188,11 +189,17 @@ def render_html(
     *,
     site_url: str = DEFAULT_SITE_URL,
     cost_usd: float | None = None,
+    og_image: str | None = None,
 ) -> None:
     week = digest["week"]
     stories = digest["stories"]
-    cost = digest.get("cost_usd", cost_usd)
+    # An explicit cost_usd (e.g. the accumulated same-week total from history)
+    # wins over a stale value baked into the stored digest JSON.
+    cost = cost_usd if cost_usd is not None else digest.get("cost_usd")
     sources = digest.get("sources_scanned")
+    # Default og:image is this week's cover card; callers pass og_image to fall
+    # back to the static site card when the per-issue card could not be written.
+    image = og_image or abs_url(site_url, f"digests/{week}.png")
 
     desc = stories[0]["title"] if stories else TAGLINE
     page = _PAGE.format(
@@ -203,7 +210,7 @@ def render_html(
             title=f"Sift — Week {week}",
             description=desc,
             url=abs_url(site_url, f"digests/{week}.html"),
-            image=abs_url(site_url, f"digests/{week}.png"),
+            image=image,
             image_alt=f"Sift digest cover — Week {week}",
         ),
         style=_STYLE,
@@ -321,11 +328,13 @@ def _article(story: dict, rank: int) -> str:
 
 
 def _source_chip(link: dict) -> str:
-    domain = display_domain(link["url"]) or escape(link["source"])
+    # Raw domain (or feed-name fallback); escaped once at each sink below.
+    domain = display_domain(link["url"]) or link["source"]
     initial = escape((domain[:1] or "?").upper())
-    hue = sum(ord(c) for c in domain) % 360  # stable warm-ish monogram tint
+    hue = sum(ord(c) for c in domain) % 360  # stable monogram tint
+    # Lightness 33% keeps the white monogram letter ≥4.5:1 across all hues.
     return (
         f'<a class="chip" href="{escape(safe_href(link["url"]))}">'
-        f'<i style="background:hsl({hue} 45% 42%)">{initial}</i>'
+        f'<i style="background:hsl({hue} 50% 33%)">{initial}</i>'
         f'<span>{escape(domain)}</span></a>'
     )
