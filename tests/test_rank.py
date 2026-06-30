@@ -167,6 +167,22 @@ def test_build_prompt_includes_mute_topics():
     assert "ai doom" in prompt
 
 
+def test_build_prompt_includes_boost_watchlist():
+    cfg = make_config(boost=("Ford", "in-house AI"))
+
+    prompt = build_prompt([], cfg)
+
+    assert "Ford" in prompt
+    assert "in-house AI" in prompt
+    assert "raise their importance score" in prompt.lower()
+
+
+def test_build_prompt_omits_boost_when_empty():
+    prompt = build_prompt([], make_config(boost=()))
+
+    assert "watchlist" not in prompt.lower()
+
+
 def test_build_prompt_includes_nondefault_source_weights():
     cfg = make_config(
         feeds=(Feed("Trusted", "https://t", None, 2.0), Feed("Normal", "https://n", None, 1.0)),

@@ -112,6 +112,12 @@ def build_prompt(payload: list[dict], config: Config) -> str:
             "Source weighting hints (higher = more trusted/important to this reader): "
             f"{', '.join(weighted)}.\n"
         )
+    if config.boost:
+        boosted = ", ".join(config.boost)
+        parts.append(
+            "Watchlist: strongly prioritize stories about these entities/topics — raise their "
+            f"importance score by ~2 points and surface them even when borderline: {boosted}.\n"
+        )
     parts.append("News clusters (JSON):\n" + json.dumps(payload, indent=2, sort_keys=True))
     return "\n".join(parts)
 
