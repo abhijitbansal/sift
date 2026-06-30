@@ -610,11 +610,11 @@ dependencies = [
     { name = "feedparser" },
     { name = "httpx" },
     { name = "markdown" },
+    { name = "pillow" },
 ]
 
 [package.dev-dependencies]
 dev = [
-    { name = "pillow" },
     { name = "pytest" },
     { name = "pytest-cov" },
 ]
@@ -625,11 +625,11 @@ requires-dist = [
     { name = "feedparser", specifier = ">=6.0" },
     { name = "httpx", specifier = ">=0.27" },
     { name = "markdown", specifier = ">=3.10.2" },
+    { name = "pillow", specifier = ">=11.0" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "pillow", specifier = ">=12.2.0" },
     { name = "pytest", specifier = ">=8.0" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
 ]
