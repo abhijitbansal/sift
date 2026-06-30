@@ -68,10 +68,13 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
     (assets / "sift.css").write_text(SITE_CSS, encoding="utf-8")
     (assets / "favicon.svg").write_text(FAVICON_SVG, encoding="utf-8")
     (docs / "site.webmanifest").write_text(WEBMANIFEST, encoding="utf-8")
+    card.render_static_card(assets / "og.png")  # best-effort; static og:image + fallback
 
     out_dir = docs / "digests"
     out_dir.mkdir(parents=True, exist_ok=True)
-    entries = _archive_entries(out_dir, _history_by_week(db_path))
+    history = _history_by_week(db_path)
+    entries = _archive_entries(out_dir, history)
+    _refresh_digests(out_dir, history, cfg)  # re-render archived digests + cover cards
 
     content_dir = root / "content"
     today = date.today()
@@ -84,19 +87,58 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
             body = body + _home_sources_html(cfg)
         elif slug == "sources":
             body = _configured_feeds_html(cfg) + body
+        rel = "" if slug == "index" else f"{slug}.html"
         (docs / f"{slug}.html").write_text(
-            _wrap(title, body, prefix="", active=slug), encoding="utf-8"
+            _wrap(title, body, prefix="", active=slug, cfg=cfg, rel=rel), encoding="utf-8"
         )
         pages += 1
 
     (out_dir / "index.html").write_text(
-        _wrap("Sift — digest archive", _archive_body(entries), prefix="../", active="digests"),
+        _wrap(
+            "Sift — digest archive", _archive_body(entries),
+            prefix="../", active="digests", cfg=cfg, rel="digests/index.html",
+        ),
         encoding="utf-8",
     )
     pages += 1
     _write_agent_json(docs, out_dir, entries, cfg)
     log.info("Built %d site pages (%d archived digests)", pages, len(entries))
     return pages
+
+
+def _refresh_digests(out_dir: Path, history: dict, cfg: Config) -> None:
+    """Re-render each archived digest's HTML from its committed JSON (so a theme
+    or OG change reaches old issues) and write its cover card. Best-effort per
+    digest: a malformed/legacy JSON is logged and skipped, never fatal."""
+    from sift import render
+
+    for json_path in out_dir.glob("*.json"):
+        week = json_path.stem
+        if week in _RESERVED_JSON_STEMS:
+            continue
+        try:
+            digest = json.loads(json_path.read_text(encoding="utf-8"))
+            stories = digest.get("stories", [])
+            record = history.get(week)
+            cost = record.cost_usd if record else None
+            render.render_html(
+                digest, out_dir / f"{week}.html", site_url=cfg.site_url, cost_usd=cost
+            )
+            if stories:
+                counts: dict[str, int] = {}
+                for s in stories:
+                    counts[s["category"]] = counts.get(s["category"], 0) + 1
+                card.render_issue_card(
+                    out_dir / f"{week}.png",
+                    week=week,
+                    range_label=week_range(week),
+                    headline=stories[0].get("title", "Weekly AI signal"),
+                    category_counts=counts,
+                    story_count=len(stories),
+                    feed_count=len(digest.get("sources_scanned", []) or cfg.feeds),
+                )
+        except Exception:  # noqa: BLE001 - best-effort archive refresh
+            log.warning("Could not refresh digest %s; left as-is", week, exc_info=True)
 
 
 def _write_agent_json(
@@ -307,15 +349,25 @@ _ARCHIVE_JS = """<script>
 """
 
 
-def _wrap(title: str, body_html: str, *, prefix: str, active: str) -> str:
+def _wrap(
+    title: str, body_html: str, *, prefix: str, active: str, cfg: Config, rel: str
+) -> str:
     nav_links = "".join(
         f'<a href="{prefix}{href}"'
         + (' class="active"' if slug == active else "")
         + f">{escape(label)}</a>"
         for href, label, slug in NAV
     )
+    og = og_tags(
+        title=title,
+        description=TAGLINE,
+        url=abs_url(cfg.site_url, rel),
+        image=abs_url(cfg.site_url, "assets/og.png"),
+        image_alt="Sift — a weekly dispatch of AI signal",
+    )
     return _PAGE_TEMPLATE.format(
         title=escape(title),
+        og=og,
         css=f"{prefix}assets/sift.css",
         favicon=f"{prefix}assets/favicon.svg",
         ico=f"{prefix}assets/favicon.ico",
@@ -334,23 +386,26 @@ _PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
+<meta name="description" content="A weekly dispatch of AI signal — curated for one reader.">
 <link rel="icon" href="{favicon}" type="image/svg+xml">
 <link rel="icon" href="{ico}" sizes="32x32" type="image/x-icon">
 <link rel="apple-touch-icon" href="{apple}">
 <link rel="manifest" href="{manifest}">
 <meta name="theme-color" content="#b4542e">
+{og}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{css}">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="masthead">
 <a class="brand" href="{brand}">Sift</a>
 <p class="tagline">{tagline}</p>
 <nav>{nav}</nav>
 </header>
-<main>
+<main id="main">
 {body}
 </main>
 <footer class="site-footer">
@@ -416,75 +471,89 @@ WEBMANIFEST = """{
 
 SITE_CSS = """:root {
   color-scheme: light dark;
-  --fg: #1f1b16; --bg: #f7f3ea; --muted: #6f675c; --line: #e0d8c8; --accent: #b4542e;
-  --accent-soft: #d98a5f; --card: #efe9dc; --shadow: rgba(60,45,30,.10);
+  --fg: #241f18; --bg: #f7f3ea; --muted: #6c6353; --line: #e5dcc8; --line-2: #d3c8b0;
+  --accent: #b4542e; --accent-soft: #d98a5f; --card: #fffdf7; --card-2: #f1ead9;
+  --shadow: rgba(60,45,30,.10);
+  --cat-models: #5b54d6; --cat-tooling: #0d9488; --cat-infra: #b45309;
+  --cat-policy: #be123c; --cat-business: #15803d;
   --display: "Fraunces", Georgia, "Times New Roman", serif;
-  --body: Georgia, "Times New Roman", serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --fg: #ece7df; --bg: #15130f; --muted: #9a9081; --line: #2e2a23;
-    --accent: #e07a4f; --accent-soft: #b4542e; --card: #1e1b15; --shadow: rgba(0,0,0,.4); }
+  :root { --fg: #efe7d9; --bg: #1b1410; --muted: #ad9f85; --line: #3b2d20; --line-2: #4c3a29;
+    --accent: #e07a4f; --accent-soft: #b4542e; --card: #241b14; --card-2: #2d2218;
+    --shadow: rgba(0,0,0,.5);
+    --cat-models: #8b84f0; --cat-tooling: #2dd4bf; --cat-infra: #f59e0b;
+    --cat-policy: #fb7185; --cat-business: #4ade80; }
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--fg);
-  font: 17px/1.7 var(--body); -webkit-font-smoothing: antialiased; }
+  font: 15.5px/1.6 var(--body); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 ::selection { background: var(--accent); color: var(--bg); }
+.skip { position: absolute; left: -9999px; top: 0; z-index: 80; background: var(--accent);
+  color: #fff7f1; font-family: var(--mono); font-size: .75rem; font-weight: 700;
+  padding: .65rem 1rem; border-radius: 0 0 9px 0; }
+.skip:focus { left: 0; }
 
 /* Masthead */
-.masthead { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 1rem;
+.masthead { max-width: 48rem; margin: 0 auto; padding: 1.9rem 1.25rem 1rem;
   border-bottom: 2px solid var(--fg); }
 .brand { display: block; font-family: var(--display); font-weight: 900;
-  font-size: clamp(2.6rem, 9vw, 4rem); line-height: .95; letter-spacing: -.02em;
+  font-size: clamp(2.4rem, 8vw, 3.6rem); line-height: .95; letter-spacing: -.02em;
   color: var(--fg); text-decoration: none; font-optical-sizing: auto; }
-.tagline { margin: .35rem 0 1rem; color: var(--muted); font-style: italic; font-size: 1.02rem; }
-.masthead nav { display: flex; flex-wrap: wrap; gap: 1.3rem; padding-top: .6rem;
+.tagline { margin: .35rem 0 1rem; color: var(--muted); font-size: .95rem; }
+.masthead nav { display: flex; flex-wrap: wrap; gap: 1.1rem; padding-top: .6rem;
   border-top: 1px solid var(--line); }
-.masthead nav a { color: var(--muted); text-decoration: none; font-size: .82rem;
-  text-transform: uppercase; letter-spacing: .1em; padding-bottom: 2px;
-  border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+.masthead nav a { color: var(--muted); text-decoration: none; font-family: var(--mono);
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; padding-bottom: 3px;
+  border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; min-height: 40px;
+  display: inline-flex; align-items: center; }
 .masthead nav a:hover, .masthead nav a:focus-visible { color: var(--fg); }
 .masthead nav a.active { color: var(--accent); border-color: var(--accent); }
 
-main { max-width: 46rem; margin: 2.2rem auto; padding: 0 1.25rem; }
-h1 { font-family: var(--display); font-weight: 600; font-size: clamp(1.8rem, 5vw, 2.5rem);
+main { max-width: 48rem; margin: 2.2rem auto; padding: 0 1.25rem; }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(1.8rem, 5vw, 2.4rem);
   line-height: 1.1; letter-spacing: -.015em; margin: 0 0 1rem; }
-h2 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; letter-spacing: -.01em;
-  border-bottom: 1px solid var(--line); padding-bottom: .35rem; margin: 2.6rem 0 .8rem; }
-h3 { font-family: var(--display); font-weight: 600; font-size: 1.15rem; margin: 1.9rem 0 .4rem; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 1.35rem; letter-spacing: -.01em;
+  border-bottom: 1px solid var(--line); padding-bottom: .35rem; margin: 2.5rem 0 .8rem; }
+h3 { font-family: var(--display); font-weight: 600; font-size: 1.12rem; margin: 1.8rem 0 .4rem; }
 p { margin: .7rem 0; }
-code { background: var(--card); padding: .1rem .38rem; border-radius: 4px;
-  font: .85em ui-monospace, SFMono-Regular, Menlo, monospace; }
-pre { background: var(--card); padding: 1rem 1.1rem; border-radius: 8px; overflow-x: auto;
+code { background: var(--card-2); padding: .1rem .38rem; border-radius: 4px;
+  font: .85em var(--mono); }
+pre { background: var(--card-2); padding: 1rem 1.1rem; border-radius: 8px; overflow-x: auto;
   border: 1px solid var(--line); box-shadow: 0 1px 2px var(--shadow); }
 pre code { background: none; padding: 0; }
-table { border-collapse: collapse; width: 100%; margin: 1.3rem 0; font-size: .95rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.3rem 0; font-size: .92rem; }
 th, td { border: 1px solid var(--line); padding: .5rem .65rem; text-align: left; vertical-align: top; }
-th { background: var(--card); font-family: var(--display); font-weight: 600; }
+th { background: var(--card-2); font-family: var(--mono); font-weight: 600; font-size: .82rem;
+  text-transform: uppercase; letter-spacing: .04em; }
 blockquote { border-left: 3px solid var(--accent); margin: 1.3rem 0; padding: .3rem 1.1rem;
   color: var(--muted); font-style: italic; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
-/* Latest-issue hero (home) */
+/* Latest-issue hero (home) — dashboard card */
 .latest { display: flex; flex-direction: column; gap: .15rem; background: var(--card);
-  border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px;
-  padding: 1.1rem 1.3rem; margin: 0 0 2.2rem; box-shadow: 0 2px 10px var(--shadow); }
-.latest .kicker { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em;
-  color: var(--accent); font-weight: bold; }
+  border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 12px;
+  padding: 1.1rem 1.3rem; margin: 0 0 2.2rem; box-shadow: 0 2px 14px var(--shadow); }
+.latest .kicker { font-family: var(--mono); font-size: .68rem; text-transform: uppercase;
+  letter-spacing: .14em; color: var(--accent); font-weight: 700; }
 .latest-link { text-decoration: none; color: var(--fg); display: flex; flex-wrap: wrap;
-  align-items: baseline; gap: .6rem; margin-top: .2rem; }
-.latest-wk { font-family: var(--display); font-weight: 600; font-size: 1.45rem; }
-.latest-rng { color: var(--muted); font-style: italic; }
+  align-items: baseline; gap: .6rem; margin-top: .3rem; }
+.latest-wk { font-family: var(--display); font-weight: 600; font-size: 1.4rem; }
+.latest-rng { color: var(--muted); }
 .latest-link:hover .latest-wk { color: var(--accent); }
-.latest-meta { color: var(--muted); font-size: .85rem; margin-top: .15rem; }
-.latest-next { color: var(--accent); font-size: .78rem; text-transform: uppercase;
-  letter-spacing: .08em; margin-top: .35rem; }
+.latest-meta { font-family: var(--mono); color: var(--muted); font-size: .8rem; margin-top: .25rem; }
+.latest-next { font-family: var(--mono); color: var(--accent); font-size: .72rem; text-transform: uppercase;
+  letter-spacing: .08em; margin-top: .4rem; }
 
 /* Archive */
 .archive-controls { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.2rem 0 1.5rem; }
-.archive-controls input, .archive-controls select { font: inherit; font-size: .95rem;
+.archive-controls input, .archive-controls select { font: inherit; font-size: .92rem;
   color: var(--fg); background: var(--card); border: 1px solid var(--line);
-  border-radius: 7px; padding: .45rem .7rem; }
+  border-radius: 8px; padding: .5rem .7rem; min-height: 40px; }
 .archive-controls input { flex: 1 1 12rem; }
 ul.archive { list-style: none; padding: 0; margin: 0; }
 ul.archive li { display: flex; justify-content: space-between; align-items: baseline;
@@ -493,8 +562,8 @@ ul.archive li a { text-decoration: none; color: var(--fg); display: flex; gap: .
   align-items: baseline; flex-wrap: wrap; }
 ul.archive .wk { font-family: var(--display); font-weight: 600; font-size: 1.1rem; }
 ul.archive li a:hover .wk { color: var(--accent); }
-ul.archive .rng { color: var(--muted); font-style: italic; font-size: .92rem; }
-ul.archive .meta { color: var(--muted); font-size: .82rem; white-space: nowrap; }
+ul.archive .rng { color: var(--muted); font-size: .9rem; }
+ul.archive .meta { font-family: var(--mono); color: var(--muted); font-size: .76rem; white-space: nowrap; }
 .archive-empty { color: var(--muted); font-style: italic; }
 
 /* Source lists */
@@ -504,7 +573,7 @@ ul.feeds { list-style: none; padding: 0; margin: 1.2rem 0; }
 ul.feeds li { padding: .55rem .2rem; border-bottom: 1px solid var(--line); }
 ul.feeds li a { font-family: var(--display); font-weight: 600; text-decoration: none; }
 ul.feeds li a:hover { text-decoration: underline; }
-.feed-meta { color: var(--muted); font-size: .8rem; font-style: italic; margin-left: .4rem; }
+.feed-meta { font-family: var(--mono); color: var(--muted); font-size: .74rem; margin-left: .4rem; }
 
 /* Pipeline flow diagram */
 .flow { margin: 1.6rem 0; }
@@ -514,11 +583,10 @@ ul.feeds li a:hover { text-decoration: underline; }
   box-shadow: 0 2px 12px var(--shadow); }
 .flow .stage h4 { font-family: var(--display); font-weight: 600; margin: 0 0 .25rem; font-size: 1.05rem; }
 .flow .stage.paid h4 { color: var(--accent); }
-.flow .stage p { margin: .15rem 0 .45rem; font-size: .92rem; }
-.flow .stage .mod { color: var(--muted); font-size: .76rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.flow .stage p { margin: .15rem 0 .45rem; font-size: .9rem; }
+.flow .stage .mod { color: var(--muted); font-size: .74rem; font-family: var(--mono); }
 .flow .arrow { text-align: center; color: var(--accent); font-size: 1.35rem; line-height: 1; margin: .3rem 0; }
 
-.site-footer { max-width: 46rem; margin: 3.5rem auto 2.5rem; padding: 1.3rem 1.25rem 0;
-  border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; font-style: italic; }
+.site-footer { max-width: 48rem; margin: 3.5rem auto 2.5rem; padding: 1.3rem 1.25rem 0;
+  border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
 """
