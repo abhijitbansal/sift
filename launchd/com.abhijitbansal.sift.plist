@@ -16,15 +16,25 @@
        credentials available to launchd (an SSH key added with
        `ssh-add --apple-use-keychain`, or a git credential helper). If nothing
        new was found, `sift run` writes no digest, the staged diff is empty, and
-       nothing is committed. -->
+       nothing is committed.
+
+       caffeinate -i holds a "prevent idle sleep" assertion for the life of the
+       zsh subprocess. This machine is a MacBook Pro that sleeps after ~1 min
+       idle on battery (see `pmset -g custom`); without this, launchd's calendar
+       wake only grants a short dark-wake/maintenance-sleep window, and the
+       system can drop back to full sleep mid-run, freezing the Anthropic
+       streaming call for hours until the next real wake. Use -i, not -s:
+       -s only holds on AC power and is a silent no-op on battery. -->
   <key>ProgramArguments</key>
   <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-i</string>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>export ANTHROPIC_API_KEY="$(security find-generic-password -s ANTHROPIC_API_KEY -w)"; export SIFT_SMTP_PASSWORD="$(security find-generic-password -s SIFT_SMTP_PASSWORD -w 2>/dev/null)"; cd "$HOME/projects/sift" &amp;&amp; uv run sift run &amp;&amp; git add -A docs &amp;&amp; { git diff --cached --quiet || { git commit -m "chore(digest): publish $(date -u +%G-%V)" &amp;&amp; git push; }; }</string>
+    <string>export ANTHROPIC_API_KEY="$(security find-generic-password -s ANTHROPIC_API_KEY -w)"; export SIFT_SMTP_PASSWORD="$(security find-generic-password -s SIFT_SMTP_PASSWORD -w 2>/dev/null)"; cd "$HOME/projects/sift-publish" &amp;&amp; git pull --ff-only &amp;&amp; uv run sift run &amp;&amp; git add -A docs &amp;&amp; { git diff --cached --quiet || { git commit -m "chore(digest): publish $(date -u +%G-%V)" &amp;&amp; git push; }; }</string>
   </array>
 
-  <!-- Sunday 06:00 in the machine's local timezone (Mac mini is on ET).
+  <!-- Sunday 06:00 in the machine's local timezone.
        launchd has no per-job timezone; adjust Hour if the machine moves. -->
   <key>StartCalendarInterval</key>
   <dict>

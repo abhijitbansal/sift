@@ -170,11 +170,18 @@ def build_call_kwargs(payload: list[dict], config: Config) -> dict:
 def rank_clusters(clusters: list[list[Item]], config: Config) -> RankResult:
     """The single API call of the weekly run. Returns validated stories + usage."""
     import anthropic
+    import httpx
 
     payload = build_payload(clusters)
     client = anthropic.Anthropic()
-    with client.messages.stream(**build_call_kwargs(payload, config)) as stream:
-        response = stream.get_final_message()
+    kwargs = build_call_kwargs(payload, config)
+    try:
+        with client.messages.stream(**kwargs) as stream:
+            response = stream.get_final_message()
+    except (httpx.RemoteProtocolError, anthropic.APIConnectionError):
+        log.warning("Ranking stream dropped mid-response, retrying once")
+        with client.messages.stream(**kwargs) as stream:
+            response = stream.get_final_message()
     log.info(
         "API call done: %s in / %s out tokens, stop_reason=%s",
         response.usage.input_tokens,
