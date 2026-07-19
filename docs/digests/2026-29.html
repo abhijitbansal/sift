@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — Week 2026-29</title>
+<meta name="description" content="Moonshot AI releases Kimi K3, a 2.8T-parameter open-weight model claiming frontier coding performance">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4542e'/%3E%3Ctext x='16' y='23.5' font-family='Georgia,serif' font-size='23' font-weight='bold' fill='%23fdfdfb' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sift">
+<meta property="og:title" content="Sift — Week 2026-29">
+<meta property="og:description" content="Moonshot AI releases Kimi K3, a 2.8T-parameter open-weight model claiming frontier coding performance">
+<meta property="og:url" content="https://abhijitbansal.github.io/sift/digests/2026-29.html">
+<meta property="og:image" content="https://abhijitbansal.github.io/sift/digests/2026-29.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sift digest cover — Week 2026-29">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sift — Week 2026-29">
+<meta name="twitter:description" content="Moonshot AI releases Kimi K3, a 2.8T-parameter open-weight model claiming frontier coding performance">
+<meta name="twitter:image" content="https://abhijitbansal.github.io/sift/digests/2026-29.png">
+<style>
+:root { color-scheme: light dark;
+  --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
+  --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
+  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
+  --cat-business:#15803d; --live:#15803d; }
+/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
+    --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
+    --cat-models:#8b84f0; --cat-tooling:#2dd4bf; --cat-infra:#f59e0b; --cat-policy:#fb7185;
+    --cat-business:#4ade80; --live:#4ade80; } }
+[data-cat=models_research]{--c:var(--cat-models);} [data-cat=tooling]{--c:var(--cat-tooling);}
+[data-cat=infra]{--c:var(--cat-infra);} [data-cat=policy]{--c:var(--cat-policy);}
+[data-cat=business]{--c:var(--cat-business);}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:46rem; padding:2.2rem 1.25rem 0; background:var(--bg); color:var(--text);
+  font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
+.mono { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+a { color:var(--accent); text-underline-offset:2px; }
+.backlink { font:.78rem/1 ui-monospace,Menlo,monospace; margin:0 0 1.4rem; }
+.backlink a { color:var(--muted); text-decoration:none; } .backlink a:hover { color:var(--accent); }
+header.top { border-bottom:2px solid var(--text); padding-bottom:1rem; margin-bottom:1.3rem; }
+.brand { font-family:Georgia,"Times New Roman",serif; font-weight:bold; font-size:2.4rem;
+  letter-spacing:-.02em; line-height:1; margin:0; }
+.brand .dot { color:var(--accent); }
+.issue { font-family:ui-monospace,Menlo,monospace; color:var(--muted); font-size:.82rem;
+  letter-spacing:.02em; margin:.5rem 0 0; }
+.metrics { display:flex; flex-wrap:wrap; gap:.3rem .7rem; margin:.7rem 0 0; font-family:ui-monospace,Menlo,monospace;
+  font-size:.78rem; color:var(--text-2); }
+.metrics b { color:var(--accent); font-weight:700; }
+.glance { background:var(--surface); border:1px solid var(--line); border-radius:11px;
+  padding:1rem 1.1rem; margin:0 0 1.8rem; }
+.glance h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 .7rem; border:0; padding:0; }
+.mixbar { display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--surface-2); }
+.mixbar span { display:block; min-width:2px; }
+.legend { display:flex; flex-wrap:wrap; gap:.3rem .9rem; margin:.65rem 0 0; font-size:.72rem; color:var(--text-2); }
+.legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:.35rem; vertical-align:middle; }
+.spread { margin:.9rem 0 0; }
+.spread .bars { display:flex; align-items:flex-end; gap:3px; height:34px; }
+.spread .bars i { flex:1; background:var(--c,var(--accent)); border-radius:2px 2px 0 0; min-height:3px; opacity:.85; }
+.spread .cap { font:.7rem/1 ui-monospace,Menlo,monospace; color:var(--muted); margin:.4rem 0 0; }
+h2.lane { display:flex; align-items:center; gap:.5rem; font:600 .8rem/1 ui-monospace,Menlo,monospace;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--text-2); margin:2.4rem 0 .2rem;
+  padding:0 0 .4rem; border-bottom:1px solid var(--line); }
+h2.lane i { width:10px; height:10px; border-radius:3px; background:var(--c); }
+article { display:flex; gap:.85rem; padding:1.15rem 0 1.1rem; border-bottom:1px solid var(--line); border-left:3px solid var(--c);
+  padding-left:.9rem; }
+.score { flex:0 0 auto; width:2.1rem; height:2.1rem; border-radius:8px; background:var(--c); color:var(--badge-ink);
+  font-family:ui-monospace,Menlo,monospace; font-weight:700; font-size:1rem; display:flex; align-items:center;
+  justify-content:center; }
+.art-body { flex:1; min-width:0; }
+.rank { font:.68rem/1 ui-monospace,Menlo,monospace; color:var(--muted); }
+article h3 { font-size:1.06rem; line-height:1.3; margin:.15rem 0 .35rem; font-weight:600; }
+article h3 a { color:var(--text); text-decoration:none; } article h3 a:hover { color:var(--accent); }
+.flag { display:inline-block; font:.6rem/1.3 ui-monospace,Menlo,monospace; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--accent); border:1px solid var(--accent); border-radius:4px;
+  padding:.12rem .35rem; margin-left:.45rem; white-space:nowrap; vertical-align:middle; }
+.summary { margin:.25rem 0; color:var(--text-2); }
+.rationale { margin:.35rem 0 .5rem; font-size:.85rem; color:var(--muted); }
+.rationale::before { content:"› "; color:var(--accent); }
+.chips { display:flex; flex-wrap:wrap; gap:.35rem; }
+.chip { display:inline-flex; align-items:center; gap:.35rem; font-size:.74rem; text-decoration:none;
+  color:var(--text-2); background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
+  padding:.15rem .55rem .15rem .2rem; }
+.chip:hover { border-color:var(--accent); color:var(--accent); }
+.chip i { width:1.05rem; height:1.05rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font:700 .62rem/1 ui-monospace,Menlo,monospace; color:#fff; }
+.scanned { margin-top:2.6rem; }
+.scanned h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:.4rem; }
+.scanned-list { list-style:none; padding:0; margin:.7rem 0 0; display:flex; flex-wrap:wrap; gap:.4rem .6rem; }
+.scanned-list li { font:.74rem/1 ui-monospace,Menlo,monospace; color:var(--muted); background:var(--surface);
+  border:1px solid var(--line); border-radius:6px; padding:.28rem .5rem; }
+.cnt { color:var(--text); font-weight:700; } .cnt.dead { color:var(--accent); font-style:italic; font-weight:400; }
+footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--line); color:var(--muted);
+  font-size:.8rem; font-style:italic; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+@media (max-width:480px){ .brand{font-size:2rem;} article{gap:.6rem;} .score{width:1.9rem;height:1.9rem;} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
+</style>
+</head>
+<body>
+<p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
+<header class="top">
+<h1 class="brand">Sift<span class="dot">.</span></h1>
+<p class="issue">Week 2026-29 &middot; Jul 13–19, 2026</p>
+<p class="metrics"><b>10</b> stories &middot; <b>20/20</b> feeds live &middot; <b>$0.28</b> run</p>
+</header>
+<section class="glance" aria-label="Week at a glance">
+<h2>Week at a glance</h2>
+<div class="mixbar" role="img" aria-label="Category mix"><span data-cat="models_research" style="width:60.0%;background:var(--c)" title="Models &amp; Research: 6"></span><span data-cat="tooling" style="width:30.0%;background:var(--c)" title="Tooling: 3"></span><span data-cat="policy" style="width:10.0%;background:var(--c)" title="Policy: 1"></span></div>
+<div class="legend"><span data-cat="models_research"><i style="background:var(--c)"></i>Models &amp; Research 6</span><span data-cat="tooling"><i style="background:var(--c)"></i>Tooling 3</span><span data-cat="policy"><i style="background:var(--c)"></i>Policy 1</span></div>
+<div class="spread"><div class="bars" role="img" aria-label="Score spread"><i data-cat="models_research" style="height:90%"></i><i data-cat="models_research" style="height:80%"></i><i data-cat="tooling" style="height:80%"></i><i data-cat="tooling" style="height:70%"></i><i data-cat="models_research" style="height:70%"></i><i data-cat="policy" style="height:60%"></i><i data-cat="models_research" style="height:60%"></i><i data-cat="tooling" style="height:60%"></i><i data-cat="models_research" style="height:60%"></i><i data-cat="models_research" style="height:50%"></i></div><p class="cap mono">hi 9 &middot; lo 5 &middot; avg 6.8</p></div>
+</section>
+
+<h2 class="lane" data-cat="models_research"><i></i>Models &amp; Research</h2>
+<article data-cat="models_research">
+<span class="score" title="importance 9/10">9</span>
+<div class="art-body">
+<span class="rank mono">#1</span>
+<h3><a href="https://simonwillison.net/2026/Jul/16/kimi-k3/#atom-everything">Moonshot AI releases Kimi K3, a 2.8T-parameter open-weight model claiming frontier coding performance</a></h3>
+<p class="summary">Moonshot AI announced Kimi K3, described as a 2.8-trillion-parameter (A50B) model and the largest open model to date, with an open-weight release promised by July 27, 2026. Self-reported benchmarks show it competitive with or beating Claude Opus/Fable 5 and GPT-5.6 on agentic coding at roughly one-third the price.</p>
+<p class="rationale">Major open model release with concrete specs and benchmarks, directly relevant to model capabilities and open-weight ecosystem.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Jul/16/kimi-k3/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://www.latent.space/p/ainews-kimi-k3-28t-a50b-the-largest"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://stephen.bochinski.dev/blog/2026/07/18/the-kimi-k3-moment/"><i style="background:hsl(324 50% 33%)">S</i><span>stephen.bochinski.dev</span></a><a class="chip" href="https://simonwillison.net/2026/Jul/17/kimi-k3/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://nitter.net/BrianRoemmele/status/2078115704184926554#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/srush_nlp/status/2077958837240226079#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 8/10">8</span>
+<div class="art-body">
+<span class="rank mono">#2</span>
+<h3><a href="https://simonwillison.net/2026/Jul/16/inkling/#atom-everything">Thinking Machines releases Inkling, a 975B open-weights multimodal model</a></h3>
+<p class="summary">Thinking Machines Lab released Inkling, an Apache-2.0 licensed Mixture-of-Experts multimodal transformer with 975B total (41B active) parameters trained on 45 trillion tokens. A smaller 276B (12B active) variant, Inkling-Small, was announced as forthcoming pending further testing.</p>
+<p class="rationale">First major open-weights release from Mira Murati&#x27;s lab with detailed specs; strong interest for model releases and open weights.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Jul/16/inkling/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://www.latent.space/p/ainews-thinkys-inkling-975b-a41b"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://huggingface.co/blog/thinkingmachines-inkling"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<span class="rank mono">#5</span>
+<h3><a href="https://nitter.net/DrJimFan/status/2078150496683213151#m">NVIDIA and Stanford introduce RoboTTT, scaling robot policies to 8K-timestep context via test-time training</a></h3>
+<p class="summary">NVIDIA GEAR Lab and Stanford introduced RoboTTT, scaling robot visuomotor context to 8,000 timesteps at constant inference cost using test-time training that updates a small internal model per sensor reading. They report a context-scaling curve where 8K-context pretraining beats 1K by 62% with one-shot imitation from human video and mid-episode error recovery.</p>
+<p class="rationale">Capabilities research with concrete context-scaling numbers and a primary paper/blog; relevant to research interest.</p>
+<div class="chips"><a class="chip" href="https://nitter.net/DrJimFan/status/2078150496683213151#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/DrJimFan/status/2078150032575082616#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/drfeifei/status/2077497317255737422#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/DrJimFan/status/2077414143901188195#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/DrJimFan/status/2077414142340988962#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<span class="rank mono">#7</span>
+<h3><a href="https://old.reddit.com/r/math/comments/1uxj3cy/after_openais_cdc_proof_announcement_gpt56_used_a/">GPT-5.6 used in convex optimization and hard-problem experiments</a><span class="flag">needs verification</span></h3>
+<p class="summary">A widely-discussed Reddit thread claims GPT-5.6 helped close a 30-year gap in convex optimization via a prompt, while other posts benchmark GPT-5.6 Sol against Fable 5 on NP-hard problems. Separate demos show GPT-5.6 building a SQLite-based Doom-like game engine.</p>
+<p class="rationale">Frontier model capability claims with concrete tasks, though sourced from Reddit/blogs rather than primary papers.</p>
+<div class="chips"><a class="chip" href="https://old.reddit.com/r/math/comments/1uxj3cy/after_openais_cdc_proof_announcement_gpt56_used_a/"><i style="background:hsl(286 50% 33%)">O</i><span>old.reddit.com</span></a><a class="chip" href="https://charlesazam.com/blog/fable-5-gpt-5-6-sol-goal/"><i style="background:hsl(88 50% 33%)">C</i><span>charlesazam.com</span></a><a class="chip" href="https://simonwillison.net/2026/Jul/13/doomql/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<span class="rank mono">#9</span>
+<h3><a href="https://openai.com/index/unlocking-self-improvement-gpt-red">OpenAI details GPT-Red red-teaming; Claude web_fetch exfiltration hole found</a></h3>
+<p class="summary">OpenAI described GPT-Red, an automated red-teaming system using self-play to improve robustness against prompt injection. Separately, a researcher demonstrated a data-exfiltration vulnerability in Claude&#x27;s web_fetch tool via the lethal-trifecta pattern.</p>
+<p class="rationale">Concrete safety/robustness research and a real agent security vulnerability; relevant to evals and agent safety.</p>
+<div class="chips"><a class="chip" href="https://openai.com/index/unlocking-self-improvement-gpt-red"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://simonwillison.net/2026/Jul/15/claude-web-fetch-exfiltration/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#10</span>
+<h3><a href="https://magazine.sebastianraschka.com/p/controlling-reasoning-effort-in-llms">Research and engineering notes on reasoning effort, model routing, and agent building</a></h3>
+<p class="summary">Sebastian Raschka analyzes how LLMs learn low-, medium-, and high-effort reasoning modes, while IBM Research examines the complexities of model routing. Additional posts cover fine-tuning diffusion models at scale with NVIDIA NeMo and lessons from building the Shippy agent.</p>
+<p class="rationale">Useful technical research and engineering writeups on reasoning control and agent infrastructure.</p>
+<div class="chips"><a class="chip" href="https://magazine.sebastianraschka.com/p/controlling-reasoning-effort-in-llms"><i style="background:hsl(62 50% 33%)">M</i><span>magazine.sebastianraschka.com</span></a><a class="chip" href="https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/nvidia/scale-diffusers-finetuning-nemo-automodel"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/allenai/shippy-tech-blog"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/Dharma-AI/newer-models-same-advantages"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="tooling"><i></i>Tooling</h2>
+<article data-cat="tooling">
+<span class="score" title="importance 8/10">8</span>
+<div class="art-body">
+<span class="rank mono">#3</span>
+<h3><a href="https://www.latent.space/p/ainews-codex-usage-up-10x-in-6-months">Codex usage reportedly up 10x in 6 months to 7M users</a><span class="flag">needs verification</span></h3>
+<p class="summary">AINews reports OpenAI&#x27;s Codex grew more than 10x in six months to roughly 7M users, adding over 1M in a single day, raising questions about whether it overtook Claude Code. A related &#x27;Codex Resets&#x27; discussion trended on Hacker News amid the usage surge.</p>
+<p class="rationale">Concrete adoption numbers on coding agents, central to the reader&#x27;s agentic SDLC interest.</p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-codex-usage-up-10x-in-6-months"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://codex-resets.com/"><i style="background:hsl(163 50% 33%)">C</i><span>codex-resets.com</span></a></div>
+</div>
+</article>
+<article data-cat="tooling">
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<span class="rank mono">#4</span>
+<h3><a href="https://simonwillison.net/2026/Jul/15/grok-build/#atom-everything">Grok CLI caught uploading local files to the cloud; xAI open-sources grok-build</a></h3>
+<p class="summary">xAI&#x27;s Grok CLI faced backlash after users found it could upload entire working directories—including SSH keys and password databases—to xAI&#x27;s cloud buckets, after which xAI open-sourced the tool as grok-build. Separately, a Codex bug was documented in which the agent could delete a user&#x27;s $HOME directory under full-access mode.</p>
+<p class="rationale">Significant dev-tooling security incident with concrete details on an agent harness; relevant to coding agents and security.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Jul/15/grok-build/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://newsletter.pragmaticengineer.com/p/the-pulse-groks-cli-caught-uploading"><i style="background:hsl(69 50% 33%)">N</i><span>newsletter.pragmaticengineer.com</span></a><a class="chip" href="https://simonwillison.net/2026/Jul/16/bad-codex-bug/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+</div>
+</article>
+<article data-cat="tooling">
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<span class="rank mono">#8</span>
+<h3><a href="https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/#atom-everything">Context and &#x27;loop&#x27; engineering emerge as core practices for agentic development</a></h3>
+<p class="summary">Practitioners including Dex Horthy and Armin Ronacher discuss context engineering, &#x27;loop engineering,&#x27; and how coding agents fit into human organizations and shared project understanding. Separately, Claude Code was confirmed to now ship on a Rust port of Bun, and GitHub&#x27;s Dependabot added default dependency cooldowns.</p>
+<p class="rationale">Directly relevant to agentic SDLC and dev tooling practices, with primary practitioner commentary.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://simonwillison.net/2026/Jul/14/github-changeling/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://simonwillison.net/2026/Jul/14/armin-ronacher/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://simonwillison.net/2026/Jul/12/directly-responsible-individuals/#atom-everything"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://newsletter.pragmaticengineer.com/p/context-engineering-with-dex-horthy"><i style="background:hsl(69 50% 33%)">N</i><span>newsletter.pragmaticengineer.com</span></a><a class="chip" href="https://newsletter.pragmaticengineer.com/p/what-is-loop-engineering"><i style="background:hsl(69 50% 33%)">N</i><span>newsletter.pragmaticengineer.com</span></a><a class="chip" href="https://nitter.net/IntuitMachine/status/2078419526354378975#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://www.latent.space/p/aiewf26trends"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="policy"><i></i>Policy</h2>
+<article data-cat="policy">
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<span class="rank mono">#6</span>
+<h3><a href="https://www.interconnects.ai/p/6-months-to-live-for-open-models">Debate intensifies over open-weight AI viability and US policy</a><span class="flag">needs verification</span></h3>
+<p class="summary">Following the Kimi K3 and Inkling releases, commentators including Yann LeCun and industry figures argued open-weight models are essential for economic competitiveness, citing token-cost disparities of $26-56 versus $0.50-1 per million tokens. Interconnects framed the moment as a critical test of open-source AI&#x27;s viability over the next six months.</p>
+<p class="rationale">Substantive policy discussion on open models with cost figures, tied to open-weight ecosystem the reader tracks; some punditry lowers it.</p>
+<div class="chips"><a class="chip" href="https://www.interconnects.ai/p/6-months-to-live-for-open-models"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a><a class="chip" href="https://nitter.net/MelMitchell1/status/2078519918790885754#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/chamath/status/2078404014635446534#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/martin_casado/status/2078507190185504793#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2078429877854781799#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/Dan_Jeffries1/status/2078467554629107712#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
+</div>
+</article>
+<section class="scanned">
+<h2>Sources scanned &middot; 20/20 live</h2>
+<ul class="scanned-list"><li>Anthropic News <span class="cnt">243</span></li><li>OpenAI News <span class="cnt">1039</span></li><li>Google DeepMind Blog <span class="cnt">100</span></li><li>Google AI Blog <span class="cnt">20</span></li><li>Meta Engineering (AI Research) <span class="cnt">9</span></li><li>Hacker News Front Page <span class="cnt">20</span></li><li>Simon Willison <span class="cnt">30</span></li><li>Import AI <span class="cnt">20</span></li><li>arXiv cs.AI <span class="cnt">0</span></li><li>Interconnects AI <span class="cnt">20</span></li><li>SemiAnalysis <span class="cnt">10</span></li><li>Latent.Space <span class="cnt">20</span></li><li>The Pragmatic Engineer <span class="cnt">20</span></li><li>One Useful Thing <span class="cnt">20</span></li><li>Ahead of AI <span class="cnt">20</span></li><li>Hugging Face - Blog <span class="cnt">829</span></li><li>Andrej Karpathy blog <span class="cnt">10</span></li><li>X · @karpathy <span class="cnt">20</span></li><li>X · @DrJimFan <span class="cnt">18</span></li><li>X · @ylecun <span class="cnt">20</span></li></ul>
+</section>
+<footer>Curated weekly from your feeds — one Claude call, everything else local and free.</footer>
+</body>
+</html>
