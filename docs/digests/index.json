@@ -2,8 +2,16 @@
   "title": "Sift",
   "tagline": "A weekly dispatch of AI signal \u2014 curated for one reader",
   "feeds_scanned": 20,
-  "latest": "2026-29",
+  "latest": "2026-30",
   "digests": [
+    {
+      "week": "2026-30",
+      "range": "Jul 20\u201326, 2026",
+      "stories": 10,
+      "cost_usd": 0.2177,
+      "html": "2026-30.html",
+      "json": "2026-30.json"
+    },
     {
       "week": "2026-29",
       "range": "Jul 13\u201319, 2026",
