@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — Week 2026-33</title>
+<meta name="description" content="Google DeepMind releases Gemini 3.7 Flash">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4542e'/%3E%3Ctext x='16' y='23.5' font-family='Georgia,serif' font-size='23' font-weight='bold' fill='%23fdfdfb' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sift">
+<meta property="og:title" content="Sift — Week 2026-33">
+<meta property="og:description" content="Google DeepMind releases Gemini 3.7 Flash">
+<meta property="og:url" content="https://abhijitbansal.github.io/sift/digests/2026-33.html">
+<meta property="og:image" content="https://abhijitbansal.github.io/sift/digests/2026-33.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sift digest cover — Week 2026-33">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sift — Week 2026-33">
+<meta name="twitter:description" content="Google DeepMind releases Gemini 3.7 Flash">
+<meta name="twitter:image" content="https://abhijitbansal.github.io/sift/digests/2026-33.png">
+<style>
+:root { color-scheme: light dark;
+  --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
+  --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
+  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
+  --cat-business:#15803d; --live:#15803d; }
+/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
+    --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
+    --cat-models:#8b84f0; --cat-tooling:#2dd4bf; --cat-infra:#f59e0b; --cat-policy:#fb7185;
+    --cat-business:#4ade80; --live:#4ade80; } }
+[data-cat=models_research]{--c:var(--cat-models);} [data-cat=tooling]{--c:var(--cat-tooling);}
+[data-cat=infra]{--c:var(--cat-infra);} [data-cat=policy]{--c:var(--cat-policy);}
+[data-cat=business]{--c:var(--cat-business);}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:46rem; padding:2.2rem 1.25rem 0; background:var(--bg); color:var(--text);
+  font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
+.mono { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+a { color:var(--accent); text-underline-offset:2px; }
+.backlink { font:.78rem/1 ui-monospace,Menlo,monospace; margin:0 0 1.4rem; }
+.backlink a { color:var(--muted); text-decoration:none; } .backlink a:hover { color:var(--accent); }
+header.top { border-bottom:2px solid var(--text); padding-bottom:1rem; margin-bottom:1.3rem; }
+.brand { font-family:Georgia,"Times New Roman",serif; font-weight:bold; font-size:2.4rem;
+  letter-spacing:-.02em; line-height:1; margin:0; }
+.brand .dot { color:var(--accent); }
+.issue { font-family:ui-monospace,Menlo,monospace; color:var(--muted); font-size:.82rem;
+  letter-spacing:.02em; margin:.5rem 0 0; }
+.metrics { display:flex; flex-wrap:wrap; gap:.3rem .7rem; margin:.7rem 0 0; font-family:ui-monospace,Menlo,monospace;
+  font-size:.78rem; color:var(--text-2); }
+.metrics b { color:var(--accent); font-weight:700; }
+.glance { background:var(--surface); border:1px solid var(--line); border-radius:11px;
+  padding:1rem 1.1rem; margin:0 0 1.8rem; }
+.glance h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 .7rem; border:0; padding:0; }
+.mixbar { display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--surface-2); }
+.mixbar span { display:block; min-width:2px; }
+.legend { display:flex; flex-wrap:wrap; gap:.3rem .9rem; margin:.65rem 0 0; font-size:.72rem; color:var(--text-2); }
+.legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:.35rem; vertical-align:middle; }
+.spread { margin:.9rem 0 0; }
+.spread .bars { display:flex; align-items:flex-end; gap:3px; height:34px; }
+.spread .bars i { flex:1; background:var(--c,var(--accent)); border-radius:2px 2px 0 0; min-height:3px; opacity:.85; }
+.spread .cap { font:.7rem/1 ui-monospace,Menlo,monospace; color:var(--muted); margin:.4rem 0 0; }
+h2.lane { display:flex; align-items:center; gap:.5rem; font:600 .8rem/1 ui-monospace,Menlo,monospace;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--text-2); margin:2.4rem 0 .2rem;
+  padding:0 0 .4rem; border-bottom:1px solid var(--line); }
+h2.lane i { width:10px; height:10px; border-radius:3px; background:var(--c); }
+article { display:flex; gap:.85rem; padding:1.15rem 0 1.1rem; border-bottom:1px solid var(--line); border-left:3px solid var(--c);
+  padding-left:.9rem; }
+.score { flex:0 0 auto; width:2.1rem; height:2.1rem; border-radius:8px; background:var(--c); color:var(--badge-ink);
+  font-family:ui-monospace,Menlo,monospace; font-weight:700; font-size:1rem; display:flex; align-items:center;
+  justify-content:center; }
+.art-body { flex:1; min-width:0; }
+.rank { font:.68rem/1 ui-monospace,Menlo,monospace; color:var(--muted); }
+article h3 { font-size:1.06rem; line-height:1.3; margin:.15rem 0 .35rem; font-weight:600; }
+article h3 a { color:var(--text); text-decoration:none; } article h3 a:hover { color:var(--accent); }
+.flag { display:inline-block; font:.6rem/1.3 ui-monospace,Menlo,monospace; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--accent); border:1px solid var(--accent); border-radius:4px;
+  padding:.12rem .35rem; margin-left:.45rem; white-space:nowrap; vertical-align:middle; }
+.summary { margin:.25rem 0; color:var(--text-2); }
+.rationale { margin:.35rem 0 .5rem; font-size:.85rem; color:var(--muted); }
+.rationale::before { content:"› "; color:var(--accent); }
+.chips { display:flex; flex-wrap:wrap; gap:.35rem; }
+.chip { display:inline-flex; align-items:center; gap:.35rem; font-size:.74rem; text-decoration:none;
+  color:var(--text-2); background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
+  padding:.15rem .55rem .15rem .2rem; }
+.chip:hover { border-color:var(--accent); color:var(--accent); }
+.chip i { width:1.05rem; height:1.05rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font:700 .62rem/1 ui-monospace,Menlo,monospace; color:#fff; }
+.scanned { margin-top:2.6rem; }
+.scanned h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:.4rem; }
+.scanned-list { list-style:none; padding:0; margin:.7rem 0 0; display:flex; flex-wrap:wrap; gap:.4rem .6rem; }
+.scanned-list li { font:.74rem/1 ui-monospace,Menlo,monospace; color:var(--muted); background:var(--surface);
+  border:1px solid var(--line); border-radius:6px; padding:.28rem .5rem; }
+.cnt { color:var(--text); font-weight:700; } .cnt.dead { color:var(--accent); font-style:italic; font-weight:400; }
+footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--line); color:var(--muted);
+  font-size:.8rem; font-style:italic; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+@media (max-width:480px){ .brand{font-size:2rem;} article{gap:.6rem;} .score{width:1.9rem;height:1.9rem;} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
+</style>
+</head>
+<body>
+<p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
+<header class="top">
+<h1 class="brand">Sift<span class="dot">.</span></h1>
+<p class="issue">Week 2026-33 &middot; Aug 10–16, 2026</p>
+<p class="metrics"><b>10</b> stories &middot; <b>20/20</b> feeds live &middot; <b>$0.25</b> run</p>
+</header>
+<section class="glance" aria-label="Week at a glance">
+<h2>Week at a glance</h2>
+<div class="mixbar" role="img" aria-label="Category mix"><span data-cat="models_research" style="width:60.0%;background:var(--c)" title="Models &amp; Research: 6"></span><span data-cat="tooling" style="width:20.0%;background:var(--c)" title="Tooling: 2"></span><span data-cat="infra" style="width:10.0%;background:var(--c)" title="Infra: 1"></span><span data-cat="business" style="width:10.0%;background:var(--c)" title="Business: 1"></span></div>
+<div class="legend"><span data-cat="models_research"><i style="background:var(--c)"></i>Models &amp; Research 6</span><span data-cat="tooling"><i style="background:var(--c)"></i>Tooling 2</span><span data-cat="infra"><i style="background:var(--c)"></i>Infra 1</span><span data-cat="business"><i style="background:var(--c)"></i>Business 1</span></div>
+<div class="spread"><div class="bars" role="img" aria-label="Score spread"><i data-cat="models_research" style="height:80%"></i><i data-cat="models_research" style="height:80%"></i><i data-cat="models_research" style="height:70%"></i><i data-cat="tooling" style="height:70%"></i><i data-cat="models_research" style="height:60%"></i><i data-cat="tooling" style="height:50%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="infra" style="height:40%"></i><i data-cat="business" style="height:40%"></i></div><p class="cap mono">hi 8 &middot; lo 4 &middot; avg 5.9</p></div>
+</section>
+
+<h2 class="lane" data-cat="models_research"><i></i>Models &amp; Research</h2>
+<article data-cat="models_research">
+<span class="score" title="importance 8/10">8</span>
+<div class="art-body">
+<span class="rank mono">#1</span>
+<h3><a href="https://deepmind.google/blog/introducing-gemini-3-7-flash/">Google DeepMind releases Gemini 3.7 Flash</a></h3>
+<p class="summary">Google DeepMind introduced Gemini 3.7 Flash, adding new capabilities to its fast model tier alongside earlier Flash variants. Same-day plugin support (llm-gemini 0.33) exposed reasoning traces and server-side tools, and analysts framed the release as returning GDM to frontier competitiveness.</p>
+<p class="rationale">Major model release from a frontier lab with same-day tooling support.</p>
+<div class="chips"><a class="chip" href="https://deepmind.google/blog/introducing-gemini-3-7-flash/"><i style="background:hsl(81 50% 33%)">D</i><span>deepmind.google</span></a><a class="chip" href="https://simonwillison.net/2026/Aug/13/llm-gemini/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://www.latent.space/p/ainews-gemini-37-flash-brings-gdm"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 8/10">8</span>
+<div class="art-body">
+<span class="rank mono">#2</span>
+<h3><a href="https://simonwillison.net/2026/Aug/10/introducing-muse-glimmer/">Meta returns to open weights with Muse Glimmer (30B, Apache 2.0)</a></h3>
+<p class="summary">Meta released Muse Glimmer, a 30B dense multimodal model under Apache 2.0 that runs on a single GPU and targets agentic task completion. Independent benchmarks put it at 35 on the Artificial Analysis Intelligence Index with strong tool use but a high hallucination rate, marking Meta&#x27;s first open release since Llama 4.</p>
+<p class="rationale">Significant open-weights release with concrete benchmarks and single-GPU deployment relevance.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/10/introducing-muse-glimmer/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://www.latent.space/p/ainews-muse-glimmer-and-spark-open"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://huggingface.co/blog/muse-glimmer"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://nitter.net/syhw/status/2087175635894473004#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/lulumeservey/status/2086939745708634202#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/AIatMeta/status/2086757850790109574#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a><a class="chip" href="https://nitter.net/ArtificialAnlys/status/2086916150278111551#m"><i style="background:hsl(315 50% 33%)">N</i><span>nitter.net</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<span class="rank mono">#3</span>
+<h3><a href="https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/">Paper: stealing reasoning traces from proprietary LLM APIs</a></h3>
+<p class="summary">A paper shows that encrypted chain-of-thought blocks returned by Anthropic, OpenAI, and Google can be replayed across sessions and into weaker sibling models to recover hidden reasoning in plaintext. The technique combines replay with jailbreaking of the weaker model.</p>
+<p class="rationale">Novel security research affecting all major API providers and agent security.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://www.latent.space/p/ainews-how-to-steal-a-reasoning-trace"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<span class="rank mono">#5</span>
+<h3><a href="https://simonwillison.net/2026/Aug/12/deepseek-v4-pro-0813/">Chinese and open models track the frontier: DeepSeek V4 Pro, GLM-5.3</a><span class="flag">needs verification</span></h3>
+<p class="summary">DeepSeek released V4 Pro 0813 via API with weights later posted to Hugging Face at 1.7T parameters, while analysis argued GLM-5.3 shows Chinese labs keeping pace with the frontier beyond distillation. Hugging Face&#x27;s summer 2026 report surveys the broader open-model landscape.</p>
+<p class="rationale">Frontier open-weight releases with parameter counts, relevant to model landscape.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/12/deepseek-v4-pro-0813/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://www.interconnects.ai/p/glm-53-how-chinese-labs-keep-stride"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a><a class="chip" href="https://huggingface.co/blog/state-of-open-models-summer-2026"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#7</span>
+<h3><a href="https://www.latent.space/p/ainews-spacexai-grok-46-and-grok">Grok 4.6 and Grok Bot enter the AI-teammate/agent category</a><span class="flag">needs verification</span></h3>
+<p class="summary">Latent Space and The Pragmatic Engineer covered SpaceXAI&#x27;s Grok 4.6 and Grok Bot as a significant new entrant in the managed AI-agent/teammate category. Commentary framed Grok Bot as a potential inflection moment for autonomous agents.</p>
+<p class="rationale">New agent-oriented entrant, borderline product but relevant to agentic tooling.</p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-spacexai-grok-46-and-grok"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://newsletter.pragmaticengineer.com/p/the-pulse-metas-self-inflicted-resignation"><i style="background:hsl(69 50% 33%)">N</i><span>newsletter.pragmaticengineer.com</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#8</span>
+<h3><a href="https://huggingface.co/blog/icml-2026-open-reproductions">Reproducing 2,200 ICML papers: lessons in eval reproducibility</a></h3>
+<p class="summary">Hugging Face reported on an effort to reproduce 2,200 papers from ICML and shared findings about what did and did not replicate. The work documents systemic reproducibility challenges in ML research.</p>
+<p class="rationale">Evals/reproducibility data relevant to research rigor interest.</p>
+<div class="chips"><a class="chip" href="https://huggingface.co/blog/icml-2026-open-reproductions"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="tooling"><i></i>Tooling</h2>
+<article data-cat="tooling">
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<span class="rank mono">#4</span>
+<h3><a href="https://simonwillison.net/2026/Aug/8/auto-mode/">Agentic coding harnesses mature: Claude Code auto mode default, multi-agent patterns</a></h3>
+<p class="summary">Anthropic is making auto mode the default in Claude Code across Pro, Max, and Team plans and published research on patterns and problems in emerging multi-agent systems. Separately, Latent Space profiled Flue 2, a React-inspired meta-harness for defining agents through hooks.</p>
+<p class="rationale">Directly on agent harnesses and SDLC automation, the reader&#x27;s stated focus.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/8/auto-mode/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://www.anthropic.com/research/multiagent-systems"><i style="background:hsl(253 50% 33%)">A</i><span>anthropic.com</span></a><a class="chip" href="https://www.latent.space/p/flue-2"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
+</div>
+</article>
+<article data-cat="tooling">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#6</span>
+<h3><a href="https://simonwillison.net/2026/Aug/9/github-models-is-now-retired/">GitHub Models service retired</a></h3>
+<p class="summary">GitHub has completed the retirement of GitHub Models, its unified multi-provider LLM API and playground. Existing GitHub Actions workflows relying on the service now fail.</p>
+<p class="rationale">Dev-tooling infrastructure change affecting CI/LLM workflows.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/9/github-models-is-now-retired/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="infra"><i></i>Infra</h2>
+<article data-cat="infra">
+<span class="score" title="importance 4/10">4</span>
+<div class="art-body">
+<span class="rank mono">#9</span>
+<h3><a href="https://openai.com/index/previewing-ultrafast">OpenAI previews Ultrafast mode: GPT-5.6 Sol at up to 14x speed via Cerebras</a></h3>
+<p class="summary">OpenAI previewed an Ultrafast API tier that runs GPT-5.6 Sol up to 14x faster, delivering up to 750 output tokens per second. The service is powered by Cerebras hardware.</p>
+<p class="rationale">Concrete inference-infra numbers (750 tok/s, Cerebras) matching compute interest.</p>
+<div class="chips"><a class="chip" href="https://openai.com/index/previewing-ultrafast"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="business"><i></i>Business</h2>
+<article data-cat="business">
+<span class="score" title="importance 4/10">4</span>
+<div class="art-body">
+<span class="rank mono">#10</span>
+<h3><a href="https://openai.com/index/how-enterprises-put-ai-to-work">OpenAI enterprise adoption research and agentic deployments (Codex, ChatGPT Work)</a></h3>
+<p class="summary">OpenAI published research on how enterprises adopt agentic AI via ChatGPT and Codex, alongside case studies from RingCentral, Virgin Atlantic, Zapier, and Model ML. The materials describe concrete workflow automation across engineering, finance, marketing, and operations.</p>
+<p class="rationale">Real enterprise deployments and adoption data align directly with reader&#x27;s core interest.</p>
+<div class="chips"><a class="chip" href="https://openai.com/index/how-enterprises-put-ai-to-work"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://openai.com/index/ringcentral"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://openai.com/index/virgin-atlantic/chatgpt-work"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://openai.com/index/zapier"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://openai.com/index/model-ml"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://openai.com/index/building-an-ai-native-finance-function"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a></div>
+</div>
+</article>
+<section class="scanned">
+<h2>Sources scanned &middot; 20/20 live</h2>
+<ul class="scanned-list"><li>Anthropic News <span class="cnt">255</span></li><li>OpenAI News <span class="cnt">1129</span></li><li>Google DeepMind Blog <span class="cnt">100</span></li><li>Google AI Blog <span class="cnt">20</span></li><li>Meta Engineering (AI Research) <span class="cnt">9</span></li><li>Hacker News Front Page <span class="cnt">20</span></li><li>Simon Willison <span class="cnt">30</span></li><li>Import AI <span class="cnt">20</span></li><li>arXiv cs.AI <span class="cnt">0</span></li><li>Interconnects AI <span class="cnt">20</span></li><li>SemiAnalysis <span class="cnt">10</span></li><li>Latent.Space <span class="cnt">20</span></li><li>The Pragmatic Engineer <span class="cnt">20</span></li><li>One Useful Thing <span class="cnt">20</span></li><li>Ahead of AI <span class="cnt">20</span></li><li>Hugging Face - Blog <span class="cnt">842</span></li><li>Andrej Karpathy blog <span class="cnt">10</span></li><li>X · @karpathy <span class="cnt">20</span></li><li>X · @DrJimFan <span class="cnt">21</span></li><li>X · @ylecun <span class="cnt">20</span></li></ul>
+</section>
+<footer>Curated weekly from your feeds — one Claude call, everything else local and free.</footer>
+</body>
+</html>
