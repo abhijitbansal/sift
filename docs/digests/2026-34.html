@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sift — Week 2026-34</title>
+<meta name="description" content="Asana clears 5 years of engineering work in 2 weeks using Codex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4542e'/%3E%3Ctext x='16' y='23.5' font-family='Georgia,serif' font-size='23' font-weight='bold' fill='%23fdfdfb' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sift">
+<meta property="og:title" content="Sift — Week 2026-34">
+<meta property="og:description" content="Asana clears 5 years of engineering work in 2 weeks using Codex">
+<meta property="og:url" content="https://abhijitbansal.github.io/sift/digests/2026-34.html">
+<meta property="og:image" content="https://abhijitbansal.github.io/sift/digests/2026-34.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sift digest cover — Week 2026-34">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sift — Week 2026-34">
+<meta name="twitter:description" content="Asana clears 5 years of engineering work in 2 weeks using Codex">
+<meta name="twitter:image" content="https://abhijitbansal.github.io/sift/digests/2026-34.png">
+<style>
+:root { color-scheme: light dark;
+  --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
+  --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
+  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
+  --cat-business:#15803d; --live:#15803d; }
+/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
+    --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
+    --cat-models:#8b84f0; --cat-tooling:#2dd4bf; --cat-infra:#f59e0b; --cat-policy:#fb7185;
+    --cat-business:#4ade80; --live:#4ade80; } }
+[data-cat=models_research]{--c:var(--cat-models);} [data-cat=tooling]{--c:var(--cat-tooling);}
+[data-cat=infra]{--c:var(--cat-infra);} [data-cat=policy]{--c:var(--cat-policy);}
+[data-cat=business]{--c:var(--cat-business);}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:46rem; padding:2.2rem 1.25rem 0; background:var(--bg); color:var(--text);
+  font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
+.mono { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+a { color:var(--accent); text-underline-offset:2px; }
+.backlink { font:.78rem/1 ui-monospace,Menlo,monospace; margin:0 0 1.4rem; }
+.backlink a { color:var(--muted); text-decoration:none; } .backlink a:hover { color:var(--accent); }
+header.top { border-bottom:2px solid var(--text); padding-bottom:1rem; margin-bottom:1.3rem; }
+.brand { font-family:Georgia,"Times New Roman",serif; font-weight:bold; font-size:2.4rem;
+  letter-spacing:-.02em; line-height:1; margin:0; }
+.brand .dot { color:var(--accent); }
+.issue { font-family:ui-monospace,Menlo,monospace; color:var(--muted); font-size:.82rem;
+  letter-spacing:.02em; margin:.5rem 0 0; }
+.metrics { display:flex; flex-wrap:wrap; gap:.3rem .7rem; margin:.7rem 0 0; font-family:ui-monospace,Menlo,monospace;
+  font-size:.78rem; color:var(--text-2); }
+.metrics b { color:var(--accent); font-weight:700; }
+.glance { background:var(--surface); border:1px solid var(--line); border-radius:11px;
+  padding:1rem 1.1rem; margin:0 0 1.8rem; }
+.glance h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 .7rem; border:0; padding:0; }
+.mixbar { display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--surface-2); }
+.mixbar span { display:block; min-width:2px; }
+.legend { display:flex; flex-wrap:wrap; gap:.3rem .9rem; margin:.65rem 0 0; font-size:.72rem; color:var(--text-2); }
+.legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:.35rem; vertical-align:middle; }
+.spread { margin:.9rem 0 0; }
+.spread .bars { display:flex; align-items:flex-end; gap:3px; height:34px; }
+.spread .bars i { flex:1; background:var(--c,var(--accent)); border-radius:2px 2px 0 0; min-height:3px; opacity:.85; }
+.spread .cap { font:.7rem/1 ui-monospace,Menlo,monospace; color:var(--muted); margin:.4rem 0 0; }
+h2.lane { display:flex; align-items:center; gap:.5rem; font:600 .8rem/1 ui-monospace,Menlo,monospace;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--text-2); margin:2.4rem 0 .2rem;
+  padding:0 0 .4rem; border-bottom:1px solid var(--line); }
+h2.lane i { width:10px; height:10px; border-radius:3px; background:var(--c); }
+article { display:flex; gap:.85rem; padding:1.15rem 0 1.1rem; border-bottom:1px solid var(--line); border-left:3px solid var(--c);
+  padding-left:.9rem; }
+.score { flex:0 0 auto; width:2.1rem; height:2.1rem; border-radius:8px; background:var(--c); color:var(--badge-ink);
+  font-family:ui-monospace,Menlo,monospace; font-weight:700; font-size:1rem; display:flex; align-items:center;
+  justify-content:center; }
+.art-body { flex:1; min-width:0; }
+.rank { font:.68rem/1 ui-monospace,Menlo,monospace; color:var(--muted); }
+article h3 { font-size:1.06rem; line-height:1.3; margin:.15rem 0 .35rem; font-weight:600; }
+article h3 a { color:var(--text); text-decoration:none; } article h3 a:hover { color:var(--accent); }
+.flag { display:inline-block; font:.6rem/1.3 ui-monospace,Menlo,monospace; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--accent); border:1px solid var(--accent); border-radius:4px;
+  padding:.12rem .35rem; margin-left:.45rem; white-space:nowrap; vertical-align:middle; }
+.summary { margin:.25rem 0; color:var(--text-2); }
+.rationale { margin:.35rem 0 .5rem; font-size:.85rem; color:var(--muted); }
+.rationale::before { content:"› "; color:var(--accent); }
+.chips { display:flex; flex-wrap:wrap; gap:.35rem; }
+.chip { display:inline-flex; align-items:center; gap:.35rem; font-size:.74rem; text-decoration:none;
+  color:var(--text-2); background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
+  padding:.15rem .55rem .15rem .2rem; }
+.chip:hover { border-color:var(--accent); color:var(--accent); }
+.chip i { width:1.05rem; height:1.05rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font:700 .62rem/1 ui-monospace,Menlo,monospace; color:#fff; }
+.scanned { margin-top:2.6rem; }
+.scanned h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:.4rem; }
+.scanned-list { list-style:none; padding:0; margin:.7rem 0 0; display:flex; flex-wrap:wrap; gap:.4rem .6rem; }
+.scanned-list li { font:.74rem/1 ui-monospace,Menlo,monospace; color:var(--muted); background:var(--surface);
+  border:1px solid var(--line); border-radius:6px; padding:.28rem .5rem; }
+.cnt { color:var(--text); font-weight:700; } .cnt.dead { color:var(--accent); font-style:italic; font-weight:400; }
+footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--line); color:var(--muted);
+  font-size:.8rem; font-style:italic; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+@media (max-width:480px){ .brand{font-size:2rem;} article{gap:.6rem;} .score{width:1.9rem;height:1.9rem;} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
+</style>
+</head>
+<body>
+<p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
+<header class="top">
+<h1 class="brand">Sift<span class="dot">.</span></h1>
+<p class="issue">Week 2026-34 &middot; Aug 17–23, 2026</p>
+<p class="metrics"><b>10</b> stories &middot; <b>17/20</b> feeds live &middot; <b>$0.18</b> run</p>
+</header>
+<section class="glance" aria-label="Week at a glance">
+<h2>Week at a glance</h2>
+<div class="mixbar" role="img" aria-label="Category mix"><span data-cat="models_research" style="width:30.0%;background:var(--c)" title="Models &amp; Research: 3"></span><span data-cat="tooling" style="width:30.0%;background:var(--c)" title="Tooling: 3"></span><span data-cat="infra" style="width:20.0%;background:var(--c)" title="Infra: 2"></span><span data-cat="business" style="width:20.0%;background:var(--c)" title="Business: 2"></span></div>
+<div class="legend"><span data-cat="models_research"><i style="background:var(--c)"></i>Models &amp; Research 3</span><span data-cat="tooling"><i style="background:var(--c)"></i>Tooling 3</span><span data-cat="infra"><i style="background:var(--c)"></i>Infra 2</span><span data-cat="business"><i style="background:var(--c)"></i>Business 2</span></div>
+<div class="spread"><div class="bars" role="img" aria-label="Score spread"><i data-cat="tooling" style="height:90%"></i><i data-cat="infra" style="height:70%"></i><i data-cat="models_research" style="height:70%"></i><i data-cat="tooling" style="height:70%"></i><i data-cat="business" style="height:60%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="tooling" style="height:50%"></i><i data-cat="infra" style="height:50%"></i><i data-cat="business" style="height:40%"></i></div><p class="cap mono">hi 9 &middot; lo 4 &middot; avg 6.0</p></div>
+</section>
+
+<h2 class="lane" data-cat="models_research"><i></i>Models &amp; Research</h2>
+<article data-cat="models_research">
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<span class="rank mono">#3</span>
+<h3><a href="https://simonwillison.net/2026/Aug/17/qwen-38-27b-scores-52/">Qwen 3.8 27B matches much larger models on intelligence benchmarks</a></h3>
+<p class="summary">Qwen 3.8 27B, an Apache 2 licensed vision-capable model from Alibaba, scored 52 on the Artificial Analysis Intelligence Index, matching GPT-5.6 Luna and trailing far larger models by one point. Simon Willison notes it is excellent but tends to overthink by default.</p>
+<p class="rationale">Notable capability-per-parameter result relevant to open-weight local deployment.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/17/qwen-38-27b-scores-52/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://simonwillison.net/2026/Aug/16/qwen-38-27b/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#6</span>
+<h3><a href="https://www.latent.space/p/ainews-death-of-params-zai-ceo-jie">Z.ai CEO on GLM-5.3 and a post-training scaling law</a><span class="flag">needs verification</span></h3>
+<p class="summary">Latent.Space covers Z.ai CEO Jie Tang discussing GLM-5.3 and what he frames as a new post-training scaling law beyond parameter count. The discussion touches on shifting emphasis from model size to post-training.</p>
+<p class="rationale">Model-release and scaling-research signal, but via newsletter interview.</p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-death-of-params-zai-ceo-jie"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
+</div>
+</article>
+<article data-cat="models_research">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#7</span>
+<h3><a href="https://www.latent.space/p/ainews-10-worse-100x-cheaper-10000x">Simulation and autonomous AI researchers as an emerging frontier</a><span class="flag">needs verification</span></h3>
+<p class="summary">Latent.Space and Import AI cover a wave of interest in simulation as a scaling approach and in autonomous AI researchers, including Simile AI&#x27;s plan to build billions of human digital twins. The pieces frame simulation and recursive self-improvement as the next research frontier.</p>
+<p class="rationale">Interesting research direction but speculative and secondary-sourced.</p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-10-worse-100x-cheaper-10000x"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/simile"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://importai.substack.com/p/import-ai-469-science-ai-rsi-simulator"><i style="background:hsl(344 50% 33%)">I</i><span>importai.substack.com</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="tooling"><i></i>Tooling</h2>
+<article data-cat="tooling">
+<span class="score" title="importance 9/10">9</span>
+<div class="art-body">
+<span class="rank mono">#1</span>
+<h3><a href="https://openai.com/index/asana">Asana clears 5 years of engineering work in 2 weeks using Codex</a></h3>
+<p class="summary">Asana used OpenAI Codex to replace an outdated testing framework in two weeks, work it estimated would have taken five years, for roughly $12K. The Pragmatic Engineer places this in a broader trend of AI-driven migrations across engineering organizations.</p>
+<p class="rationale">Concrete enterprise coding-agent deployment with hard numbers, corroborated by independent analysis.</p>
+<div class="chips"><a class="chip" href="https://openai.com/index/asana"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://newsletter.pragmaticengineer.com/p/the-pulse-we-need-to-talk-about-migrations"><i style="background:hsl(69 50% 33%)">N</i><span>newsletter.pragmaticengineer.com</span></a></div>
+</div>
+</article>
+<article data-cat="tooling">
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<span class="rank mono">#4</span>
+<h3><a href="https://www.latent.space/p/attention-interface">Agent harnesses, coding-agent workflows, and verification practices</a><span class="flag">needs verification</span></h3>
+<p class="summary">Latent.Space examines how agent harnesses are being absorbed into model weights, while Simon Willison and Matt Pocock discuss verification-over-line-review practices and planning skills for coding agents. Together they map evolving best practices for agentic software development.</p>
+<p class="rationale">Core agentic-SDLC content matching reader&#x27;s stated focus; practitioner analysis.</p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/attention-interface"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/wayfinder-skill"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://simonwillison.net/2026/Aug/22/more-than-just-code-review/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://simonwillison.net/2026/Aug/19/conceptual-integrity-and-counting-lines-of-code/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+</div>
+</article>
+<article data-cat="tooling">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#8</span>
+<h3><a href="https://simonwillison.net/2026/Aug/18/mojo-is-now-open-source/">Mojo programming language is now open source</a></h3>
+<p class="summary">The Mojo language released its compiler and toolchain under an Apache 2 license, following its 1.0 release. The move fulfills an open-source promise made in 2023, though Mojo&#x27;s Python-superset goals have since shifted.</p>
+<p class="rationale">Relevant systems/AI tooling release with concrete licensing detail.</p>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/18/mojo-is-now-open-source/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="infra"><i></i>Infra</h2>
+<article data-cat="infra">
+<span class="score" title="importance 7/10">7</span>
+<div class="art-body">
+<span class="rank mono">#2</span>
+<h3><a href="https://www.latent.space/p/ainews-memory-prices-up-500-in-12">Memory prices reportedly up 500% in 12 months</a><span class="flag">needs verification</span></h3>
+<p class="summary">Latent.Space reports memory prices have risen roughly 500% over the past year, describing it as Moore&#x27;s Law effectively reversed to 2007 levels. The trend has significant implications for AI datacenter and hardware costs.</p>
+<p class="rationale">Directly relevant to AI hardware economics and compute costs; needs primary verification.</p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-memory-prices-up-500-in-12"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a></div>
+</div>
+</article>
+<article data-cat="infra">
+<span class="score" title="importance 5/10">5</span>
+<div class="art-body">
+<span class="rank mono">#9</span>
+<h3><a href="https://huggingface.co/blog/LiquidAI/lfm25-dspark">Hugging Face engineering: inference speedups, agent memory, and GPU utilization</a></h3>
+<p class="summary">Hugging Face posts cover up to 3.2x faster LFM2.5-DSpark inference, agent memory requirements, a 33-point GPU utilization gain from reordering work, multi-vector embeddings, and ASR benchmark optimization. The collection focuses on efficiency and evaluation for real deployments.</p>
+<p class="rationale">Practical infra/efficiency techniques with numbers, relevant to deployment costs.</p>
+<div class="chips"><a class="chip" href="https://huggingface.co/blog/LiquidAI/lfm25-dspark"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/ibm-research/altk-evolve-hmm"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/Dharma-AI/gpu-management-pt2"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/multi-vector-encoder"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/asr-benchmark-optimization"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
+</div>
+</article>
+<h2 class="lane" data-cat="business"><i></i>Business</h2>
+<article data-cat="business">
+<span class="score" title="importance 6/10">6</span>
+<div class="art-body">
+<span class="rank mono">#5</span>
+<h3><a href="https://www.latent.space/p/ainews-poolside-gets-12b-reverse">AI infra dealmaking: Poolside $12B reverse-execuhire to NVIDIA, Stripe buys OpenRouter</a><span class="flag">needs verification</span></h3>
+<p class="summary">Latent.Space reports NVIDIA&#x27;s $12B reverse-execuhire of Poolside with a 7GW neocloud buildout, and Stripe&#x27;s reported $7B acquisition of OpenRouter, alongside NVIDIA pushing customers to build their own models. These reflect consolidation and vertical integration across AI compute, routing, and distribution.</p>
+<p class="rationale">Major infra/business moves reshaping the model and routing landscape, but secondary newsletter sourcing.</p>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-poolside-gets-12b-reverse"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/ainews-stripe-buys-openrouter-for"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/glean-model-routing"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.interconnects.ai/p/teaching-everyone-to-fish-for-tokens"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a></div>
+</div>
+</article>
+<article data-cat="business">
+<span class="score" title="importance 4/10">4</span>
+<div class="art-body">
+<span class="rank mono">#10</span>
+<h3><a href="https://openai.com/index/stampli">Enterprises report large productivity gains from ChatGPT Work (Stampli, NVIDIA)</a></h3>
+<p class="summary">Stampli reported cutting launch production hours by 68% using Codex and ChatGPT Work, while NVIDIA teams described scaling workflows and reducing manual tasks. Both are OpenAI-published customer case studies.</p>
+<p class="rationale">Real enterprise adoption stories with numbers, but vendor-authored case studies.</p>
+<div class="chips"><a class="chip" href="https://openai.com/index/stampli"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://openai.com/index/nvidia/chatgpt-work"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a></div>
+</div>
+</article>
+<section class="scanned">
+<h2>Sources scanned &middot; 17/20 live</h2>
+<ul class="scanned-list"><li>Anthropic News <span class="cnt">255</span></li><li>OpenAI News <span class="cnt">1143</span></li><li>Google DeepMind Blog <span class="cnt">100</span></li><li>Google AI Blog <span class="cnt">20</span></li><li>Meta Engineering (AI Research) <span class="cnt">9</span></li><li>Hacker News Front Page <span class="cnt">20</span></li><li>Simon Willison <span class="cnt">30</span></li><li>Import AI <span class="cnt">20</span></li><li>arXiv cs.AI <span class="cnt">0</span></li><li>Interconnects AI <span class="cnt">20</span></li><li>SemiAnalysis <span class="cnt">10</span></li><li>Latent.Space <span class="cnt">20</span></li><li>The Pragmatic Engineer <span class="cnt">20</span></li><li>One Useful Thing <span class="cnt">20</span></li><li>Ahead of AI <span class="cnt">20</span></li><li>Hugging Face - Blog <span class="cnt">846</span></li><li>Andrej Karpathy blog <span class="cnt">10</span></li><li>X · @karpathy <span class="cnt dead">dead</span></li><li>X · @DrJimFan <span class="cnt dead">dead</span></li><li>X · @ylecun <span class="cnt dead">dead</span></li></ul>
+</section>
+<footer>Curated weekly from your feeds — one Claude call, everything else local and free.</footer>
+</body>
+</html>
