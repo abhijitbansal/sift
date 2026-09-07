@@ -19,6 +19,14 @@
 <meta name="twitter:title" content="Sift — Week 2026-29">
 <meta name="twitter:description" content="Moonshot AI releases Kimi K3, a 2.8T-parameter open-weight model claiming frontier coding performance">
 <meta name="twitter:image" content="https://abhijitbansal.github.io/sift/digests/2026-29.png">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('sift-theme');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+})();
+</script>
 <style>
 :root {
   color-scheme: dark;
@@ -105,32 +113,33 @@
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 /* The light palette is derived from the dark one, so the two never
-   drift apart; see sift.theme.light_palette. */
+   drift apart; see sift.theme.light_palette. The system preference is
+   scoped away from an explicit dark choice. */
 @media (prefers-color-scheme: light) {
-  :root {
-  color-scheme: light;
-  --bg: #f4f4f5;
-  --bg-2: #ededee;
-  --bg-3: #e4e3e5;
-  --text: #0c0614;
-  --text-2: #5f5868;
-  --muted: #554c65;
-  --glass: #10081a;
-  --accent: #bf3b68;
-  --accent-hi: #992f53;
-  --accent-deep: #802846;
-  --accent-ink: #ffffff;
-  --slab: #d0ced2;
-  --slab-paid: #ffdfea;
-  --live: #297a46;
-  --badge-tint: #0d0715;
-  --glass-rgb: 16,8,26;
-  --accent-rgb: 191,59,104;
-  --cat-models-research: #6863b4;
-  --cat-tooling: #197569;
-  --cat-infra: #8a6914;
-  --cat-policy: #865cb0;
-  --cat-business: #297a46;
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #f4f4f5;
+    --bg-2: #ededee;
+    --bg-3: #e4e3e5;
+    --text: #0c0614;
+    --text-2: #5f5868;
+    --muted: #554c65;
+    --glass: #10081a;
+    --accent: #bf3b68;
+    --accent-hi: #992f53;
+    --accent-deep: #802846;
+    --accent-ink: #ffffff;
+    --slab: #d0ced2;
+    --slab-paid: #ffdfea;
+    --live: #297a46;
+    --badge-tint: #0d0715;
+    --glass-rgb: 16,8,26;
+    --accent-rgb: 191,59,104;
+    --cat-models-research: #6863b4;
+    --cat-tooling: #197569;
+    --cat-infra: #8a6914;
+    --cat-policy: #865cb0;
+    --cat-business: #297a46;
     --iso-glass-rgb: 16,8,26;
     --iso-accent-top: #cd6484;
     --iso-accent-left: #9d3055;
@@ -184,6 +193,84 @@
     --iso-cat-business-left: #226439;
     --iso-cat-business-right: #184729;
   }
+}
+/* An explicit choice wins over the system, whichever way it points. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f4f5;
+  --bg-2: #ededee;
+  --bg-3: #e4e3e5;
+  --text: #0c0614;
+  --text-2: #5f5868;
+  --muted: #554c65;
+  --glass: #10081a;
+  --accent: #bf3b68;
+  --accent-hi: #992f53;
+  --accent-deep: #802846;
+  --accent-ink: #ffffff;
+  --slab: #d0ced2;
+  --slab-paid: #ffdfea;
+  --live: #297a46;
+  --badge-tint: #0d0715;
+  --glass-rgb: 16,8,26;
+  --accent-rgb: 191,59,104;
+  --cat-models-research: #6863b4;
+  --cat-tooling: #197569;
+  --cat-infra: #8a6914;
+  --cat-policy: #865cb0;
+  --cat-business: #297a46;
+  --iso-glass-rgb: 16,8,26;
+  --iso-accent-top: #cd6484;
+  --iso-accent-left: #9d3055;
+  --iso-accent-right: #6f223c;
+  --iso-accent-hi-top: #af5a73;
+  --iso-accent-hi-left: #7d2744;
+  --iso-accent-hi-right: #591b30;
+  --iso-accent-deep-top: #9c5569;
+  --iso-accent-deep-left: #692139;
+  --iso-accent-deep-right: #4a1729;
+  --iso-ink-top: #fffdfa;
+  --iso-ink-left: #d1d1d1;
+  --iso-ink-right: #949494;
+  --iso-text-top: #413a42;
+  --iso-text-left: #0a0510;
+  --iso-text-right: #07030c;
+  --iso-slab-top: #dad6d6;
+  --iso-slab-left: #aba9ac;
+  --iso-slab-right: #79777a;
+  --iso-slab-paid-top: #ffe4e9;
+  --iso-slab-paid-left: #d1b7c0;
+  --iso-slab-paid-right: #948188;
+  --iso-noise-0-top: #c0bac1;
+  --iso-noise-0-left: #8f8b95;
+  --iso-noise-0-right: #65626a;
+  --iso-noise-1-top: #c4bdc5;
+  --iso-noise-1-left: #938e9a;
+  --iso-noise-1-right: #68646d;
+  --iso-noise-2-top: #c8c0ca;
+  --iso-noise-2-left: #97919f;
+  --iso-noise-2-right: #6b6771;
+  --iso-noise-3-top: #beb8bd;
+  --iso-noise-3-left: #8d8992;
+  --iso-noise-3-right: #646167;
+  --iso-noise-4-top: #cbc3cf;
+  --iso-noise-4-left: #9a94a4;
+  --iso-noise-4-right: #6d6974;
+  --iso-cat-models-research-top: #8983bf;
+  --iso-cat-models-research-left: #555194;
+  --iso-cat-models-research-right: #3c3968;
+  --iso-cat-tooling-top: #4c9184;
+  --iso-cat-tooling-left: #146056;
+  --iso-cat-tooling-right: #0e443d;
+  --iso-cat-infra-top: #a48842;
+  --iso-cat-infra-left: #715610;
+  --iso-cat-infra-right: #503d0c;
+  --iso-cat-policy-top: #a17dbc;
+  --iso-cat-policy-left: #6e4b90;
+  --iso-cat-policy-right: #4e3566;
+  --iso-cat-business-top: #589569;
+  --iso-cat-business-left: #226439;
+  --iso-cat-business-right: #184729;
 }
 [data-cat=models_research] { --c: var(--cat-models-research); }
 [data-cat=tooling] { --c: var(--cat-tooling); }

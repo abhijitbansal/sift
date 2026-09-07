@@ -31,6 +31,21 @@ CATEGORY_LABELS = theme.CATEGORY_LABELS
 # than linking the site stylesheet.
 _PALETTE = theme.palette()
 
+# The digest carries no visible theme control — it is also read in email, where
+# a dead set of buttons would be worse than none. It does honour a choice made
+# on the site, so clicking through from the archive keeps the reader's theme.
+# The whole thing is inline and never touches the network; an email client that
+# strips scripts simply falls back to the system preference.
+_THEME_BOOTSTRAP = """<script>
+(function () {
+  try {
+    var t = localStorage.getItem('sift-theme');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+})();
+</script>"""
+
+
 def _favicon_data_uri() -> str:
     """The mark as an inline data: URI — the digest may be read offline or in an
     email client, so it must not reference an external icon."""
@@ -160,6 +175,7 @@ _PAGE = """<!DOCTYPE html>
 <meta name="description" content="{desc}">
 <link rel="icon" href="{favicon}" type="image/svg+xml">
 {og}
+{theme_bootstrap}
 <style>{style}</style>
 </head>
 <body>
@@ -246,6 +262,7 @@ def render_html(
             image_alt=f"Sift digest cover — Week {week}",
         ),
         style=_style(),
+        theme_bootstrap=_THEME_BOOTSTRAP,
         mark=iso.mark(_PALETTE, size=54),
         range_sep=" &middot; " if week_range(week) else "",
         range=escape(week_range(week)),

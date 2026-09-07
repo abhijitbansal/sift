@@ -420,7 +420,7 @@ def test_header_and_footer_links_meet_the_44px_touch_target(tmp_path):
 
     css = (tmp_path / "docs" / "assets" / "sift.css").read_text(encoding="utf-8")
     for selector in (".brand {", ".masthead nav a {", ".footer-links a {", ".btn {",
-                     ".skip {", ".latest .val a {"):
+                     ".skip {", ".latest .val a {", ".theme-toggle button {"):
         rule = css[css.index(selector) : css.index("}", css.index(selector))]
         assert "44px" in rule, f"{selector} has no 44px touch target"
 
@@ -524,3 +524,46 @@ def test_every_iso_variable_used_in_a_page_is_defined_in_the_css(tmp_path):
     assert used, "no isometric variables found on the pages"
     for name in sorted(used):
         assert f"{name}:" in css, f"{name} is referenced but never defined"
+
+
+def test_pages_carry_a_theme_toggle(tmp_path):
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    for choice in ("system", "light", "dark"):
+        assert f'data-theme-choice="{choice}"' in page
+    assert 'aria-label="Color theme"' in page
+
+
+def test_the_stored_theme_is_applied_before_first_paint(tmp_path):
+    """The bootstrap has to run in <head>, or a stored light choice flashes the
+    dark theme on every navigation."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert page.index("sift-theme") < page.index("<body>")
+
+
+def test_theme_storage_failures_are_survivable(tmp_path):
+    """Storage throws outright in some privacy modes; the page must still load."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    bootstrap = page[page.index("sift-theme") - 300 : page.index("<body>")]
+    assert "try {" in bootstrap and "catch" in bootstrap
+
+
+def test_the_toggle_buttons_are_real_buttons(tmp_path):
+    """A div with a click handler is not reachable by keyboard."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert '<button type="button" data-theme-choice="system"' in page

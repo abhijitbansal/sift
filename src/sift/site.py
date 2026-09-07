@@ -355,6 +355,82 @@ def _next_issue_label(latest_week: str, today: date) -> str:
     return f"{nxt:%A, %b} {nxt.day}, {nxt.year}"
 
 
+# Applied before first paint so a stored choice never flashes the wrong theme.
+# Wrapped in try/catch because storage throws outright in some privacy modes.
+THEME_BOOTSTRAP = """<script>
+(function () {
+  try {
+    var t = localStorage.getItem('sift-theme');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+})();
+</script>"""
+
+_THEME_ICONS = {
+    "system": (
+        '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" '
+        'aria-hidden="true"><rect x="2.5" y="4" width="15" height="10" rx="1.6"></rect>'
+        '<path d="M7 17h6" stroke-linecap="round"></path></svg>'
+    ),
+    "light": (
+        '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" '
+        'aria-hidden="true"><circle cx="10" cy="10" r="3.6"></circle>'
+        '<path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.6 4.6l1.4 1.4M14 14l1.4 1.4'
+        'M15.4 4.6L14 6M6 14l-1.4 1.4" stroke-linecap="round"></path></svg>'
+    ),
+    "dark": (
+        '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" '
+        'aria-hidden="true"><path d="M16 11.7A6.5 6.5 0 1 1 8.3 4a5.2 5.2 0 0 0 7.7 7.7z" '
+        'stroke-linejoin="round"></path></svg>'
+    ),
+}
+
+THEME_TOGGLE = (
+    '<div class="theme-toggle" role="group" aria-label="Color theme">'
+    + "".join(
+        f'<button type="button" data-theme-choice="{choice}" '
+        f'title="{label}" aria-label="{label}">{_THEME_ICONS[choice]}</button>'
+        for choice, label in (
+            ("system", "Match system theme"),
+            ("light", "Light theme"),
+            ("dark", "Dark theme"),
+        )
+    )
+    + "</div>"
+)
+
+THEME_JS = """<script>
+(function () {
+  var root = document.documentElement;
+  var buttons = [].slice.call(document.querySelectorAll('[data-theme-choice]'));
+  if (!buttons.length) return;
+  function current() {
+    try { return localStorage.getItem('sift-theme') || 'system'; } catch (e) { return 'system'; }
+  }
+  function paint() {
+    var choice = current();
+    buttons.forEach(function (b) {
+      var on = b.getAttribute('data-theme-choice') === choice;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var choice = b.getAttribute('data-theme-choice');
+      try {
+        if (choice === 'system') localStorage.removeItem('sift-theme');
+        else localStorage.setItem('sift-theme', choice);
+      } catch (e) {}
+      if (choice === 'system') delete root.dataset.theme;
+      else root.dataset.theme = choice;
+      paint();
+    });
+  });
+  paint();
+})();
+</script>"""
+
+
 ARROW_SVG = (
     '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -556,6 +632,9 @@ def _wrap(
         apple=f"{prefix}assets/apple-touch-icon.png",
         manifest=f"{prefix}site.webmanifest",
         theme_color=_PALETTE.accent,
+        theme_bootstrap=THEME_BOOTSTRAP,
+        theme_toggle=THEME_TOGGLE,
+        theme_js=THEME_JS,
         fonts=theme.GOOGLE_FONTS_HREF,
         brand=f"{prefix}index.html",
         mark=iso.mark(_PALETTE, size=32),
@@ -579,6 +658,7 @@ _PAGE_TEMPLATE = """<!DOCTYPE html>
 <link rel="manifest" href="{manifest}">
 <meta name="theme-color" content="{theme_color}">
 {og}
+{theme_bootstrap}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{fonts}" rel="stylesheet">
@@ -591,7 +671,7 @@ _PAGE_TEMPLATE = """<!DOCTYPE html>
 <div class="masthead-inner">
 <a class="brand" href="{brand}">{mark}<span>Sift<b>.</b></span></a>
 <nav aria-label="Primary">{nav}</nav>
-{cta}
+<div class="masthead-actions">{theme_toggle}{cta}</div>
 </div>
 </header>
 <main id="main">
@@ -604,6 +684,7 @@ per week; everything else local and free.</p>
 <div class="footer-links">{footer_nav}</div>
 </div>
 </footer>
+{theme_js}
 </body>
 </html>
 """
@@ -695,6 +776,17 @@ img, svg {{ max-width: 100%; }}
   transition: color .15s, border-color .15s; }}
 .masthead nav a:hover {{ color: var(--text); }}
 .masthead nav a.active {{ color: var(--text); border-bottom-color: var(--accent); }}
+
+.masthead-actions {{ display: flex; align-items: center; gap: .8rem; }}
+.theme-toggle {{ display: inline-flex; align-items: center; gap: 2px; padding: 3px;
+  border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }}
+.theme-toggle button {{ display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; padding: 0; border: 0; border-radius: 9px; cursor: pointer;
+  background: transparent; color: var(--muted); transition: background .15s, color .15s; }}
+.theme-toggle button svg {{ width: 17px; height: 17px; }}
+.theme-toggle button:hover {{ color: var(--text); }}
+.theme-toggle button[aria-pressed="true"] {{ background: var(--surface-2); color: var(--accent-hi); }}
+.theme-toggle button:focus-visible {{ outline: 2px solid var(--accent); outline-offset: 2px; }}
 
 .btn {{ display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
   min-height: 44px; padding: 0 1.15rem; border-radius: 12px; font-family: var(--body);
@@ -872,6 +964,7 @@ ul.feeds li a:hover {{ color: var(--accent); }}
 }}
 @media (max-width: 40rem) {{
   .masthead-inner, main, .footer-inner {{ padding-left: 1.25rem; padding-right: 1.25rem; }}
+  .masthead-actions {{ order: -1; }}
   .latest {{ grid-template-columns: 1fr; }}
 }}
 @media (prefers-reduced-motion: reduce) {{

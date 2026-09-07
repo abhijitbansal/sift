@@ -225,3 +225,33 @@ def test_iso_face_variables_include_the_glass_tint():
     css = theme.iso_face_variables(theme.palette())
 
     assert "--iso-glass-rgb:" in css
+
+
+# --- explicit theme choice ----------------------------------------------------
+
+
+def test_theme_blocks_let_an_explicit_choice_beat_the_system():
+    """Three blocks, in this order: dark by default, light when the system asks
+    for it *unless* dark was chosen, and light whenever light was chosen."""
+    css = theme.theme_blocks(theme.palette())
+
+    assert css.index(":root {") < css.index("@media (prefers-color-scheme: light)")
+    assert ':root:not([data-theme="dark"])' in css
+    assert ':root[data-theme="light"]' in css
+    # The explicit light block must come last so it wins on equal specificity.
+    assert css.index(':root[data-theme="light"]') > css.index("@media (prefers-color-scheme: light)")
+
+
+def test_an_explicit_dark_choice_survives_a_light_system():
+    css = theme.theme_blocks(theme.palette())
+    guarded = css[css.index("@media (prefers-color-scheme: light)") :]
+
+    # The system-light block is scoped away from an explicit dark choice.
+    assert guarded.index(':root:not([data-theme="dark"])') < guarded.index("--bg:")
+
+
+def test_both_themes_declare_the_same_tokens():
+    css = theme.theme_blocks(theme.palette())
+
+    for token in theme.palette().as_dict():
+        assert css.count(f"--{token}:") >= 3  # dark, system-light, explicit-light

@@ -398,10 +398,16 @@ def iso_face_variables(pal: Palette, *, indent: str = "  ") -> str:
 
 
 def theme_blocks(pal: Palette, *, extra: str = "") -> str:
-    """The complete color layer for a page: the dark palette on ``:root`` and its
-    derived light counterpart behind ``prefers-color-scheme: light``.
+    """The complete color layer for a page, in three blocks.
 
-    Both blocks carry the isometric face variables, which is what lets one
+    1. ``:root`` — the dark palette, the default.
+    2. ``prefers-color-scheme: light``, scoped away from an explicit dark
+       choice, so the system preference applies only when the reader has not
+       overridden it.
+    3. ``:root[data-theme="light"]`` — an explicit choice, last so that it wins
+       on equal specificity whatever the system says.
+
+    Every block carries the isometric face variables, which is what lets one
     generated SVG restyle itself instead of being emitted twice per page.
     ``extra`` holds declarations that belong on ``:root`` but do not change with
     the theme, such as font stacks.
@@ -410,16 +416,26 @@ def theme_blocks(pal: Palette, *, extra: str = "") -> str:
     dark_body = "\n".join(
         [_palette_declarations(pal), iso_face_variables(pal), extra.rstrip()]
     ).rstrip()
-    light_body = "\n".join(
-        [_palette_declarations(light, scheme="light"), iso_face_variables(light, indent="    ")]
-    )
+    light_body = _light_body(light, indent="    ")
     return (
         f":root {{\n{dark_body}\n}}\n"
         "/* The light palette is derived from the dark one, so the two never\n"
-        "   drift apart; see sift.theme.light_palette. */\n"
+        "   drift apart; see sift.theme.light_palette. The system preference is\n"
+        "   scoped away from an explicit dark choice. */\n"
         "@media (prefers-color-scheme: light) {\n"
-        f"  :root {{\n{light_body}\n  }}\n"
-        "}"
+        f'  :root:not([data-theme="dark"]) {{\n{light_body}\n  }}\n'
+        "}\n"
+        '/* An explicit choice wins over the system, whichever way it points. */\n'
+        f':root[data-theme="light"] {{\n{_light_body(light)}\n}}'
+    )
+
+
+def _light_body(light: Palette, indent: str = "  ") -> str:
+    return "\n".join(
+        [
+            _palette_declarations(light, scheme="light", indent=indent),
+            iso_face_variables(light, indent=indent),
+        ]
     )
 
 
