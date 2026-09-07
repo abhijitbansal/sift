@@ -623,7 +623,7 @@ def _site_css() -> str:
   --surface-2: {pal.glass_rgba(0.08)};
 }}
 * {{ box-sizing: border-box; }}
-html {{ scroll-behavior: smooth; }}
+html {{ scroll-behavior: smooth; overflow-x: hidden; }}
 body {{ margin: 0; background: var(--bg); color: var(--text);
   font: 17px/1.55 var(--body); -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility; overflow-x: hidden; }}
@@ -642,8 +642,8 @@ img, svg {{ max-width: 100%; }}
 .skip:focus {{ left: 0; }}
 
 /* A single soft light source behind the top of every page. */
-.page-glow {{ position: absolute; top: -320px; right: -240px; width: 900px; height: 900px;
-  border-radius: 50%; pointer-events: none; z-index: 0;
+.page-glow {{ position: absolute; top: -300px; right: 0; width: min(56rem, 100%);
+  height: 900px; border-radius: 50%; pointer-events: none; z-index: 0;
   background: radial-gradient(closest-side, {pal.accent_rgba(0.16)}, {pal.accent_rgba(0)} 100%); }}
 
 .masthead, main, .site-footer {{ position: relative; z-index: 1; }}
@@ -651,9 +651,9 @@ img, svg {{ max-width: 100%; }}
   padding-left: 2rem; padding-right: 2rem; }}
 .masthead-inner {{ display: flex; align-items: center; justify-content: space-between;
   gap: 1.5rem; min-height: 5rem; flex-wrap: wrap; }}
-.brand {{ display: inline-flex; align-items: center; gap: .55rem; font-family: var(--display);
-  font-weight: 800; font-size: 1.7rem; letter-spacing: -.03em; color: var(--text);
-  font-variation-settings: "opsz" 96; }}
+.brand {{ display: inline-flex; align-items: center; gap: .55rem; min-height: 44px;
+  font-family: var(--display); font-weight: 800; font-size: 1.7rem; letter-spacing: -.03em;
+  color: var(--text); font-variation-settings: "opsz" 96; }}
 .brand b {{ color: var(--accent); }}
 .brand svg {{ width: 2rem; height: 2rem; }}
 .masthead nav {{ display: flex; flex-wrap: wrap; gap: 1.6rem; }}

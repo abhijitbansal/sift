@@ -394,3 +394,30 @@ def test_no_stale_terracotta_hexes_remain_in_generated_css(tmp_path):
     if site._PALETTE.name != "ember":
         assert "#b4542e" not in css
         assert "#f7f3ea" not in css
+
+
+def test_page_glow_cannot_widen_the_document(tmp_path):
+    """The decorative glow sits against the initial containing block, where
+    overflow clipping is unreliable (overflow on <html> propagates to the
+    viewport and leaves the element itself unclipped). It must therefore be
+    sized and placed so it cannot stick out in the first place."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    css = (tmp_path / "docs" / "assets" / "sift.css").read_text(encoding="utf-8")
+    rule = css[css.index(".page-glow {") : css.index("}", css.index(".page-glow {"))]
+    assert "right: 0" in rule
+    assert "width: min(" in rule
+    assert "-" not in rule.split("right:")[1].split(";")[0]  # no negative offset
+
+
+def test_header_and_footer_links_meet_the_44px_touch_target(tmp_path):
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    css = (tmp_path / "docs" / "assets" / "sift.css").read_text(encoding="utf-8")
+    for selector in (".brand {", ".masthead nav a {", ".footer-links a {", ".btn {"):
+        rule = css[css.index(selector) : css.index("}", css.index(selector))]
+        assert "44px" in rule, f"{selector} has no 44px touch target"
