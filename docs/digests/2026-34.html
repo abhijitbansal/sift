@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sift — Week 2026-34</title>
 <meta name="description" content="Asana clears 5 years of engineering work in 2 weeks using Codex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4542e'/%3E%3Ctext x='16' y='23.5' font-family='Georgia,serif' font-size='23' font-weight='bold' fill='%23fdfdfb' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20role%3D%22img%22%20aria-label%3D%22Sift%22%3E%0A%20%20%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%23ff4f8b%22%2F%3E%0A%20%20%3Ctext%20x%3D%2216%22%20y%3D%2223.5%22%20font-family%3D%22Helvetica%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2221%22%20font-weight%3D%22bold%22%20fill%3D%22%231f0410%22%20text-anchor%3D%22middle%22%3ES%3C%2Ftext%3E%0A%3C%2Fsvg%3E%0A" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sift">
 <meta property="og:title" content="Sift — Week 2026-34">
@@ -20,103 +20,153 @@
 <meta name="twitter:description" content="Asana clears 5 years of engineering work in 2 weeks using Codex">
 <meta name="twitter:image" content="https://abhijitbansal.github.io/sift/digests/2026-34.png">
 <style>
-:root { color-scheme: light dark;
-  --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
-  --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
-  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
-  --cat-business:#15803d; --live:#15803d; }
-/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
-@media (prefers-color-scheme: dark) {
-  :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
-    --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
-    --cat-models:#8b84f0; --cat-tooling:#2dd4bf; --cat-infra:#f59e0b; --cat-policy:#fb7185;
-    --cat-business:#4ade80; --live:#4ade80; } }
-[data-cat=models_research]{--c:var(--cat-models);} [data-cat=tooling]{--c:var(--cat-tooling);}
-[data-cat=infra]{--c:var(--cat-infra);} [data-cat=policy]{--c:var(--cat-policy);}
-[data-cat=business]{--c:var(--cat-business);}
+:root {
+  color-scheme: dark;
+  --bg: #130a1e;
+  --bg-2: #1a0f29;
+  --bg-3: #221537;
+  --text: #f5ecff;
+  --text-2: #d3c4e8;
+  --muted: #9b8ab8;
+  --glass: #eccdff;
+  --accent: #ff4f8b;
+  --accent-hi: #ff7fab;
+  --accent-deep: #d12d67;
+  --accent-ink: #1f0410;
+  --slab: #281a3c;
+  --slab-paid: #3a1e3a;
+  --live: #4ade80;
+  --glass-rgb: 236,205,255;
+  --accent-rgb: 255,79,139;
+  --cat-models-research: #8b84f0;
+  --cat-tooling: #2dd4bf;
+  --cat-infra: #fbbf24;
+  --cat-policy: #c084fc;
+  --cat-business: #4ade80;
+}
+:root {
+  --surface: rgba(236,205,255,0.05); --surface-2: rgba(236,205,255,0.09);
+  --line: rgba(236,205,255,0.11); --line-2: rgba(236,205,255,0.2);
+  --display: Georgia, "Times New Roman", serif;
+  --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+[data-cat=models_research] { --c: var(--cat-models-research); }
+[data-cat=tooling] { --c: var(--cat-tooling); }
+[data-cat=infra] { --c: var(--cat-infra); }
+[data-cat=policy] { --c: var(--cat-policy); }
+[data-cat=business] { --c: var(--cat-business); }
 * { box-sizing:border-box; }
-body { margin:0 auto; max-width:46rem; padding:2.2rem 1.25rem 0; background:var(--bg); color:var(--text);
-  font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
-.mono { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+body { margin:0 auto; max-width:52rem; padding:2.4rem 1.25rem 0; background:var(--bg);
+  color:var(--text); font:16px/1.6 var(--body); -webkit-font-smoothing:antialiased; }
 a { color:var(--accent); text-underline-offset:2px; }
-.backlink { font:.78rem/1 ui-monospace,Menlo,monospace; margin:0 0 1.4rem; }
-.backlink a { color:var(--muted); text-decoration:none; } .backlink a:hover { color:var(--accent); }
-header.top { border-bottom:2px solid var(--text); padding-bottom:1rem; margin-bottom:1.3rem; }
-.brand { font-family:Georgia,"Times New Roman",serif; font-weight:bold; font-size:2.4rem;
-  letter-spacing:-.02em; line-height:1; margin:0; }
+a:hover { color:var(--accent-hi); }
+h1, h2, h3 { font-family:var(--display); margin:0; }
+p { margin:0; }
+.mono { font-family:var(--mono); }
+.backlink { font:.78rem/1 var(--mono); margin:0 0 1.6rem; }
+.backlink a { color:var(--muted); text-decoration:none; }
+.backlink a:hover { color:var(--accent); }
+header.top { display:flex; align-items:flex-start; justify-content:space-between; gap:1.5rem;
+  border-bottom:1px solid var(--line); padding-bottom:1.2rem; margin-bottom:1.6rem; flex-wrap:wrap; }
+.brand { font-family:var(--display); font-weight:bold; font-size:2.6rem; letter-spacing:-.03em;
+  line-height:1; margin:0; }
 .brand .dot { color:var(--accent); }
-.issue { font-family:ui-monospace,Menlo,monospace; color:var(--muted); font-size:.82rem;
-  letter-spacing:.02em; margin:.5rem 0 0; }
-.metrics { display:flex; flex-wrap:wrap; gap:.3rem .7rem; margin:.7rem 0 0; font-family:ui-monospace,Menlo,monospace;
-  font-size:.78rem; color:var(--text-2); }
-.metrics b { color:var(--accent); font-weight:700; }
-.glance { background:var(--surface); border:1px solid var(--line); border-radius:11px;
-  padding:1rem 1.1rem; margin:0 0 1.8rem; }
-.glance h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--muted); margin:0 0 .7rem; border:0; padding:0; }
-.mixbar { display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--surface-2); }
+.top-mark svg { width:3.4rem; height:3.4rem; }
+.issue { font-family:var(--mono); color:var(--muted); font-size:.82rem; letter-spacing:.04em;
+  margin:.6rem 0 0; }
+.metrics { display:flex; flex-wrap:wrap; gap:.35rem .9rem; margin:.8rem 0 0;
+  font-family:var(--mono); font-size:.8rem; color:var(--text-2); }
+.metrics b { color:var(--accent-hi); font-weight:700; }
+.glance { background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:1.2rem 1.3rem; margin:0 0 2rem; }
+.glance h2 { font:.7rem/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 .9rem; }
+.mixbar { display:flex; height:16px; border-radius:8px; overflow:hidden;
+  background:var(--surface-2); gap:2px; }
 .mixbar span { display:block; min-width:2px; }
-.legend { display:flex; flex-wrap:wrap; gap:.3rem .9rem; margin:.65rem 0 0; font-size:.72rem; color:var(--text-2); }
-.legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:.35rem; vertical-align:middle; }
-.spread { margin:.9rem 0 0; }
-.spread .bars { display:flex; align-items:flex-end; gap:3px; height:34px; }
-.spread .bars i { flex:1; background:var(--c,var(--accent)); border-radius:2px 2px 0 0; min-height:3px; opacity:.85; }
-.spread .cap { font:.7rem/1 ui-monospace,Menlo,monospace; color:var(--muted); margin:.4rem 0 0; }
-h2.lane { display:flex; align-items:center; gap:.5rem; font:600 .8rem/1 ui-monospace,Menlo,monospace;
-  letter-spacing:.1em; text-transform:uppercase; color:var(--text-2); margin:2.4rem 0 .2rem;
-  padding:0 0 .4rem; border-bottom:1px solid var(--line); }
-h2.lane i { width:10px; height:10px; border-radius:3px; background:var(--c); }
-article { display:flex; gap:.85rem; padding:1.15rem 0 1.1rem; border-bottom:1px solid var(--line); border-left:3px solid var(--c);
-  padding-left:.9rem; }
-.score { flex:0 0 auto; width:2.1rem; height:2.1rem; border-radius:8px; background:var(--c); color:var(--badge-ink);
-  font-family:ui-monospace,Menlo,monospace; font-weight:700; font-size:1rem; display:flex; align-items:center;
-  justify-content:center; }
+.legend { display:flex; flex-wrap:wrap; gap:.5rem 1.3rem; margin:.9rem 0 0; font-size:.85rem;
+  color:var(--text-2); }
+.legend span { display:inline-flex; align-items:center; gap:.45rem; }
+.legend svg { width:1.4rem; height:1.4rem; flex:0 0 1.4rem; }
+.legend b { font-family:var(--mono); font-weight:500; color:var(--text); font-size:.8rem; }
+.spread { margin:1.1rem 0 0; }
+.spread .bars { display:flex; align-items:flex-end; gap:4px; height:44px; }
+.spread .bars i { flex:1; background:var(--c,var(--accent)); border-radius:3px 3px 0 0;
+  min-height:4px; opacity:.9; }
+.spread .cap { font:.72rem/1 var(--mono); color:var(--muted); margin:.6rem 0 0; }
+h2.lane { display:flex; align-items:center; gap:.6rem; font-size:1.25rem; font-weight:600;
+  letter-spacing:-.02em; color:var(--text); margin:2.8rem 0 .2rem; padding:0 0 .7rem;
+  border-bottom:1px solid var(--line); }
+h2.lane svg { width:1.7rem; height:1.7rem; flex:0 0 1.7rem; }
+h2.lane .cnt { margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em;
+  color:var(--muted); font-weight:400; }
+article { display:flex; gap:1.1rem; padding:1.4rem 0; border-bottom:1px solid var(--line); }
+.score { flex:0 0 auto; width:3rem; height:3rem; border-radius:12px; color:var(--accent-ink);
+  font-family:var(--display); font-weight:700; font-size:1.3rem; display:flex;
+  align-items:center; justify-content:center;
+  background:linear-gradient(160deg, var(--c) 0%, var(--c) 45%, rgba(0,0,0,.35) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 0 rgba(0,0,0,.25); }
 .art-body { flex:1; min-width:0; }
-.rank { font:.68rem/1 ui-monospace,Menlo,monospace; color:var(--muted); }
-article h3 { font-size:1.06rem; line-height:1.3; margin:.15rem 0 .35rem; font-weight:600; }
-article h3 a { color:var(--text); text-decoration:none; } article h3 a:hover { color:var(--accent); }
-.flag { display:inline-block; font:.6rem/1.3 ui-monospace,Menlo,monospace; text-transform:uppercase;
-  letter-spacing:.05em; color:var(--accent); border:1px solid var(--accent); border-radius:4px;
-  padding:.12rem .35rem; margin-left:.45rem; white-space:nowrap; vertical-align:middle; }
-.summary { margin:.25rem 0; color:var(--text-2); }
-.rationale { margin:.35rem 0 .5rem; font-size:.85rem; color:var(--muted); }
+.rank { font:.7rem/1 var(--mono); letter-spacing:.12em; color:var(--muted); }
+article h3 { font-size:1.2rem; line-height:1.3; margin:.3rem 0 .5rem; font-weight:600;
+  letter-spacing:-.015em; }
+article h3 a { color:var(--text); text-decoration:none; }
+article h3 a:hover { color:var(--accent-hi); }
+.flag { display:inline-block; font:.6rem/1.3 var(--mono); text-transform:uppercase;
+  letter-spacing:.08em; color:var(--accent-hi); border:1px solid var(--accent);
+  border-radius:5px; padding:.15rem .4rem; margin-left:.5rem; white-space:nowrap;
+  vertical-align:middle; }
+.summary { margin:.3rem 0; color:var(--text-2); }
+.rationale { margin:.5rem 0 .7rem; font-size:.88rem; color:var(--muted); }
 .rationale::before { content:"› "; color:var(--accent); }
-.chips { display:flex; flex-wrap:wrap; gap:.35rem; }
-.chip { display:inline-flex; align-items:center; gap:.35rem; font-size:.74rem; text-decoration:none;
-  color:var(--text-2); background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
-  padding:.15rem .55rem .15rem .2rem; }
-.chip:hover { border-color:var(--accent); color:var(--accent); }
-.chip i { width:1.05rem; height:1.05rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font:700 .62rem/1 ui-monospace,Menlo,monospace; color:#fff; }
-.scanned { margin-top:2.6rem; }
-.scanned h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:.4rem; }
-.scanned-list { list-style:none; padding:0; margin:.7rem 0 0; display:flex; flex-wrap:wrap; gap:.4rem .6rem; }
-.scanned-list li { font:.74rem/1 ui-monospace,Menlo,monospace; color:var(--muted); background:var(--surface);
-  border:1px solid var(--line); border-radius:6px; padding:.28rem .5rem; }
-.cnt { color:var(--text); font-weight:700; } .cnt.dead { color:var(--accent); font-style:italic; font-weight:400; }
-footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--line); color:var(--muted);
-  font-size:.8rem; font-style:italic; }
+.chips { display:flex; flex-wrap:wrap; gap:.4rem; }
+.chip { display:inline-flex; align-items:center; gap:.4rem; font-size:.78rem;
+  text-decoration:none; color:var(--text-2); background:var(--surface);
+  border:1px solid var(--line); border-radius:999px; padding:.2rem .7rem .2rem .25rem; }
+.chip:hover { border-color:var(--accent); color:var(--accent-hi); }
+.chip i { width:1.15rem; height:1.15rem; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; font:700 .65rem/1 var(--mono); color:#fff; }
+.chip .n { color:var(--muted); }
+.scanned { margin-top:3rem; background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; padding:1.2rem 1.3rem; }
+.scanned h2 { font:.7rem/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); margin:0; }
+.scanned-list { list-style:none; padding:0; margin:1rem 0 0; display:flex; flex-wrap:wrap;
+  gap:.45rem; }
+.scanned-list li { font:.76rem/1 var(--mono); color:var(--muted); background:var(--bg-2);
+  border:1px solid var(--line); border-radius:8px; padding:.35rem .6rem; }
+.cnt { color:var(--text); font-weight:700; }
+.cnt.dead { color:var(--accent-hi); font-style:italic; font-weight:400; }
+footer { margin:3.2rem 0 2.6rem; padding-top:1.3rem; border-top:1px solid var(--line);
+  color:var(--muted); font-size:.85rem; }
 :focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
-@media (max-width:480px){ .brand{font-size:2rem;} article{gap:.6rem;} .score{width:1.9rem;height:1.9rem;} }
-@media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
+@media (max-width:480px) {
+  .brand { font-size:2.1rem; } article { gap:.75rem; }
+  .score { width:2.5rem; height:2.5rem; font-size:1.1rem; }
+  .top-mark { display:none; }
+}
+@media (prefers-reduced-motion:reduce) { * { transition:none!important; animation:none!important; } }
 </style>
 </head>
 <body>
 <p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
 <header class="top">
+<div>
 <h1 class="brand">Sift<span class="dot">.</span></h1>
 <p class="issue">Week 2026-34 &middot; Aug 17–23, 2026</p>
 <p class="metrics"><b>10</b> stories &middot; <b>17/20</b> feeds live &middot; <b>$0.18</b> run</p>
+</div>
+<div class="top-mark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 54" width="54" height="54" role="img" aria-label="Sift"><g opacity="1"><polygon points="20.7,41.3 27.0,44.9 27.0,37.6 20.7,34.0" fill="#d14172"/><polygon points="33.3,41.3 27.0,44.9 27.0,37.6 33.3,34.0" fill="#942e51"/><polygon points="27.0,30.4 33.3,34.0 27.0,37.6 20.7,34.0" fill="#ff739f"/></g><polygon points="4.6,31.9 27.0,44.9 27.0,41.9 4.6,28.9" fill="rgba(236,205,255,0.1)"/><polygon points="49.4,31.9 27.0,44.9 27.0,41.9 49.4,28.9" fill="rgba(236,205,255,0.05)"/><polygon points="27.0,16.0 49.4,28.9 27.0,41.9 4.6,28.9" fill="rgba(236,205,255,0.12)"/><g stroke="rgba(236,205,255,0.4)" stroke-width="0.7"><line x1="34.5" y1="20.3" x2="12.0" y2="33.3"/><line x1="19.5" y1="20.3" x2="42.0" y2="33.3"/><line x1="42.0" y1="24.6" x2="19.5" y2="37.6"/><line x1="12.0" y1="24.6" x2="34.5" y2="37.6"/></g><polygon points="27.0,16.0 49.4,28.9 27.0,41.9 4.6,28.9" fill="none" stroke="rgba(236,205,255,0.55)" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0.1,20.3 27.0,35.8 27.0,32.8 0.1,17.3" fill="rgba(236,205,255,0.1)"/><polygon points="53.9,20.3 27.0,35.8 27.0,32.8 53.9,17.3" fill="rgba(236,205,255,0.05)"/><polygon points="27.0,1.7 53.9,17.3 27.0,32.8 0.1,17.3" fill="rgba(236,205,255,0.08)"/><g stroke="rgba(236,205,255,0.3)" stroke-width="0.7"><line x1="33.7" y1="5.6" x2="6.8" y2="21.2"/><line x1="20.3" y1="5.6" x2="47.2" y2="21.2"/><line x1="40.5" y1="9.5" x2="13.5" y2="25.1"/><line x1="13.5" y1="9.5" x2="40.5" y2="25.1"/><line x1="47.2" y1="13.4" x2="20.3" y2="28.9"/><line x1="6.8" y1="13.4" x2="33.7" y2="28.9"/></g><polygon points="27.0,1.7 53.9,17.3 27.0,32.8 0.1,17.3" fill="none" stroke="rgba(236,205,255,0.55)" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
 </header>
 <section class="glance" aria-label="Week at a glance">
 <h2>Week at a glance</h2>
 <div class="mixbar" role="img" aria-label="Category mix"><span data-cat="models_research" style="width:30.0%;background:var(--c)" title="Models &amp; Research: 3"></span><span data-cat="tooling" style="width:30.0%;background:var(--c)" title="Tooling: 3"></span><span data-cat="infra" style="width:20.0%;background:var(--c)" title="Infra: 2"></span><span data-cat="business" style="width:20.0%;background:var(--c)" title="Business: 2"></span></div>
-<div class="legend"><span data-cat="models_research"><i style="background:var(--c)"></i>Models &amp; Research 3</span><span data-cat="tooling"><i style="background:var(--c)"></i>Tooling 3</span><span data-cat="infra"><i style="background:var(--c)"></i>Infra 2</span><span data-cat="business"><i style="background:var(--c)"></i>Business 2</span></div>
+<div class="legend"><span data-cat="models_research"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="models_research category"><g opacity="1"><polygon points="15.4,45.4 32.0,55.0 32.0,35.8 15.4,26.2" fill="#726cc5"/><polygon points="48.6,45.4 32.0,55.0 32.0,35.8 48.6,26.2" fill="#514d8b"/><polygon points="32.0,16.6 48.6,26.2 32.0,35.8 15.4,26.2" fill="#a59dee"/></g></svg>Models &amp; Research <b>3</b></span><span data-cat="tooling"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="tooling category"><defs><linearGradient id="cyltoolingultraviolet" x1="0" x2="1"><stop offset="0" stop-color="#25ae9d"/><stop offset="0.45" stop-color="#5bdbc8"/><stop offset="1" stop-color="#1a7b6f"/></linearGradient></defs><path d="M16.3,27.2 v17.3 a15.7,7.9 0 0 0 31.5,0 v-17.3 z" fill="url(#cyltoolingultraviolet)"/><ellipse cx="32.0" cy="27.2" rx="15.7" ry="7.9" fill="#5bdbc8"/></svg>Tooling <b>3</b></span><span data-cat="infra"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="infra category"><polygon points="4.7,43.7 32.0,59.5 32.0,14.6" fill="#ce9d1e"/><polygon points="32.0,59.5 59.3,43.7 32.0,14.6" fill="#926f15"/><polygon points="32.0,28.0 59.3,43.7 32.0,59.5 4.7,43.7" fill="#fccb4f" opacity="0.001"/></svg>Infra <b>2</b></span><span data-cat="business"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="business category"><defs><radialGradient id="sphbusinessultraviolet" cx="35%" cy="32%" r="70%"><stop offset="0" stop-color="#a4e9b3"/><stop offset="0.5" stop-color="#4ade80"/><stop offset="1" stop-color="#256f40"/></radialGradient></defs><circle cx="32.0" cy="31.8" r="18.2" fill="url(#sphbusinessultraviolet)"/></svg>Business <b>2</b></span></div>
 <div class="spread"><div class="bars" role="img" aria-label="Score spread"><i data-cat="tooling" style="height:90%"></i><i data-cat="infra" style="height:70%"></i><i data-cat="models_research" style="height:70%"></i><i data-cat="tooling" style="height:70%"></i><i data-cat="business" style="height:60%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="tooling" style="height:50%"></i><i data-cat="infra" style="height:50%"></i><i data-cat="business" style="height:40%"></i></div><p class="cap mono">hi 9 &middot; lo 4 &middot; avg 6.0</p></div>
 </section>
 
-<h2 class="lane" data-cat="models_research"><i></i>Models &amp; Research</h2>
+<h2 class="lane" data-cat="models_research"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="models_research category"><g opacity="1"><polygon points="15.4,45.4 32.0,55.0 32.0,35.8 15.4,26.2" fill="#726cc5"/><polygon points="48.6,45.4 32.0,55.0 32.0,35.8 48.6,26.2" fill="#514d8b"/><polygon points="32.0,16.6 48.6,26.2 32.0,35.8 15.4,26.2" fill="#a59dee"/></g></svg>Models &amp; Research<span class="cnt">3 stories</span></h2>
 <article data-cat="models_research">
 <span class="score" title="importance 7/10">7</span>
 <div class="art-body">
@@ -124,7 +174,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://simonwillison.net/2026/Aug/17/qwen-38-27b-scores-52/">Qwen 3.8 27B matches much larger models on intelligence benchmarks</a></h3>
 <p class="summary">Qwen 3.8 27B, an Apache 2 licensed vision-capable model from Alibaba, scored 52 on the Artificial Analysis Intelligence Index, matching GPT-5.6 Luna and trailing far larger models by one point. Simon Willison notes it is excellent but tends to overthink by default.</p>
 <p class="rationale">Notable capability-per-parameter result relevant to open-weight local deployment.</p>
-<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/17/qwen-38-27b-scores-52/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://simonwillison.net/2026/Aug/16/qwen-38-27b/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+<div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/17/qwen-38-27b-scores-52/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net <span class="n">&times;2</span></span></a></div>
 </div>
 </article>
 <article data-cat="models_research">
@@ -144,10 +194,10 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/ainews-10-worse-100x-cheaper-10000x">Simulation and autonomous AI researchers as an emerging frontier</a><span class="flag">needs verification</span></h3>
 <p class="summary">Latent.Space and Import AI cover a wave of interest in simulation as a scaling approach and in autonomous AI researchers, including Simile AI&#x27;s plan to build billions of human digital twins. The pieces frame simulation and recursive self-improvement as the next research frontier.</p>
 <p class="rationale">Interesting research direction but speculative and secondary-sourced.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-10-worse-100x-cheaper-10000x"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/simile"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://importai.substack.com/p/import-ai-469-science-ai-rsi-simulator"><i style="background:hsl(344 50% 33%)">I</i><span>importai.substack.com</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-10-worse-100x-cheaper-10000x"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space <span class="n">&times;2</span></span></a><a class="chip" href="https://importai.substack.com/p/import-ai-469-science-ai-rsi-simulator"><i style="background:hsl(344 50% 33%)">I</i><span>importai.substack.com</span></a></div>
 </div>
 </article>
-<h2 class="lane" data-cat="tooling"><i></i>Tooling</h2>
+<h2 class="lane" data-cat="tooling"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="tooling category"><defs><linearGradient id="cyltoolingultraviolet" x1="0" x2="1"><stop offset="0" stop-color="#25ae9d"/><stop offset="0.45" stop-color="#5bdbc8"/><stop offset="1" stop-color="#1a7b6f"/></linearGradient></defs><path d="M16.3,27.2 v17.3 a15.7,7.9 0 0 0 31.5,0 v-17.3 z" fill="url(#cyltoolingultraviolet)"/><ellipse cx="32.0" cy="27.2" rx="15.7" ry="7.9" fill="#5bdbc8"/></svg>Tooling<span class="cnt">3 stories</span></h2>
 <article data-cat="tooling">
 <span class="score" title="importance 9/10">9</span>
 <div class="art-body">
@@ -165,7 +215,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/attention-interface">Agent harnesses, coding-agent workflows, and verification practices</a><span class="flag">needs verification</span></h3>
 <p class="summary">Latent.Space examines how agent harnesses are being absorbed into model weights, while Simon Willison and Matt Pocock discuss verification-over-line-review practices and planning skills for coding agents. Together they map evolving best practices for agentic software development.</p>
 <p class="rationale">Core agentic-SDLC content matching reader&#x27;s stated focus; practitioner analysis.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/attention-interface"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/wayfinder-skill"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://simonwillison.net/2026/Aug/22/more-than-just-code-review/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a><a class="chip" href="https://simonwillison.net/2026/Aug/19/conceptual-integrity-and-counting-lines-of-code/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/attention-interface"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space <span class="n">&times;2</span></span></a><a class="chip" href="https://simonwillison.net/2026/Aug/22/more-than-just-code-review/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net <span class="n">&times;2</span></span></a></div>
 </div>
 </article>
 <article data-cat="tooling">
@@ -178,7 +228,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/18/mojo-is-now-open-source/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
 </div>
 </article>
-<h2 class="lane" data-cat="infra"><i></i>Infra</h2>
+<h2 class="lane" data-cat="infra"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="infra category"><polygon points="4.7,43.7 32.0,59.5 32.0,14.6" fill="#ce9d1e"/><polygon points="32.0,59.5 59.3,43.7 32.0,14.6" fill="#926f15"/><polygon points="32.0,28.0 59.3,43.7 32.0,59.5 4.7,43.7" fill="#fccb4f" opacity="0.001"/></svg>Infra<span class="cnt">2 stories</span></h2>
 <article data-cat="infra">
 <span class="score" title="importance 7/10">7</span>
 <div class="art-body">
@@ -196,10 +246,10 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://huggingface.co/blog/LiquidAI/lfm25-dspark">Hugging Face engineering: inference speedups, agent memory, and GPU utilization</a></h3>
 <p class="summary">Hugging Face posts cover up to 3.2x faster LFM2.5-DSpark inference, agent memory requirements, a 33-point GPU utilization gain from reordering work, multi-vector embeddings, and ASR benchmark optimization. The collection focuses on efficiency and evaluation for real deployments.</p>
 <p class="rationale">Practical infra/efficiency techniques with numbers, relevant to deployment costs.</p>
-<div class="chips"><a class="chip" href="https://huggingface.co/blog/LiquidAI/lfm25-dspark"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/ibm-research/altk-evolve-hmm"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/Dharma-AI/gpu-management-pt2"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/multi-vector-encoder"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a><a class="chip" href="https://huggingface.co/blog/asr-benchmark-optimization"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co</span></a></div>
+<div class="chips"><a class="chip" href="https://huggingface.co/blog/LiquidAI/lfm25-dspark"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co <span class="n">&times;5</span></span></a></div>
 </div>
 </article>
-<h2 class="lane" data-cat="business"><i></i>Business</h2>
+<h2 class="lane" data-cat="business"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="business category"><defs><radialGradient id="sphbusinessultraviolet" cx="35%" cy="32%" r="70%"><stop offset="0" stop-color="#a4e9b3"/><stop offset="0.5" stop-color="#4ade80"/><stop offset="1" stop-color="#256f40"/></radialGradient></defs><circle cx="32.0" cy="31.8" r="18.2" fill="url(#sphbusinessultraviolet)"/></svg>Business<span class="cnt">2 stories</span></h2>
 <article data-cat="business">
 <span class="score" title="importance 6/10">6</span>
 <div class="art-body">
@@ -207,7 +257,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://www.latent.space/p/ainews-poolside-gets-12b-reverse">AI infra dealmaking: Poolside $12B reverse-execuhire to NVIDIA, Stripe buys OpenRouter</a><span class="flag">needs verification</span></h3>
 <p class="summary">Latent.Space reports NVIDIA&#x27;s $12B reverse-execuhire of Poolside with a 7GW neocloud buildout, and Stripe&#x27;s reported $7B acquisition of OpenRouter, alongside NVIDIA pushing customers to build their own models. These reflect consolidation and vertical integration across AI compute, routing, and distribution.</p>
 <p class="rationale">Major infra/business moves reshaping the model and routing landscape, but secondary newsletter sourcing.</p>
-<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-poolside-gets-12b-reverse"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/ainews-stripe-buys-openrouter-for"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.latent.space/p/glean-model-routing"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space</span></a><a class="chip" href="https://www.interconnects.ai/p/teaching-everyone-to-fish-for-tokens"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a></div>
+<div class="chips"><a class="chip" href="https://www.latent.space/p/ainews-poolside-gets-12b-reverse"><i style="background:hsl(138 50% 33%)">L</i><span>latent.space <span class="n">&times;3</span></span></a><a class="chip" href="https://www.interconnects.ai/p/teaching-everyone-to-fish-for-tokens"><i style="background:hsl(215 50% 33%)">I</i><span>interconnects.ai</span></a></div>
 </div>
 </article>
 <article data-cat="business">
@@ -217,7 +267,7 @@ footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--li
 <h3><a href="https://openai.com/index/stampli">Enterprises report large productivity gains from ChatGPT Work (Stampli, NVIDIA)</a></h3>
 <p class="summary">Stampli reported cutting launch production hours by 68% using Codex and ChatGPT Work, while NVIDIA teams described scaling workflows and reducing manual tasks. Both are OpenAI-published customer case studies.</p>
 <p class="rationale">Real enterprise adoption stories with numbers, but vendor-authored case studies.</p>
-<div class="chips"><a class="chip" href="https://openai.com/index/stampli"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a><a class="chip" href="https://openai.com/index/nvidia/chatgpt-work"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com</span></a></div>
+<div class="chips"><a class="chip" href="https://openai.com/index/stampli"><i style="background:hsl(281 50% 33%)">O</i><span>openai.com <span class="n">&times;2</span></span></a></div>
 </div>
 </article>
 <section class="scanned">

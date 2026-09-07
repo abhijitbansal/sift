@@ -13,8 +13,10 @@ from __future__ import annotations
 
 import json
 from html import escape
+from urllib.parse import quote
 from pathlib import Path
 
+from sift import iso, theme
 from sift.config import DEFAULT_SITE_URL
 from sift.fetch import Item
 from sift.meta import abs_url, og_tags
@@ -23,104 +25,127 @@ from sift.weeks import week_range
 
 TAGLINE = "A weekly dispatch of AI signal — curated for one reader"
 
-CATEGORY_LABELS = {
-    "models_research": "Models & Research",
-    "tooling": "Tooling",
-    "infra": "Infra",
-    "policy": "Policy",
-    "business": "Business",
-}
+CATEGORY_LABELS = theme.CATEGORY_LABELS
 
-# Self-contained inline favicon (terracotta tile + cream serif "S").
-_FAVICON = (
-    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'"
-    "%3E%3Crect width='32' height='32' rx='7' fill='%23b4542e'/%3E%3Ctext x='16' y='23.5'"
-    " font-family='Georgia,serif' font-size='23' font-weight='bold' fill='%23fdfdfb'"
-    " text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E"
-)
+# The digest is self-contained, so it carries its own copy of the palette rather
+# than linking the site stylesheet.
+_PALETTE = theme.palette()
 
-_STYLE = """
-:root { color-scheme: light dark;
-  --bg:#f7f3ea; --surface:#fffdf7; --surface-2:#f1ead9; --text:#241f18; --text-2:#473f33;
-  --muted:#6c6353; --line:#e5dcc8; --line-2:#d3c8b0; --accent:#b4542e; --badge-ink:#fff;
-  --cat-models:#5b54d6; --cat-tooling:#0a7a70; --cat-infra:#b45309; --cat-policy:#be123c;
-  --cat-business:#15803d; --live:#15803d; }
-/* --cat-tooling darkened from #0d9488 (3.74:1) to clear AA for white badge text. */
-@media (prefers-color-scheme: dark) {
-  :root { --bg:#1b1410; --surface:#241b14; --surface-2:#2d2218; --text:#efe7d9; --text-2:#d2c6af;
-    --muted:#ad9f85; --line:#3b2d20; --line-2:#4c3a29; --accent:#e07a4f; --badge-ink:#1b1410;
-    --cat-models:#8b84f0; --cat-tooling:#2dd4bf; --cat-infra:#f59e0b; --cat-policy:#fb7185;
-    --cat-business:#4ade80; --live:#4ade80; } }
-[data-cat=models_research]{--c:var(--cat-models);} [data-cat=tooling]{--c:var(--cat-tooling);}
-[data-cat=infra]{--c:var(--cat-infra);} [data-cat=policy]{--c:var(--cat-policy);}
-[data-cat=business]{--c:var(--cat-business);}
-* { box-sizing:border-box; }
-body { margin:0 auto; max-width:46rem; padding:2.2rem 1.25rem 0; background:var(--bg); color:var(--text);
-  font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
-.mono { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
-a { color:var(--accent); text-underline-offset:2px; }
-.backlink { font:.78rem/1 ui-monospace,Menlo,monospace; margin:0 0 1.4rem; }
-.backlink a { color:var(--muted); text-decoration:none; } .backlink a:hover { color:var(--accent); }
-header.top { border-bottom:2px solid var(--text); padding-bottom:1rem; margin-bottom:1.3rem; }
-.brand { font-family:Georgia,"Times New Roman",serif; font-weight:bold; font-size:2.4rem;
-  letter-spacing:-.02em; line-height:1; margin:0; }
-.brand .dot { color:var(--accent); }
-.issue { font-family:ui-monospace,Menlo,monospace; color:var(--muted); font-size:.82rem;
-  letter-spacing:.02em; margin:.5rem 0 0; }
-.metrics { display:flex; flex-wrap:wrap; gap:.3rem .7rem; margin:.7rem 0 0; font-family:ui-monospace,Menlo,monospace;
-  font-size:.78rem; color:var(--text-2); }
-.metrics b { color:var(--accent); font-weight:700; }
-.glance { background:var(--surface); border:1px solid var(--line); border-radius:11px;
-  padding:1rem 1.1rem; margin:0 0 1.8rem; }
-.glance h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--muted); margin:0 0 .7rem; border:0; padding:0; }
-.mixbar { display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--surface-2); }
-.mixbar span { display:block; min-width:2px; }
-.legend { display:flex; flex-wrap:wrap; gap:.3rem .9rem; margin:.65rem 0 0; font-size:.72rem; color:var(--text-2); }
-.legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:.35rem; vertical-align:middle; }
-.spread { margin:.9rem 0 0; }
-.spread .bars { display:flex; align-items:flex-end; gap:3px; height:34px; }
-.spread .bars i { flex:1; background:var(--c,var(--accent)); border-radius:2px 2px 0 0; min-height:3px; opacity:.85; }
-.spread .cap { font:.7rem/1 ui-monospace,Menlo,monospace; color:var(--muted); margin:.4rem 0 0; }
-h2.lane { display:flex; align-items:center; gap:.5rem; font:600 .8rem/1 ui-monospace,Menlo,monospace;
-  letter-spacing:.1em; text-transform:uppercase; color:var(--text-2); margin:2.4rem 0 .2rem;
-  padding:0 0 .4rem; border-bottom:1px solid var(--line); }
-h2.lane i { width:10px; height:10px; border-radius:3px; background:var(--c); }
-article { display:flex; gap:.85rem; padding:1.15rem 0 1.1rem; border-bottom:1px solid var(--line); border-left:3px solid var(--c);
-  padding-left:.9rem; }
-.score { flex:0 0 auto; width:2.1rem; height:2.1rem; border-radius:8px; background:var(--c); color:var(--badge-ink);
-  font-family:ui-monospace,Menlo,monospace; font-weight:700; font-size:1rem; display:flex; align-items:center;
-  justify-content:center; }
-.art-body { flex:1; min-width:0; }
-.rank { font:.68rem/1 ui-monospace,Menlo,monospace; color:var(--muted); }
-article h3 { font-size:1.06rem; line-height:1.3; margin:.15rem 0 .35rem; font-weight:600; }
-article h3 a { color:var(--text); text-decoration:none; } article h3 a:hover { color:var(--accent); }
-.flag { display:inline-block; font:.6rem/1.3 ui-monospace,Menlo,monospace; text-transform:uppercase;
-  letter-spacing:.05em; color:var(--accent); border:1px solid var(--accent); border-radius:4px;
-  padding:.12rem .35rem; margin-left:.45rem; white-space:nowrap; vertical-align:middle; }
-.summary { margin:.25rem 0; color:var(--text-2); }
-.rationale { margin:.35rem 0 .5rem; font-size:.85rem; color:var(--muted); }
-.rationale::before { content:"› "; color:var(--accent); }
-.chips { display:flex; flex-wrap:wrap; gap:.35rem; }
-.chip { display:inline-flex; align-items:center; gap:.35rem; font-size:.74rem; text-decoration:none;
-  color:var(--text-2); background:var(--surface-2); border:1px solid var(--line); border-radius:999px;
-  padding:.15rem .55rem .15rem .2rem; }
-.chip:hover { border-color:var(--accent); color:var(--accent); }
-.chip i { width:1.05rem; height:1.05rem; border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font:700 .62rem/1 ui-monospace,Menlo,monospace; color:#fff; }
-.scanned { margin-top:2.6rem; }
-.scanned h2 { font:.7rem/1 ui-monospace,Menlo,monospace; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--muted); border-bottom:1px solid var(--line); padding-bottom:.4rem; }
-.scanned-list { list-style:none; padding:0; margin:.7rem 0 0; display:flex; flex-wrap:wrap; gap:.4rem .6rem; }
-.scanned-list li { font:.74rem/1 ui-monospace,Menlo,monospace; color:var(--muted); background:var(--surface);
-  border:1px solid var(--line); border-radius:6px; padding:.28rem .5rem; }
-.cnt { color:var(--text); font-weight:700; } .cnt.dead { color:var(--accent); font-style:italic; font-weight:400; }
-footer { margin:3rem 0 2.5rem; padding-top:1.1rem; border-top:1px solid var(--line); color:var(--muted);
-  font-size:.8rem; font-style:italic; }
-:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
-@media (max-width:480px){ .brand{font-size:2rem;} article{gap:.6rem;} .score{width:1.9rem;height:1.9rem;} }
-@media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
+def _favicon_data_uri() -> str:
+    """The mark as an inline data: URI — the digest may be read offline or in an
+    email client, so it must not reference an external icon."""
+    svg = iso.favicon(_PALETTE)
+    return "data:image/svg+xml," + quote(svg, safe="")
+
+
+def _style() -> str:
+    """The digest's inline stylesheet. Dark-only and system-font-only: this file
+    has to render the same in a browser, in an email client and offline, so it
+    links nothing and assumes no web font."""
+    pal = _PALETTE
+    return f"""
+{theme.css_variables(pal)}
+:root {{
+  --surface: {pal.glass_rgba(0.05)}; --surface-2: {pal.glass_rgba(0.09)};
+  --line: {pal.glass_rgba(0.11)}; --line-2: {pal.glass_rgba(0.20)};
+  --display: {theme.FONT_DISPLAY_FALLBACK};
+  --body: {theme.FONT_BODY_FALLBACK};
+  --mono: {theme.FONT_MONO_FALLBACK};
+}}
+{theme.category_selectors(pal)}
+* {{ box-sizing:border-box; }}
+body {{ margin:0 auto; max-width:52rem; padding:2.4rem 1.25rem 0; background:var(--bg);
+  color:var(--text); font:16px/1.6 var(--body); -webkit-font-smoothing:antialiased; }}
+a {{ color:var(--accent); text-underline-offset:2px; }}
+a:hover {{ color:var(--accent-hi); }}
+h1, h2, h3 {{ font-family:var(--display); margin:0; }}
+p {{ margin:0; }}
+.mono {{ font-family:var(--mono); }}
+.backlink {{ font:.78rem/1 var(--mono); margin:0 0 1.6rem; }}
+.backlink a {{ color:var(--muted); text-decoration:none; }}
+.backlink a:hover {{ color:var(--accent); }}
+header.top {{ display:flex; align-items:flex-start; justify-content:space-between; gap:1.5rem;
+  border-bottom:1px solid var(--line); padding-bottom:1.2rem; margin-bottom:1.6rem; flex-wrap:wrap; }}
+.brand {{ font-family:var(--display); font-weight:bold; font-size:2.6rem; letter-spacing:-.03em;
+  line-height:1; margin:0; }}
+.brand .dot {{ color:var(--accent); }}
+.top-mark svg {{ width:3.4rem; height:3.4rem; }}
+.issue {{ font-family:var(--mono); color:var(--muted); font-size:.82rem; letter-spacing:.04em;
+  margin:.6rem 0 0; }}
+.metrics {{ display:flex; flex-wrap:wrap; gap:.35rem .9rem; margin:.8rem 0 0;
+  font-family:var(--mono); font-size:.8rem; color:var(--text-2); }}
+.metrics b {{ color:var(--accent-hi); font-weight:700; }}
+.glance {{ background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:1.2rem 1.3rem; margin:0 0 2rem; }}
+.glance h2 {{ font:.7rem/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 .9rem; }}
+.mixbar {{ display:flex; height:16px; border-radius:8px; overflow:hidden;
+  background:var(--surface-2); gap:2px; }}
+.mixbar span {{ display:block; min-width:2px; }}
+.legend {{ display:flex; flex-wrap:wrap; gap:.5rem 1.3rem; margin:.9rem 0 0; font-size:.85rem;
+  color:var(--text-2); }}
+.legend span {{ display:inline-flex; align-items:center; gap:.45rem; }}
+.legend svg {{ width:1.4rem; height:1.4rem; flex:0 0 1.4rem; }}
+.legend b {{ font-family:var(--mono); font-weight:500; color:var(--text); font-size:.8rem; }}
+.spread {{ margin:1.1rem 0 0; }}
+.spread .bars {{ display:flex; align-items:flex-end; gap:4px; height:44px; }}
+.spread .bars i {{ flex:1; background:var(--c,var(--accent)); border-radius:3px 3px 0 0;
+  min-height:4px; opacity:.9; }}
+.spread .cap {{ font:.72rem/1 var(--mono); color:var(--muted); margin:.6rem 0 0; }}
+h2.lane {{ display:flex; align-items:center; gap:.6rem; font-size:1.25rem; font-weight:600;
+  letter-spacing:-.02em; color:var(--text); margin:2.8rem 0 .2rem; padding:0 0 .7rem;
+  border-bottom:1px solid var(--line); }}
+h2.lane svg {{ width:1.7rem; height:1.7rem; flex:0 0 1.7rem; }}
+h2.lane .cnt {{ margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em;
+  color:var(--muted); font-weight:400; }}
+article {{ display:flex; gap:1.1rem; padding:1.4rem 0; border-bottom:1px solid var(--line); }}
+.score {{ flex:0 0 auto; width:3rem; height:3rem; border-radius:12px; color:var(--accent-ink);
+  font-family:var(--display); font-weight:700; font-size:1.3rem; display:flex;
+  align-items:center; justify-content:center;
+  background:linear-gradient(160deg, var(--c) 0%, var(--c) 45%, rgba(0,0,0,.35) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 0 rgba(0,0,0,.25); }}
+.art-body {{ flex:1; min-width:0; }}
+.rank {{ font:.7rem/1 var(--mono); letter-spacing:.12em; color:var(--muted); }}
+article h3 {{ font-size:1.2rem; line-height:1.3; margin:.3rem 0 .5rem; font-weight:600;
+  letter-spacing:-.015em; }}
+article h3 a {{ color:var(--text); text-decoration:none; }}
+article h3 a:hover {{ color:var(--accent-hi); }}
+.flag {{ display:inline-block; font:.6rem/1.3 var(--mono); text-transform:uppercase;
+  letter-spacing:.08em; color:var(--accent-hi); border:1px solid var(--accent);
+  border-radius:5px; padding:.15rem .4rem; margin-left:.5rem; white-space:nowrap;
+  vertical-align:middle; }}
+.summary {{ margin:.3rem 0; color:var(--text-2); }}
+.rationale {{ margin:.5rem 0 .7rem; font-size:.88rem; color:var(--muted); }}
+.rationale::before {{ content:"› "; color:var(--accent); }}
+.chips {{ display:flex; flex-wrap:wrap; gap:.4rem; }}
+.chip {{ display:inline-flex; align-items:center; gap:.4rem; font-size:.78rem;
+  text-decoration:none; color:var(--text-2); background:var(--surface);
+  border:1px solid var(--line); border-radius:999px; padding:.2rem .7rem .2rem .25rem; }}
+.chip:hover {{ border-color:var(--accent); color:var(--accent-hi); }}
+.chip i {{ width:1.15rem; height:1.15rem; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; font:700 .65rem/1 var(--mono); color:#fff; }}
+.chip .n {{ color:var(--muted); }}
+.scanned {{ margin-top:3rem; background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; padding:1.2rem 1.3rem; }}
+.scanned h2 {{ font:.7rem/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); margin:0; }}
+.scanned-list {{ list-style:none; padding:0; margin:1rem 0 0; display:flex; flex-wrap:wrap;
+  gap:.45rem; }}
+.scanned-list li {{ font:.76rem/1 var(--mono); color:var(--muted); background:var(--bg-2);
+  border:1px solid var(--line); border-radius:8px; padding:.35rem .6rem; }}
+.cnt {{ color:var(--text); font-weight:700; }}
+.cnt.dead {{ color:var(--accent-hi); font-style:italic; font-weight:400; }}
+footer {{ margin:3.2rem 0 2.6rem; padding-top:1.3rem; border-top:1px solid var(--line);
+  color:var(--muted); font-size:.85rem; }}
+:focus-visible {{ outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }}
+@media (max-width:480px) {{
+  .brand {{ font-size:2.1rem; }} article {{ gap:.75rem; }}
+  .score {{ width:2.5rem; height:2.5rem; font-size:1.1rem; }}
+  .top-mark {{ display:none; }}
+}}
+@media (prefers-reduced-motion:reduce) {{ * {{ transition:none!important; animation:none!important; }} }}
 """
+
 
 _PAGE = """<!DOCTYPE html>
 <html lang="en">
@@ -136,9 +161,12 @@ _PAGE = """<!DOCTYPE html>
 <body>
 <p class="backlink"><a href="index.html">&larr; all issues</a> &middot; <a href="../index.html">about Sift</a></p>
 <header class="top">
+<div>
 <h1 class="brand">Sift<span class="dot">.</span></h1>
 <p class="issue">Week {week}{range_sep}{range}</p>
 <p class="metrics">{metrics}</p>
+</div>
+<div class="top-mark" aria-hidden="true">{mark}</div>
 </header>
 {glance}
 {sections}
@@ -205,7 +233,7 @@ def render_html(
     page = _PAGE.format(
         week=escape(week),
         desc=escape(desc, quote=True),
-        favicon=_FAVICON,
+        favicon=_favicon_data_uri(),
         og=og_tags(
             title=f"Sift — Week {week}",
             description=desc,
@@ -213,7 +241,8 @@ def render_html(
             image=image,
             image_alt=f"Sift digest cover — Week {week}",
         ),
-        style=_STYLE,
+        style=_style(),
+        mark=iso.mark(_PALETTE, size=54),
         range_sep=" &middot; " if week_range(week) else "",
         range=escape(week_range(week)),
         metrics=_metrics_html(len(stories), sources, cost),
@@ -252,7 +281,8 @@ def _glance_html(stories: list[dict]) -> str:
             f'title="{escape(label)}: {n}"></span>'
         )
         legend.append(
-            f'<span data-cat="{cat}"><i style="background:var(--c)"></i>{escape(label)} {n}</span>'
+            f'<span data-cat="{cat}">{iso.category_glyph(cat, _PALETTE)}'
+            f"{escape(label)} <b>{n}</b></span>"
         )
     scores = [int(s["score"]) for s in stories]
     bars = "".join(
@@ -280,8 +310,11 @@ def _sections_html(stories: list[dict]) -> str:
         if not in_cat:
             continue
         articles = "\n".join(_article(s, ranked[id(s)]) for s in in_cat)
+        plural = "story" if len(in_cat) == 1 else "stories"
         sections.append(
-            f'<h2 class="lane" data-cat="{category}"><i></i>{escape(label)}</h2>\n{articles}'
+            f'<h2 class="lane" data-cat="{category}">'
+            f"{iso.category_glyph(category, _PALETTE)}{escape(label)}"
+            f'<span class="cnt">{len(in_cat)} {plural}</span></h2>\n{articles}'
         )
     return "\n".join(sections)
 
@@ -312,7 +345,7 @@ def _sources_scanned_html(digest: dict) -> str:
 def _article(story: dict, rank: int) -> str:
     primary_url = story["links"][0]["url"] if story["links"] else "#"
     flag = '<span class="flag">needs verification</span>' if story["needs_verification"] else ""
-    chips = "".join(_source_chip(link) for link in story["links"])
+    chips = _source_chips(story["links"])
     return (
         f'<article data-cat="{escape(story["category"])}">\n'
         f'<span class="score" title="importance {story["score"]}/10">{story["score"]}</span>\n'
@@ -327,14 +360,28 @@ def _article(story: dict, rank: int) -> str:
     )
 
 
-def _source_chip(link: dict) -> str:
+def _source_chips(links: list[dict]) -> str:
+    """One chip per distinct source domain. A story that cites the same domain
+    several times (a thread of posts, say) gets a single chip with a count,
+    rather than the same chip repeated."""
+    seen: dict[str, dict] = {}
+    counts: dict[str, int] = {}
+    for link in links:
+        domain = display_domain(link["url"]) or link["source"]
+        seen.setdefault(domain, link)
+        counts[domain] = counts.get(domain, 0) + 1
+    return "".join(_source_chip(link, counts[domain]) for domain, link in seen.items())
+
+
+def _source_chip(link: dict, count: int = 1) -> str:
     # Raw domain (or feed-name fallback); escaped once at each sink below.
     domain = display_domain(link["url"]) or link["source"]
     initial = escape((domain[:1] or "?").upper())
     hue = sum(ord(c) for c in domain) % 360  # stable monogram tint
     # Lightness 33% keeps the white monogram letter ≥4.5:1 across all hues.
+    tally = f' <span class="n">&times;{count}</span>' if count > 1 else ""
     return (
         f'<a class="chip" href="{escape(safe_href(link["url"]))}">'
         f'<i style="background:hsl({hue} 50% 33%)">{initial}</i>'
-        f'<span>{escape(domain)}</span></a>'
+        f"<span>{escape(domain)}{tally}</span></a>"
     )

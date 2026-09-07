@@ -9,7 +9,7 @@
 <link rel="icon" href="../assets/favicon.ico" sizes="32x32" type="image/x-icon">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
-<meta name="theme-color" content="#b4542e">
+<meta name="theme-color" content="#ff4f8b">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sift">
 <meta property="og:title" content="Sift — digest archive">
@@ -25,18 +25,22 @@
 <meta name="twitter:image" content="https://abhijitbansal.github.io/sift/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Schibsted+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/sift.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="page-glow" aria-hidden="true"></div>
 <header class="masthead">
-<a class="brand" href="../index.html">Sift</a>
-<p class="tagline">A weekly dispatch of AI signal — curated for one reader</p>
-<nav><a href="../index.html">Home</a><a href="../how-it-works.html">How it works</a><a href="../features.html">Features</a><a href="../sources.html">Sources</a><a href="../guide.html">Guide</a><a href="../roadmap.html">Roadmap</a><a href="../digests/index.html" class="active">Archive</a></nav>
+<div class="masthead-inner">
+<a class="brand" href="../index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Sift"><g opacity="1"><polygon points="12.3,24.4 16.0,26.6 16.0,22.3 12.3,20.1" fill="#d14172"/><polygon points="19.7,24.4 16.0,26.6 16.0,22.3 19.7,20.1" fill="#942e51"/><polygon points="16.0,18.0 19.7,20.1 16.0,22.3 12.3,20.1" fill="#ff739f"/></g><polygon points="2.7,20.2 16.0,27.8 16.0,24.8 2.7,17.2" fill="rgba(236,205,255,0.1)"/><polygon points="29.3,20.2 16.0,27.8 16.0,24.8 29.3,17.2" fill="rgba(236,205,255,0.05)"/><polygon points="16.0,9.5 29.3,17.2 16.0,24.8 2.7,17.2" fill="rgba(236,205,255,0.12)"/><g stroke="rgba(236,205,255,0.4)" stroke-width="0.7"><line x1="20.4" y1="12.0" x2="7.1" y2="19.7"/><line x1="11.6" y1="12.0" x2="24.9" y2="19.7"/><line x1="24.9" y1="14.6" x2="11.6" y2="22.3"/><line x1="7.1" y1="14.6" x2="20.4" y2="22.3"/></g><polygon points="16.0,9.5 29.3,17.2 16.0,24.8 2.7,17.2" fill="none" stroke="rgba(236,205,255,0.55)" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0.0,13.2 16.0,22.5 16.0,19.5 0.0,10.2" fill="rgba(236,205,255,0.1)"/><polygon points="32.0,13.2 16.0,22.5 16.0,19.5 32.0,10.2" fill="rgba(236,205,255,0.05)"/><polygon points="16.0,1.0 32.0,10.2 16.0,19.5 0.0,10.2" fill="rgba(236,205,255,0.08)"/><g stroke="rgba(236,205,255,0.3)" stroke-width="0.7"><line x1="20.0" y1="3.3" x2="4.0" y2="12.5"/><line x1="12.0" y1="3.3" x2="28.0" y2="12.5"/><line x1="24.0" y1="5.6" x2="8.0" y2="14.8"/><line x1="8.0" y1="5.6" x2="24.0" y2="14.8"/><line x1="28.0" y1="7.9" x2="12.0" y2="17.2"/><line x1="4.0" y1="7.9" x2="20.0" y2="17.2"/></g><polygon points="16.0,1.0 32.0,10.2 16.0,19.5 0.0,10.2" fill="none" stroke="rgba(236,205,255,0.55)" stroke-width="1.2" stroke-linejoin="round"/></svg><span>Sift<b>.</b></span></a>
+<nav aria-label="Primary"><a href="../index.html">Home</a><a href="../how-it-works.html">How it works</a><a href="../features.html">Features</a><a href="../sources.html">Sources</a><a href="../guide.html">Guide</a><a href="../roadmap.html">Roadmap</a><a href="../digests/index.html" class="active">Archive</a></nav>
+<a class="btn btn-primary" href="../digests/2026-36.html">Read Week 2026-36<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></a>
+</div>
 </header>
 <main id="main">
 <h1>Digest archive</h1>
+<p>Each week's digest is a self-contained HTML file with a JSON twin, committed to the repo and served from here. Nothing is regenerated after the fact, so an old issue reads exactly as it was sent.</p>
 <div class="archive-controls">
 <input id="archive-filter" type="search" placeholder="Filter issues…" aria-label="Filter issues">
 <select id="archive-jump" aria-label="Jump to an issue">
@@ -53,17 +57,18 @@
 </select>
 </div>
 <ul class="archive" id="archive-list">
-<li data-label="2026-36 aug 31 – sep 6, 2026"><a href="2026-36.html"><span class="wk">Week 2026-36</span><span class="rng">Aug 31 – Sep 6, 2026</span></a><span class="meta">10 stories &middot; $0.13</span></li>
-<li data-label="2026-34 aug 17–23, 2026"><a href="2026-34.html"><span class="wk">Week 2026-34</span><span class="rng">Aug 17–23, 2026</span></a><span class="meta">10 stories &middot; $0.18</span></li>
-<li data-label="2026-33 aug 10–16, 2026"><a href="2026-33.html"><span class="wk">Week 2026-33</span><span class="rng">Aug 10–16, 2026</span></a><span class="meta">10 stories &middot; $0.25</span></li>
-<li data-label="2026-32 aug 3–9, 2026"><a href="2026-32.html"><span class="wk">Week 2026-32</span><span class="rng">Aug 3–9, 2026</span></a><span class="meta">10 stories &middot; $0.26</span></li>
-<li data-label="2026-30 jul 20–26, 2026"><a href="2026-30.html"><span class="wk">Week 2026-30</span><span class="rng">Jul 20–26, 2026</span></a><span class="meta">10 stories &middot; $0.22</span></li>
-<li data-label="2026-29 jul 13–19, 2026"><a href="2026-29.html"><span class="wk">Week 2026-29</span><span class="rng">Jul 13–19, 2026</span></a><span class="meta">10 stories &middot; $0.28</span></li>
-<li data-label="2026-28 jul 6–12, 2026"><a href="2026-28.html"><span class="wk">Week 2026-28</span><span class="rng">Jul 6–12, 2026</span></a><span class="meta">10 stories &middot; $0.21</span></li>
-<li data-label="2026-27 jun 29 – jul 5, 2026"><a href="2026-27.html"><span class="wk">Week 2026-27</span><span class="rng">Jun 29 – Jul 5, 2026</span></a><span class="meta">10 stories &middot; $0.21</span></li>
-<li data-label="2026-26 jun 22–28, 2026"><a href="2026-26.html"><span class="wk">Week 2026-26</span><span class="rng">Jun 22–28, 2026</span></a><span class="meta">10 stories &middot; $0.17</span></li>
+<li data-label="2026-36 aug 31 – sep 6, 2026"><a href="2026-36.html"><span><span class="wk">2026-36</span><span class="rng">Aug 31 – Sep 6, 2026</span></span><span class="lead">OpenAI releases GPT-6 Astra, its most capable model with Critical cybersecurity level</span><span class="meta">10 stories &middot; $0.13</span></a></li>
+<li data-label="2026-34 aug 17–23, 2026"><a href="2026-34.html"><span><span class="wk">2026-34</span><span class="rng">Aug 17–23, 2026</span></span><span class="lead">Asana clears 5 years of engineering work in 2 weeks using Codex</span><span class="meta">10 stories &middot; $0.18</span></a></li>
+<li data-label="2026-33 aug 10–16, 2026"><a href="2026-33.html"><span><span class="wk">2026-33</span><span class="rng">Aug 10–16, 2026</span></span><span class="lead">Google DeepMind releases Gemini 3.7 Flash</span><span class="meta">10 stories &middot; $0.25</span></a></li>
+<li data-label="2026-32 aug 3–9, 2026"><a href="2026-32.html"><span><span class="wk">2026-32</span><span class="rng">Aug 3–9, 2026</span></span><span class="lead">Multiple AI labs&#x27; models caused accidental cyberattacks during safety evaluations</span><span class="meta">10 stories &middot; $0.26</span></a></li>
+<li data-label="2026-30 jul 20–26, 2026"><a href="2026-30.html"><span><span class="wk">2026-30</span><span class="rng">Jul 20–26, 2026</span></span><span class="lead">Anthropic releases Claude Opus 5</span><span class="meta">10 stories &middot; $0.22</span></a></li>
+<li data-label="2026-29 jul 13–19, 2026"><a href="2026-29.html"><span><span class="wk">2026-29</span><span class="rng">Jul 13–19, 2026</span></span><span class="lead">Moonshot AI releases Kimi K3, a 2.8T-parameter open-weight model claiming frontier coding performance</span><span class="meta">10 stories &middot; $0.28</span></a></li>
+<li data-label="2026-28 jul 6–12, 2026"><a href="2026-28.html"><span><span class="wk">2026-28</span><span class="rng">Jul 6–12, 2026</span></span><span class="lead">OpenAI launches GPT-5.6 family (Luna, Terra, Sol)</span><span class="meta">10 stories &middot; $0.21</span></a></li>
+<li data-label="2026-27 jun 29 – jul 5, 2026"><a href="2026-27.html"><span><span class="wk">2026-27</span><span class="rng">Jun 29 – Jul 5, 2026</span></span><span class="lead">Anthropic releases Claude Sonnet 5</span><span class="meta">10 stories &middot; $0.21</span></a></li>
+<li data-label="2026-26 jun 22–28, 2026"><a href="2026-26.html"><span><span class="wk">2026-26</span><span class="rng">Jun 22–28, 2026</span></span><span class="lead">GLM-5.2 beats Claude in cyber benchmarks, marking a step change for open agents</span><span class="meta">10 stories &middot; $0.17</span></a></li>
 </ul>
 <p class="archive-empty" id="archive-empty" hidden>No issues match that filter.</p>
+<div class="next-issue"><span class="wk">2026-37</span><span class="pulse"><i></i>Next issue lands <b>Sunday, Sep 13, 2026</b> — the weekly job publishes it here automatically.</span></div>
 <script>
 (function () {
   var jump = document.getElementById('archive-jump');
@@ -88,8 +93,11 @@
 
 </main>
 <footer class="site-footer">
+<div class="footer-inner">
 <p>Sift &mdash; a weekly AI-news curation pipeline for one reader. One Claude call
 per week; everything else local and free.</p>
+<div class="footer-links"><a href="../how-it-works.html">How it works</a><a href="../features.html">Features</a><a href="../sources.html">Sources</a><a href="../guide.html">Guide</a><a href="../roadmap.html">Roadmap</a><a href="../digests/index.html">Archive</a></div>
+</div>
 </footer>
 </body>
 </html>

@@ -209,3 +209,110 @@ def test_render_json_roundtrips(tmp_path):
 
     assert loaded["week"] == "2026-26"
     assert loaded["stories"][0]["title"] == "X"
+
+
+# --- the 3D redesign ---------------------------------------------------------
+
+
+def _story(**overrides):
+    story = {
+        "title": "A headline",
+        "category": "tooling",
+        "score": 7,
+        "rationale": "why it matters",
+        "summary": "what happened",
+        "needs_verification": False,
+        "links": [{"url": "https://example.com/a", "source": "Example"}],
+    }
+    story.update(overrides)
+    return story
+
+
+def test_digest_is_self_contained(tmp_path):
+    """No external stylesheet, script or font: the digest must render the same
+    offline and inside an email client."""
+    path = tmp_path / "d.html"
+
+    render.render_html({"week": "2026-26", "stories": [_story()]}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert "<link rel=\"stylesheet\"" not in html
+    assert "fonts.googleapis.com" not in html
+    assert "<script" not in html
+
+
+def test_digest_uses_the_shared_palette(tmp_path):
+    path = tmp_path / "d.html"
+
+    render.render_html({"week": "2026-26", "stories": [_story()]}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert f"--accent: {render._PALETTE.accent};" in html
+
+
+def test_lane_headers_carry_a_category_glyph_and_a_count(tmp_path):
+    path = tmp_path / "d.html"
+    stories = [_story(), _story(title="Second")]
+
+    render.render_html({"week": "2026-26", "stories": stories}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert 'class="lane"' in html or "lane" in html
+    assert "2 stories" in html
+    assert 'aria-label="tooling category"' in html
+
+
+def test_a_single_story_lane_is_not_pluralised(tmp_path):
+    path = tmp_path / "d.html"
+
+    render.render_html({"week": "2026-26", "stories": [_story()]}, path)
+
+    assert "1 story" in path.read_text(encoding="utf-8")
+
+
+def test_repeated_source_domains_collapse_into_one_counted_chip(tmp_path):
+    """Five posts from one domain used to render five identical chips."""
+    path = tmp_path / "d.html"
+    links = [
+        {"url": f"https://nitter.net/user{i}/status/{i}", "source": "X"} for i in range(5)
+    ]
+
+    render.render_html({"week": "2026-26", "stories": [_story(links=links)]}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert html.count('class="chip"') == 1
+    assert "&times;5" in html
+
+
+def test_distinct_domains_each_get_their_own_chip(tmp_path):
+    path = tmp_path / "d.html"
+    links = [
+        {"url": "https://semgrep.dev/blog/x", "source": "A"},
+        {"url": "https://interconnects.ai/p/y", "source": "B"},
+    ]
+
+    render.render_html({"week": "2026-26", "stories": [_story(links=links)]}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert html.count('class="chip"') == 2
+    assert "&times;" not in html  # no count when every domain is distinct
+
+
+def test_the_glance_legend_uses_the_same_glyphs_as_the_lanes(tmp_path):
+    path = tmp_path / "d.html"
+    stories = [_story(), _story(category="infra", title="Infra story")]
+
+    render.render_html({"week": "2026-26", "stories": stories}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert html.count('aria-label="tooling category"') >= 2  # legend + lane
+    assert html.count('aria-label="infra category"') >= 2
+
+
+def test_the_favicon_is_an_inline_data_uri(tmp_path):
+    path = tmp_path / "d.html"
+
+    render.render_html({"week": "2026-26", "stories": [_story()]}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert 'href="data:image/svg+xml,' in html
