@@ -10,19 +10,27 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
+from sift import theme
+
 log = logging.getLogger("sift.card")
 
 W, H = 1200, 630
-BG = (27, 20, 16)  # #1b1410 warm umber
-ACCENT = (224, 122, 79)  # #e07a4f terracotta
-INK = (239, 231, 217)  # #efe7d9 cream
-MUTED = (173, 159, 133)  # #ad9f85
+
+
+def _rgb(hex_color: str) -> tuple[int, int, int]:
+    value = hex_color.lstrip("#")
+    return tuple(int(value[i : i + 2], 16) for i in (0, 2, 4))
+
+
+# Colors come from the shared palette, so a palette switch restyles the share
+# cards along with the site and the digest.
+_PALETTE = theme.palette()
+BG = _rgb(_PALETTE.bg)
+ACCENT = _rgb(_PALETTE.accent)
+INK = _rgb(_PALETTE.text)
+MUTED = _rgb(_PALETTE.muted)
 CAT_COLORS = {
-    "models_research": (139, 132, 240),
-    "tooling": (45, 212, 191),
-    "infra": (245, 158, 11),
-    "policy": (251, 113, 133),
-    "business": (74, 222, 128),
+    category: _rgb(color) for category, color in _PALETTE.categories.items()
 }
 
 # Serif (wordmark / headline) and mono (data) font candidates, mirroring
