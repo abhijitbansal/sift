@@ -75,6 +75,23 @@ def shade(base: str) -> tuple[str, str, str]:
     )
 
 
+def faces(base: str, material: str | None) -> tuple[str, str, str]:
+    """Paint values for a solid's three faces.
+
+    With a ``material`` name the faces are emitted as CSS variable references
+    carrying the computed color as a fallback, so the light theme can restyle
+    the same SVG by swapping variables. Without one (a per-item color the theme
+    does not name) the computed values are used directly.
+    """
+    computed = shade(base)
+    if material is None:
+        return computed
+    return tuple(
+        f"var(--iso-{material}-{face}, {value})"
+        for face, value in zip(("top", "left", "right"), computed)
+    )
+
+
 # ------------------------------------------------------------------ geometry
 
 
@@ -90,9 +107,10 @@ def _points(pairs: list[tuple[float, float]]) -> str:
 def _box(
     x: float, y: float, z: float, sx: float, sy: float, h: float,
     base: str, ox: float, oy: float, *, opacity: float = 1.0, stroke: str | None = None,
+    material: str | None = None,
 ) -> str:
     """One axis-aligned box: three visible faces, painted back to front."""
-    top, left, right = shade(base)
+    top, left, right = faces(base, material)
 
     def p(a: float, b: float, c: float) -> tuple[float, float]:
         return project(a, b, c, ox, oy)
@@ -109,12 +127,25 @@ def _box(
     )
 
 
-def cube(x, y, z, size, base, ox, oy, *, opacity=1.0, stroke=None) -> str:
-    return _box(x, y, z, size, size, size, base, ox, oy, opacity=opacity, stroke=stroke)
+def cube(x, y, z, size, base, ox, oy, *, opacity=1.0, stroke=None, material=None) -> str:
+    return _box(
+        x, y, z, size, size, size, base, ox, oy,
+        opacity=opacity, stroke=stroke, material=material,
+    )
 
 
-def slab(x, y, z, sx, sy, h, base, ox, oy, *, opacity=1.0) -> str:
-    return _box(x, y, z, sx, sy, h, base, ox, oy, opacity=opacity)
+def slab(x, y, z, sx, sy, h, base, ox, oy, *, opacity=1.0, material=None) -> str:
+    return _box(x, y, z, sx, sy, h, base, ox, oy, opacity=opacity, material=material)
+
+
+def _V(material: str, fallback: str) -> str:
+    """A flat, unlit themeable color (labels, strokes, gradient stops)."""
+    return f"var(--iso-{material}-top, {fallback})"
+
+
+def _glass(pal: Palette, alpha: float) -> str:
+    """The translucent overlay tint, themeable at render time."""
+    return f"rgba(var(--iso-glass-rgb, {pal.glass_rgb}),{alpha:g})"
 
 
 def mesh_plane(
@@ -135,9 +166,9 @@ def mesh_plane(
     right = [p(x1, y0, z - thickness), p(x1, y1, z - thickness), p(x1, y1, z), p(x1, y0, z)]
 
     parts = [
-        f'<polygon points="{_points(left)}" fill="{pal.glass_rgba(0.10)}"/>',
-        f'<polygon points="{_points(right)}" fill="{pal.glass_rgba(0.05)}"/>',
-        f'<polygon points="{_points(top)}" fill="{pal.glass_rgba(fill_alpha)}"/>',
+        f'<polygon points="{_points(left)}" fill="{_glass(pal, 0.10)}"/>',
+        f'<polygon points="{_points(right)}" fill="{_glass(pal, 0.05)}"/>',
+        f'<polygon points="{_points(top)}" fill="{_glass(pal, fill_alpha)}"/>',
     ]
     step = (2 * extent) / cells
     lines = []
@@ -147,11 +178,11 @@ def mesh_plane(
         lines.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}"/>')
         lines.append(f'<line x1="{c[0]:.1f}" y1="{c[1]:.1f}" x2="{d[0]:.1f}" y2="{d[1]:.1f}"/>')
     parts.append(
-        f'<g stroke="{pal.glass_rgba(line_alpha)}" stroke-width="0.7">{"".join(lines)}</g>'
+        f'<g stroke="{_glass(pal, line_alpha)}" stroke-width="0.7">{"".join(lines)}</g>'
     )
     parts.append(
         f'<polygon points="{_points(top)}" fill="none" '
-        f'stroke="{edge or pal.glass_rgba(0.55)}" stroke-width="1.2" stroke-linejoin="round"/>'
+        f'stroke="{edge or _glass(pal, 0.55)}" stroke-width="1.2" stroke-linejoin="round"/>'
     )
     return "".join(parts)
 
@@ -203,8 +234,8 @@ def hero_sieve(pal: Palette, *, width: int = 860, height: int = 980, seed: int =
         f'<stop offset="0.55" stop-color="{pal.accent}" stop-opacity="0.12"/>'
         f'<stop offset="1" stop-color="{pal.accent}" stop-opacity="0"/></radialGradient>'
         f'<radialGradient id="haze{pal.name}" cx="50%" cy="30%" r="60%">'
-        f'<stop offset="0" stop-color="{pal.glass_rgba(0.10)}"/>'
-        f'<stop offset="1" stop-color="{pal.glass_rgba(0)}"/></radialGradient>'
+        f'<stop offset="0" stop-color="{_glass(pal, 0.10)}"/>'
+        f'<stop offset="1" stop-color="{_glass(pal, 0)}"/></radialGradient>'
     )
 
     out = [
@@ -217,43 +248,53 @@ def hero_sieve(pal: Palette, *, width: int = 860, height: int = 980, seed: int =
 
     # The digest that falls out of the bottom.
     card_z = -150
-    out.append(slab(-70, -46, card_z - 8, 140, 92, 8, pal.accent_deep, ox, oy))
+    out.append(slab(-70, -46, card_z - 8, 140, 92, 8, pal.accent_deep, ox, oy, material="accent-deep"))
     card_top = [p(-70, -46, card_z), p(70, -46, card_z), p(70, 46, card_z), p(-70, 46, card_z)]
-    out.append(f'<polygon points="{_points(card_top)}" fill="{pal.accent}"/>')
+    out.append(f'<polygon points="{_points(card_top)}" fill="{_V("accent", pal.accent)}"/>')
     for i, width_fraction in enumerate((0.55, 0.85, 0.7, 0.6)):
         line_y = -30 + i * 16
         a, b = p(-56, line_y, card_z + 0.5), p(-56 + 112 * width_fraction, line_y, card_z + 0.5)
         out.append(
             f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" '
-            f'stroke="{pal.accent_ink}" stroke-opacity="{0.85 if i == 0 else 0.45}" '
+            f'stroke="{_V("ink", pal.accent_ink)}" stroke-opacity="{0.85 if i == 0 else 0.45}" '
             f'stroke-width="{4 if i == 0 else 2.5}" stroke-linecap="round"/>'
         )
     label_x, label_y = p(78, 50, card_z)
-    out.append(_label(label_x + 14, label_y + 4, "DIGEST", pal.accent_hi))
+    out.append(_label(label_x + 14, label_y + 4, "DIGEST", _V("accent-hi", pal.accent_hi)))
 
-    signal_colors = list(pal.categories.values())
+    # (material name, hex) pairs so every cube stays themeable.
+    signals = [
+        (f"cat-{category.replace('_', '-')}", color)
+        for category, color in pal.categories.items()
+    ]
+    noise_materials = [(f"noise-{i}", shade) for i, shade in enumerate(pal.noise)]
 
-    def scatter(z_lo, z_hi, extent, count, palette_colors, size_range, signal_fraction):
+    def scatter(z_lo, z_hi, extent, count, palette_materials, size_range, signal_fraction):
         items = []
         for _ in range(count):
             size = rng.uniform(*size_range)
+            material, color = (
+                rng.choice(signals)
+                if rng.random() < signal_fraction
+                else rng.choice(palette_materials)
+            )
             items.append((
                 rng.uniform(-extent, extent - size),
                 rng.uniform(-extent, extent - size),
                 rng.uniform(z_lo, z_hi),
                 size,
-                rng.choice(signal_colors)
-                if rng.random() < signal_fraction
-                else rng.choice(palette_colors),
+                color,
+                material,
             ))
         items.sort(key=lambda item: (item[0] + item[1], item[2]))
         return "".join(
-            cube(x, y, z, size, color, ox, oy, opacity=0.95) for x, y, z, size, color in items
+            cube(x, y, z, size, color, ox, oy, opacity=0.95, material=material)
+            for x, y, z, size, color, material in items
         )
 
-    noise = list(pal.noise)
+    noise = noise_materials
     # Painted bottom-up so nearer layers overlap the ones behind them.
-    out.append(scatter(-120, -60, 55, 3, signal_colors, (13, 17), 1.0))
+    out.append(scatter(-120, -60, 55, 3, signals, (13, 17), 1.0))
     for index in (3, 2, 1, 0):
         z, extent, _, is_paid = _SIEVE_LAYERS[index]
         cells = (8, 6, 5, 4)[index]
@@ -274,12 +315,12 @@ def hero_sieve(pal: Palette, *, width: int = 860, height: int = 980, seed: int =
     for z, extent, name, is_paid in _SIEVE_LAYERS:
         lx, ly = p(-extent, extent, z)
         out.append(
-            _label(lx - 16, ly + 5, name, pal.accent_hi if is_paid else pal.glass_rgba(0.62), anchor="end")
+            _label(lx - 16, ly + 5, name, _V("accent-hi", pal.accent_hi) if is_paid else _glass(pal, 0.62), anchor="end")
         )
     rank_z, rank_extent, _, _ = _SIEVE_LAYERS[3]
     tick_x, tick_y = p(rank_extent, -rank_extent, rank_z)
-    out.append(f'<circle cx="{tick_x + 10:.1f}" cy="{tick_y - 2:.1f}" r="3.2" fill="{pal.accent}"/>')
-    out.append(_label(tick_x + 20, tick_y + 3, "ONE CLAUDE CALL", pal.accent_hi, size=13))
+    out.append(f'<circle cx="{tick_x + 10:.1f}" cy="{tick_y - 2:.1f}" r="3.2" fill="{_V("accent", pal.accent)}"/>')
+    out.append(_label(tick_x + 20, tick_y + 3, "ONE CLAUDE CALL", _V("accent-hi", pal.accent_hi), size=13))
 
     return _svg(
         width, height,
@@ -315,11 +356,12 @@ def stage_block(kind: str, pal: Palette, *, width: int = 180, height: int = 150)
             f'<ellipse class="glow" cx="{ox:.0f}" cy="{oy + 30:.0f}" rx="82" ry="34" fill="url(#paid{pal.name})"/>'
         )
 
-    out.append(slab(-44, -44, 0, 88, 88, 16, pal.slab_paid if paid else pal.slab, ox, oy))
+    out.append(slab(-44, -44, 0, 88, 88, 16, pal.slab_paid if paid else pal.slab, ox, oy,
+                    material="slab-paid" if paid else "slab"))
     plate = [p(-44, -44, 16), p(44, -44, 16), p(44, 44, 16), p(-44, 44, 16)]
     out.append(
         f'<polygon points="{_points(plate)}" fill="none" '
-        f'stroke="{pal.accent if paid else pal.glass_rgba(0.35)}" stroke-width="1.1"/>'
+        f'stroke="{_V("accent", pal.accent) if paid else _glass(pal, 0.35)}" stroke-width="1.1"/>'
     )
 
     z0 = 16
@@ -335,22 +377,27 @@ def stage_block(kind: str, pal: Palette, *, width: int = 180, height: int = 150)
                     rng.uniform(10, 14),
                 ))
         items.sort(key=lambda item: (item[0] + item[1], item[2]))
-        colors = noise * 2 + [pal.category_color("tooling"), pal.category_color("models_research")]
-        out += [cube(x, y, z, size, rng.choice(colors), ox, oy) for x, y, z, size in items]
+        choices = [(f"noise-{i}", shade) for i, shade in enumerate(noise)] * 2 + [
+            ("cat-tooling", pal.category_color("tooling")),
+            ("cat-models-research", pal.category_color("models_research")),
+        ]
+        for x, y, z, size in items:
+            material, color = rng.choice(choices)
+            out.append(cube(x, y, z, size, color, ox, oy, material=material))
     elif kind == "filter":  # a mesh with items above it and one that got through
-        out.append(cube(-6, 10, z0, 12, pal.category_color("models_research"), ox, oy))
+        out.append(cube(-6, 10, z0, 12, pal.category_color("models_research"), ox, oy, material="cat-models-research"))
         out.append(mesh_plane(z0 + 30, 34, pal, ox, oy, cells=4, fill_alpha=0.10))
-        out.append(cube(-24, -20, z0 + 44, 12, noise[1], ox, oy))
-        out.append(cube(8, -28, z0 + 52, 11, noise[2], ox, oy))
+        out.append(cube(-24, -20, z0 + 44, 12, noise[1], ox, oy, material="noise-1"))
+        out.append(cube(8, -28, z0 + 52, 11, noise[2], ox, oy, material="noise-2"))
     elif kind == "dedup":  # duplicates merging into one
-        out.append(cube(-30, -6, z0, 18, noise[2], ox, oy, opacity=0.55))
-        out.append(cube(-16, -14, z0, 18, noise[3], ox, oy, opacity=0.75))
-        out.append(cube(2, 2, z0, 24, pal.category_color("tooling"), ox, oy))
+        out.append(cube(-30, -6, z0, 18, noise[2], ox, oy, opacity=0.55, material="noise-2"))
+        out.append(cube(-16, -14, z0, 18, noise[3], ox, oy, opacity=0.75, material="noise-3"))
+        out.append(cube(2, 2, z0, 24, pal.category_color("tooling"), ox, oy, material="cat-tooling"))
     elif kind == "rank":  # the scored block
-        out.append(cube(-18, -18, z0, 36, pal.accent, ox, oy, stroke=pal.accent_hi))
+        out.append(cube(-18, -18, z0, 36, pal.accent, ox, oy, stroke=_V("accent-hi", pal.accent_hi), material="accent"))
         fx, fy = p(0, 0, z0 + 36)
         out.append(
-            f'<text x="{fx:.1f}" y="{fy + 4:.1f}" fill="{pal.accent_ink}" '
+            f'<text x="{fx:.1f}" y="{fy + 4:.1f}" fill="{_V("ink", pal.accent_ink)}" '
             f'font-family="Bricolage Grotesque, Helvetica, Arial, sans-serif" '
             f'font-size="18" font-weight="700" text-anchor="middle">9</text>'
         )
@@ -358,34 +405,35 @@ def stage_block(kind: str, pal: Palette, *, width: int = 180, height: int = 150)
         stack = ((-34, -10), (-10, 6), (14, -22), (2, 20))
         for i, (x, y) in enumerate(stack):
             out.append(
-                cube(x, y, z0, 16, pal.accent if i == 0 else noise[i % len(noise)], ox, oy,
-                     opacity=1.0 if i < 2 else 0.45)
+                cube(x, y, z0, 16, pal.accent if i == 0 else pal.noise[i % len(pal.noise)], ox, oy,
+                     opacity=1.0 if i < 2 else 0.45,
+                     material="accent" if i == 0 else f"noise-{i % len(noise)}")
             )
         cut = z0 + 20
         plane = [p(-40, -40, cut), p(40, -40, cut), p(40, 40, cut), p(-40, 40, cut)]
         out.append(
-            f'<polygon points="{_points(plane)}" fill="none" stroke="{pal.accent}" '
+            f'<polygon points="{_points(plane)}" fill="none" stroke="{_V("accent", pal.accent)}" '
             f'stroke-width="1.2" stroke-dasharray="4 3" stroke-linejoin="round"/>'
         )
     elif kind == "deliver":  # a copy leaving the slab: record, email, publish
-        out.append(slab(-30, -20, z0, 60, 40, 4, pal.text, ox, oy, opacity=0.5))
-        out.append(slab(-24, -16, z0 + 22, 60, 40, 4, pal.text, ox, oy))
+        out.append(slab(-30, -20, z0, 60, 40, 4, pal.text, ox, oy, opacity=0.5, material="text"))
+        out.append(slab(-24, -16, z0 + 22, 60, 40, 4, pal.text, ox, oy, material="text"))
         a, b = p(0, 0, z0 + 8), p(0, 0, z0 + 20)
         out.append(
             f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" '
-            f'stroke="{pal.accent}" stroke-width="2" stroke-linecap="round"/>'
+            f'stroke="{_V("accent", pal.accent)}" stroke-width="2" stroke-linecap="round"/>'
         )
-        out.append(cube(12, 10, z0 + 28, 12, pal.accent, ox, oy))
+        out.append(cube(12, 10, z0 + 28, 12, pal.accent, ox, oy, material="accent"))
     else:  # render — a finished page
-        out.append(slab(-34, -24, z0, 68, 48, 5, pal.text, ox, oy))
+        out.append(slab(-34, -24, z0, 68, 48, 5, pal.text, ox, oy, material="text"))
         for i, width_fraction in enumerate((0.5, 0.85, 0.7)):
             a, b = p(-26, -14 + i * 12, z0 + 5.5), p(-26 + 52 * width_fraction, -14 + i * 12, z0 + 5.5)
             out.append(
                 f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" '
-                f'stroke="{pal.accent_ink}" stroke-opacity="0.6" '
+                f'stroke="{_V("ink", pal.accent_ink)}" stroke-opacity="0.6" '
                 f'stroke-width="{3 if i == 0 else 2}" stroke-linecap="round"/>'
             )
-        out.append(cube(18, 12, z0 + 5, 12, pal.accent, ox, oy))
+        out.append(cube(18, 12, z0 + 5, 12, pal.accent, ox, oy, material="accent"))
 
     return _svg(width, height, f"{kind} pipeline step", "".join(out), defs)
 
@@ -397,8 +445,11 @@ def category_glyph(category: str, pal: Palette, *, size: int = 64) -> str:
     """One primitive per ranked category, lit like every other solid."""
     color = pal.category_color(category)
     shape = CATEGORY_SHAPES.get(category, "cube")
+    material = (
+        f"cat-{category.replace('_', '-')}" if category in pal.categories else "accent"
+    )
     ox, oy = size / 2, size * 0.56
-    top, left, right = shade(color)
+    top, left, right = faces(color, material)
     unique = f"{category}{pal.name}"
     body: list[str] = []
     defs = ""
@@ -408,7 +459,7 @@ def category_glyph(category: str, pal: Palette, *, size: int = 64) -> str:
         return project(a, b, c, ox, oy)
 
     if shape == "cube":
-        body.append(cube(-s / 2, -s / 2, -s / 2, s, color, ox, oy))
+        body.append(cube(-s / 2, -s / 2, -s / 2, s, color, ox, oy, material=material))
     elif shape == "cylinder":
         rx, ry, h = s * 0.82, s * 0.41, s * 0.9
         defs = (
@@ -441,7 +492,8 @@ def category_glyph(category: str, pal: Palette, *, size: int = 64) -> str:
         ]
         top_ring = [(ox + x, oy - h / 2 + y * 0.5) for x, y in ring]
         bottom_ring = [(ox + x, oy + h / 2 + y * 0.5) for x, y in ring]
-        for i, face in ((0, right), (1, mix(color, _SHADOW, 0.30)), (5, left)):
+        mid = f"var(--iso-{material}-right, {mix(color, _SHADOW, 0.30)})"
+        for i, face in ((0, right), (1, mid), (5, left)):
             j = (i + 1) % 6
             body.append(
                 f'<polygon points="{_points([top_ring[i], top_ring[j], bottom_ring[j], bottom_ring[i]])}" fill="{face}"/>'
@@ -451,9 +503,9 @@ def category_glyph(category: str, pal: Palette, *, size: int = 64) -> str:
         radius = s * 0.95
         defs = (
             f'<radialGradient id="sph{unique}" cx="35%" cy="32%" r="70%">'
-            f'<stop offset="0" stop-color="{mix(color, _HIGHLIGHT, 0.5)}"/>'
-            f'<stop offset="0.5" stop-color="{color}"/>'
-            f'<stop offset="1" stop-color="{mix(color, _SHADOW, 0.5)}"/></radialGradient>'
+            f'<stop offset="0" stop-color="{top}"/>'
+            f'<stop offset="0.5" stop-color="{_V(material, color)}"/>'
+            f'<stop offset="1" stop-color="{left}"/></radialGradient>'
         )
         body.append(f'<circle cx="{ox:.1f}" cy="{oy - 4:.1f}" r="{radius:.1f}" fill="url(#sph{unique})"/>')
 
@@ -468,7 +520,7 @@ def mark(pal: Palette, *, size: int = 40) -> str:
     ox, oy = size / 2, size * 0.5
     extent = size * 0.24
     body = [
-        cube(-extent * 0.28, -extent * 0.28, -extent * 1.1, extent * 0.56, pal.accent, ox, oy),
+        cube(-extent * 0.28, -extent * 0.28, -extent * 1.1, extent * 0.56, pal.accent, ox, oy, material="accent"),
         mesh_plane(-extent * 0.15, extent, pal, ox, oy, cells=3, thickness=3, fill_alpha=0.12, line_alpha=0.40),
         mesh_plane(extent * 0.75, extent * 1.2, pal, ox, oy, cells=4, thickness=3, fill_alpha=0.08, line_alpha=0.30),
     ]

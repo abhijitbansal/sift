@@ -36,6 +36,7 @@
   --slab: #281a3c;
   --slab-paid: #3a1e3a;
   --live: #4ade80;
+  --badge-tint: #fff4e6;
   --glass-rgb: 236,205,255;
   --accent-rgb: 255,79,139;
   --cat-models-research: #8b84f0;
@@ -43,13 +44,146 @@
   --cat-infra: #fbbf24;
   --cat-policy: #c084fc;
   --cat-business: #4ade80;
-}
-:root {
-  --surface: rgba(236,205,255,0.05); --surface-2: rgba(236,205,255,0.09);
-  --line: rgba(236,205,255,0.11); --line-2: rgba(236,205,255,0.2);
+  --iso-glass-rgb: 236,205,255;
+  --iso-accent-top: #ff739f;
+  --iso-accent-left: #d14172;
+  --iso-accent-right: #942e51;
+  --iso-accent-hi-top: #ff99b8;
+  --iso-accent-hi-left: #d1688c;
+  --iso-accent-hi-right: #944a63;
+  --iso-accent-deep-top: #db5983;
+  --iso-accent-deep-left: #ab2554;
+  --iso-accent-deep-right: #791a3c;
+  --iso-ink-top: #50393f;
+  --iso-ink-left: #19030d;
+  --iso-ink-right: #120209;
+  --iso-text-top: #f7eefa;
+  --iso-text-left: #c9c2d1;
+  --iso-text-right: #8e8994;
+  --iso-slab-top: #574a61;
+  --iso-slab-left: #211531;
+  --iso-slab-right: #170f23;
+  --iso-slab-paid-top: #654d60;
+  --iso-slab-paid-left: #301930;
+  --iso-slab-paid-right: #221122;
+  --iso-noise-0-top: #5a4c65;
+  --iso-noise-0-left: #231834;
+  --iso-noise-0-right: #191125;
+  --iso-noise-1-top: #625370;
+  --iso-noise-1-left: #2c1f41;
+  --iso-noise-1-right: #1f162e;
+  --iso-noise-2-top: #6c5c7d;
+  --iso-noise-2-left: #37284e;
+  --iso-noise-2-right: #271c37;
+  --iso-noise-3-top: #54485b;
+  --iso-noise-3-left: #1e142b;
+  --iso-noise-3-right: #150e1e;
+  --iso-noise-4-top: #766488;
+  --iso-noise-4-left: #413159;
+  --iso-noise-4-right: #2e233f;
+  --iso-cat-models-research-top: #a59dee;
+  --iso-cat-models-research-left: #726cc5;
+  --iso-cat-models-research-right: #514d8b;
+  --iso-cat-tooling-top: #5bdbc8;
+  --iso-cat-tooling-left: #25ae9d;
+  --iso-cat-tooling-right: #1a7b6f;
+  --iso-cat-infra-top: #fccb4f;
+  --iso-cat-infra-left: #ce9d1e;
+  --iso-cat-infra-right: #926f15;
+  --iso-cat-policy-top: #ce9df7;
+  --iso-cat-policy-left: #9d6ccf;
+  --iso-cat-policy-right: #6f4d92;
+  --iso-cat-business-top: #72e396;
+  --iso-cat-business-left: #3db669;
+  --iso-cat-business-right: #2b814a;
+  --surface: rgba(var(--glass-rgb), .05);
+  --surface-2: rgba(var(--glass-rgb), .09);
+  --line: rgba(var(--glass-rgb), .11);
+  --line-2: rgba(var(--glass-rgb), .20);
   --display: Georgia, "Times New Roman", serif;
   --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+/* The light palette is derived from the dark one, so the two never
+   drift apart; see sift.theme.light_palette. */
+@media (prefers-color-scheme: light) {
+  :root {
+  color-scheme: light;
+  --bg: #f4f4f5;
+  --bg-2: #ededee;
+  --bg-3: #e4e3e5;
+  --text: #0c0614;
+  --text-2: #5f5868;
+  --muted: #554c65;
+  --glass: #10081a;
+  --accent: #bf3b68;
+  --accent-hi: #992f53;
+  --accent-deep: #802846;
+  --accent-ink: #ffffff;
+  --slab: #d0ced2;
+  --slab-paid: #ffdfea;
+  --live: #297a46;
+  --badge-tint: #0d0715;
+  --glass-rgb: 16,8,26;
+  --accent-rgb: 191,59,104;
+  --cat-models-research: #6863b4;
+  --cat-tooling: #197569;
+  --cat-infra: #8a6914;
+  --cat-policy: #865cb0;
+  --cat-business: #297a46;
+    --iso-glass-rgb: 16,8,26;
+    --iso-accent-top: #cd6484;
+    --iso-accent-left: #9d3055;
+    --iso-accent-right: #6f223c;
+    --iso-accent-hi-top: #af5a73;
+    --iso-accent-hi-left: #7d2744;
+    --iso-accent-hi-right: #591b30;
+    --iso-accent-deep-top: #9c5569;
+    --iso-accent-deep-left: #692139;
+    --iso-accent-deep-right: #4a1729;
+    --iso-ink-top: #fffdfa;
+    --iso-ink-left: #d1d1d1;
+    --iso-ink-right: #949494;
+    --iso-text-top: #413a42;
+    --iso-text-left: #0a0510;
+    --iso-text-right: #07030c;
+    --iso-slab-top: #dad6d6;
+    --iso-slab-left: #aba9ac;
+    --iso-slab-right: #79777a;
+    --iso-slab-paid-top: #ffe4e9;
+    --iso-slab-paid-left: #d1b7c0;
+    --iso-slab-paid-right: #948188;
+    --iso-noise-0-top: #c0bac1;
+    --iso-noise-0-left: #8f8b95;
+    --iso-noise-0-right: #65626a;
+    --iso-noise-1-top: #c4bdc5;
+    --iso-noise-1-left: #938e9a;
+    --iso-noise-1-right: #68646d;
+    --iso-noise-2-top: #c8c0ca;
+    --iso-noise-2-left: #97919f;
+    --iso-noise-2-right: #6b6771;
+    --iso-noise-3-top: #beb8bd;
+    --iso-noise-3-left: #8d8992;
+    --iso-noise-3-right: #646167;
+    --iso-noise-4-top: #cbc3cf;
+    --iso-noise-4-left: #9a94a4;
+    --iso-noise-4-right: #6d6974;
+    --iso-cat-models-research-top: #8983bf;
+    --iso-cat-models-research-left: #555194;
+    --iso-cat-models-research-right: #3c3968;
+    --iso-cat-tooling-top: #4c9184;
+    --iso-cat-tooling-left: #146056;
+    --iso-cat-tooling-right: #0e443d;
+    --iso-cat-infra-top: #a48842;
+    --iso-cat-infra-left: #715610;
+    --iso-cat-infra-right: #503d0c;
+    --iso-cat-policy-top: #a17dbc;
+    --iso-cat-policy-left: #6e4b90;
+    --iso-cat-policy-right: #4e3566;
+    --iso-cat-business-top: #589569;
+    --iso-cat-business-left: #226439;
+    --iso-cat-business-right: #184729;
+  }
 }
 [data-cat=models_research] { --c: var(--cat-models-research); }
 [data-cat=tooling] { --c: var(--cat-tooling); }
@@ -145,6 +279,10 @@ footer { margin:3.2rem 0 2.6rem; padding-top:1.3rem; border-top:1px solid var(--
   .brand { font-size:2.1rem; } article { gap:.75rem; }
   .score { width:2.5rem; height:2.5rem; font-size:1.1rem; }
   .top-mark { display:none; }
+  /* Source chips are tapped rather than clicked here, so they take a full
+     touch target on phones and stay compact on the desktop. */
+  .chip { min-height:44px; padding:.2rem .9rem .2rem .3rem; }
+  .backlink a { display:inline-flex; align-items:center; min-height:44px; }
 }
 @media (prefers-reduced-motion:reduce) { * { transition:none!important; animation:none!important; } }
 </style>
@@ -157,16 +295,16 @@ footer { margin:3.2rem 0 2.6rem; padding-top:1.3rem; border-top:1px solid var(--
 <p class="issue">Week 2026-36 &middot; Aug 31 – Sep 6, 2026</p>
 <p class="metrics"><b>10</b> stories &middot; <b>16/20</b> feeds live &middot; <b>$0.13</b> run</p>
 </div>
-<div class="top-mark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 54" width="54" height="54" role="img" aria-label="Sift"><g opacity="1"><polygon points="20.7,41.3 27.0,44.9 27.0,37.6 20.7,34.0" fill="#d14172"/><polygon points="33.3,41.3 27.0,44.9 27.0,37.6 33.3,34.0" fill="#942e51"/><polygon points="27.0,30.4 33.3,34.0 27.0,37.6 20.7,34.0" fill="#ff739f"/></g><polygon points="4.6,31.9 27.0,44.9 27.0,41.9 4.6,28.9" fill="rgba(236,205,255,0.1)"/><polygon points="49.4,31.9 27.0,44.9 27.0,41.9 49.4,28.9" fill="rgba(236,205,255,0.05)"/><polygon points="27.0,16.0 49.4,28.9 27.0,41.9 4.6,28.9" fill="rgba(236,205,255,0.12)"/><g stroke="rgba(236,205,255,0.4)" stroke-width="0.7"><line x1="34.5" y1="20.3" x2="12.0" y2="33.3"/><line x1="19.5" y1="20.3" x2="42.0" y2="33.3"/><line x1="42.0" y1="24.6" x2="19.5" y2="37.6"/><line x1="12.0" y1="24.6" x2="34.5" y2="37.6"/></g><polygon points="27.0,16.0 49.4,28.9 27.0,41.9 4.6,28.9" fill="none" stroke="rgba(236,205,255,0.55)" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0.1,20.3 27.0,35.8 27.0,32.8 0.1,17.3" fill="rgba(236,205,255,0.1)"/><polygon points="53.9,20.3 27.0,35.8 27.0,32.8 53.9,17.3" fill="rgba(236,205,255,0.05)"/><polygon points="27.0,1.7 53.9,17.3 27.0,32.8 0.1,17.3" fill="rgba(236,205,255,0.08)"/><g stroke="rgba(236,205,255,0.3)" stroke-width="0.7"><line x1="33.7" y1="5.6" x2="6.8" y2="21.2"/><line x1="20.3" y1="5.6" x2="47.2" y2="21.2"/><line x1="40.5" y1="9.5" x2="13.5" y2="25.1"/><line x1="13.5" y1="9.5" x2="40.5" y2="25.1"/><line x1="47.2" y1="13.4" x2="20.3" y2="28.9"/><line x1="6.8" y1="13.4" x2="33.7" y2="28.9"/></g><polygon points="27.0,1.7 53.9,17.3 27.0,32.8 0.1,17.3" fill="none" stroke="rgba(236,205,255,0.55)" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
+<div class="top-mark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 54" width="54" height="54" role="img" aria-label="Sift"><g opacity="1"><polygon points="20.7,41.3 27.0,44.9 27.0,37.6 20.7,34.0" fill="var(--iso-accent-left, #d14172)"/><polygon points="33.3,41.3 27.0,44.9 27.0,37.6 33.3,34.0" fill="var(--iso-accent-right, #942e51)"/><polygon points="27.0,30.4 33.3,34.0 27.0,37.6 20.7,34.0" fill="var(--iso-accent-top, #ff739f)"/></g><polygon points="4.6,31.9 27.0,44.9 27.0,41.9 4.6,28.9" fill="rgba(var(--iso-glass-rgb, 236,205,255),0.1)"/><polygon points="49.4,31.9 27.0,44.9 27.0,41.9 49.4,28.9" fill="rgba(var(--iso-glass-rgb, 236,205,255),0.05)"/><polygon points="27.0,16.0 49.4,28.9 27.0,41.9 4.6,28.9" fill="rgba(var(--iso-glass-rgb, 236,205,255),0.12)"/><g stroke="rgba(var(--iso-glass-rgb, 236,205,255),0.4)" stroke-width="0.7"><line x1="34.5" y1="20.3" x2="12.0" y2="33.3"/><line x1="19.5" y1="20.3" x2="42.0" y2="33.3"/><line x1="42.0" y1="24.6" x2="19.5" y2="37.6"/><line x1="12.0" y1="24.6" x2="34.5" y2="37.6"/></g><polygon points="27.0,16.0 49.4,28.9 27.0,41.9 4.6,28.9" fill="none" stroke="rgba(var(--iso-glass-rgb, 236,205,255),0.55)" stroke-width="1.2" stroke-linejoin="round"/><polygon points="0.1,20.3 27.0,35.8 27.0,32.8 0.1,17.3" fill="rgba(var(--iso-glass-rgb, 236,205,255),0.1)"/><polygon points="53.9,20.3 27.0,35.8 27.0,32.8 53.9,17.3" fill="rgba(var(--iso-glass-rgb, 236,205,255),0.05)"/><polygon points="27.0,1.7 53.9,17.3 27.0,32.8 0.1,17.3" fill="rgba(var(--iso-glass-rgb, 236,205,255),0.08)"/><g stroke="rgba(var(--iso-glass-rgb, 236,205,255),0.3)" stroke-width="0.7"><line x1="33.7" y1="5.6" x2="6.8" y2="21.2"/><line x1="20.3" y1="5.6" x2="47.2" y2="21.2"/><line x1="40.5" y1="9.5" x2="13.5" y2="25.1"/><line x1="13.5" y1="9.5" x2="40.5" y2="25.1"/><line x1="47.2" y1="13.4" x2="20.3" y2="28.9"/><line x1="6.8" y1="13.4" x2="33.7" y2="28.9"/></g><polygon points="27.0,1.7 53.9,17.3 27.0,32.8 0.1,17.3" fill="none" stroke="rgba(var(--iso-glass-rgb, 236,205,255),0.55)" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
 </header>
 <section class="glance" aria-label="Week at a glance">
 <h2>Week at a glance</h2>
 <div class="mixbar" role="img" aria-label="Category mix"><span data-cat="models_research" style="width:70.0%;background:var(--c)" title="Models &amp; Research: 7"></span><span data-cat="tooling" style="width:20.0%;background:var(--c)" title="Tooling: 2"></span><span data-cat="policy" style="width:10.0%;background:var(--c)" title="Policy: 1"></span></div>
-<div class="legend"><span data-cat="models_research"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="models_research category"><g opacity="1"><polygon points="15.4,45.4 32.0,55.0 32.0,35.8 15.4,26.2" fill="#726cc5"/><polygon points="48.6,45.4 32.0,55.0 32.0,35.8 48.6,26.2" fill="#514d8b"/><polygon points="32.0,16.6 48.6,26.2 32.0,35.8 15.4,26.2" fill="#a59dee"/></g></svg>Models &amp; Research <b>7</b></span><span data-cat="tooling"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="tooling category"><defs><linearGradient id="cyltoolingultraviolet" x1="0" x2="1"><stop offset="0" stop-color="#25ae9d"/><stop offset="0.45" stop-color="#5bdbc8"/><stop offset="1" stop-color="#1a7b6f"/></linearGradient></defs><path d="M16.3,27.2 v17.3 a15.7,7.9 0 0 0 31.5,0 v-17.3 z" fill="url(#cyltoolingultraviolet)"/><ellipse cx="32.0" cy="27.2" rx="15.7" ry="7.9" fill="#5bdbc8"/></svg>Tooling <b>2</b></span><span data-cat="policy"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="policy category"><polygon points="47.8,31.8 32.0,36.3 32.0,53.6 47.8,49.0" fill="#6f4d92"/><polygon points="32.0,36.3 16.2,31.8 16.2,49.0 32.0,53.6" fill="#865cb0"/><polygon points="47.8,22.6 47.8,31.8 47.8,49.0 47.8,39.9" fill="#9d6ccf"/><polygon points="47.8,31.8 32.0,36.3 16.2,31.8 16.2,22.6 32.0,18.1 47.8,22.6" fill="#ce9df7"/></svg>Policy <b>1</b></span></div>
+<div class="legend"><span data-cat="models_research"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="models_research category"><g opacity="1"><polygon points="15.4,45.4 32.0,55.0 32.0,35.8 15.4,26.2" fill="var(--iso-cat-models-research-left, #726cc5)"/><polygon points="48.6,45.4 32.0,55.0 32.0,35.8 48.6,26.2" fill="var(--iso-cat-models-research-right, #514d8b)"/><polygon points="32.0,16.6 48.6,26.2 32.0,35.8 15.4,26.2" fill="var(--iso-cat-models-research-top, #a59dee)"/></g></svg>Models &amp; Research <b>7</b></span><span data-cat="tooling"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="tooling category"><defs><linearGradient id="cyltoolingultraviolet" x1="0" x2="1"><stop offset="0" stop-color="var(--iso-cat-tooling-left, #25ae9d)"/><stop offset="0.45" stop-color="var(--iso-cat-tooling-top, #5bdbc8)"/><stop offset="1" stop-color="var(--iso-cat-tooling-right, #1a7b6f)"/></linearGradient></defs><path d="M16.3,27.2 v17.3 a15.7,7.9 0 0 0 31.5,0 v-17.3 z" fill="url(#cyltoolingultraviolet)"/><ellipse cx="32.0" cy="27.2" rx="15.7" ry="7.9" fill="var(--iso-cat-tooling-top, #5bdbc8)"/></svg>Tooling <b>2</b></span><span data-cat="policy"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="policy category"><polygon points="47.8,31.8 32.0,36.3 32.0,53.6 47.8,49.0" fill="var(--iso-cat-policy-right, #6f4d92)"/><polygon points="32.0,36.3 16.2,31.8 16.2,49.0 32.0,53.6" fill="var(--iso-cat-policy-right, #865cb0)"/><polygon points="47.8,22.6 47.8,31.8 47.8,49.0 47.8,39.9" fill="var(--iso-cat-policy-left, #9d6ccf)"/><polygon points="47.8,31.8 32.0,36.3 16.2,31.8 16.2,22.6 32.0,18.1 47.8,22.6" fill="var(--iso-cat-policy-top, #ce9df7)"/></svg>Policy <b>1</b></span></div>
 <div class="spread"><div class="bars" role="img" aria-label="Score spread"><i data-cat="models_research" style="height:100%"></i><i data-cat="models_research" style="height:70%"></i><i data-cat="models_research" style="height:70%"></i><i data-cat="tooling" style="height:70%"></i><i data-cat="models_research" style="height:60%"></i><i data-cat="models_research" style="height:60%"></i><i data-cat="tooling" style="height:60%"></i><i data-cat="policy" style="height:50%"></i><i data-cat="models_research" style="height:50%"></i><i data-cat="models_research" style="height:50%"></i></div><p class="cap mono">hi 10 &middot; lo 5 &middot; avg 6.4</p></div>
 </section>
 
-<h2 class="lane" data-cat="models_research"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="models_research category"><g opacity="1"><polygon points="15.4,45.4 32.0,55.0 32.0,35.8 15.4,26.2" fill="#726cc5"/><polygon points="48.6,45.4 32.0,55.0 32.0,35.8 48.6,26.2" fill="#514d8b"/><polygon points="32.0,16.6 48.6,26.2 32.0,35.8 15.4,26.2" fill="#a59dee"/></g></svg>Models &amp; Research<span class="cnt">7 stories</span></h2>
+<h2 class="lane" data-cat="models_research"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="models_research category"><g opacity="1"><polygon points="15.4,45.4 32.0,55.0 32.0,35.8 15.4,26.2" fill="var(--iso-cat-models-research-left, #726cc5)"/><polygon points="48.6,45.4 32.0,55.0 32.0,35.8 48.6,26.2" fill="var(--iso-cat-models-research-right, #514d8b)"/><polygon points="32.0,16.6 48.6,26.2 32.0,35.8 15.4,26.2" fill="var(--iso-cat-models-research-top, #a59dee)"/></g></svg>Models &amp; Research<span class="cnt">7 stories</span></h2>
 <article data-cat="models_research">
 <span class="score" title="importance 10/10">10</span>
 <div class="art-body">
@@ -237,7 +375,7 @@ footer { margin:3.2rem 0 2.6rem; padding-top:1.3rem; border-top:1px solid var(--
 <div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/29/hy4/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net</span></a></div>
 </div>
 </article>
-<h2 class="lane" data-cat="tooling"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="tooling category"><defs><linearGradient id="cyltoolingultraviolet" x1="0" x2="1"><stop offset="0" stop-color="#25ae9d"/><stop offset="0.45" stop-color="#5bdbc8"/><stop offset="1" stop-color="#1a7b6f"/></linearGradient></defs><path d="M16.3,27.2 v17.3 a15.7,7.9 0 0 0 31.5,0 v-17.3 z" fill="url(#cyltoolingultraviolet)"/><ellipse cx="32.0" cy="27.2" rx="15.7" ry="7.9" fill="#5bdbc8"/></svg>Tooling<span class="cnt">2 stories</span></h2>
+<h2 class="lane" data-cat="tooling"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="tooling category"><defs><linearGradient id="cyltoolingultraviolet" x1="0" x2="1"><stop offset="0" stop-color="var(--iso-cat-tooling-left, #25ae9d)"/><stop offset="0.45" stop-color="var(--iso-cat-tooling-top, #5bdbc8)"/><stop offset="1" stop-color="var(--iso-cat-tooling-right, #1a7b6f)"/></linearGradient></defs><path d="M16.3,27.2 v17.3 a15.7,7.9 0 0 0 31.5,0 v-17.3 z" fill="url(#cyltoolingultraviolet)"/><ellipse cx="32.0" cy="27.2" rx="15.7" ry="7.9" fill="var(--iso-cat-tooling-top, #5bdbc8)"/></svg>Tooling<span class="cnt">2 stories</span></h2>
 <article data-cat="tooling">
 <span class="score" title="importance 7/10">7</span>
 <div class="art-body">
@@ -258,7 +396,7 @@ footer { margin:3.2rem 0 2.6rem; padding-top:1.3rem; border-top:1px solid var(--
 <div class="chips"><a class="chip" href="https://simonwillison.net/2026/Aug/30/understanding-chatgpt-work/"><i style="background:hsl(4 50% 33%)">S</i><span>simonwillison.net <span class="n">&times;5</span></span></a><a class="chip" href="https://huggingface.co/blog/grpo-with-trl-ifstruct"><i style="background:hsl(320 50% 33%)">H</i><span>huggingface.co <span class="n">&times;3</span></span></a></div>
 </div>
 </article>
-<h2 class="lane" data-cat="policy"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="policy category"><polygon points="47.8,31.8 32.0,36.3 32.0,53.6 47.8,49.0" fill="#6f4d92"/><polygon points="32.0,36.3 16.2,31.8 16.2,49.0 32.0,53.6" fill="#865cb0"/><polygon points="47.8,22.6 47.8,31.8 47.8,49.0 47.8,39.9" fill="#9d6ccf"/><polygon points="47.8,31.8 32.0,36.3 16.2,31.8 16.2,22.6 32.0,18.1 47.8,22.6" fill="#ce9df7"/></svg>Policy<span class="cnt">1 story</span></h2>
+<h2 class="lane" data-cat="policy"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="policy category"><polygon points="47.8,31.8 32.0,36.3 32.0,53.6 47.8,49.0" fill="var(--iso-cat-policy-right, #6f4d92)"/><polygon points="32.0,36.3 16.2,31.8 16.2,49.0 32.0,53.6" fill="var(--iso-cat-policy-right, #865cb0)"/><polygon points="47.8,22.6 47.8,31.8 47.8,49.0 47.8,39.9" fill="var(--iso-cat-policy-left, #9d6ccf)"/><polygon points="47.8,31.8 32.0,36.3 16.2,31.8 16.2,22.6 32.0,18.1 47.8,22.6" fill="var(--iso-cat-policy-top, #ce9df7)"/></svg>Policy<span class="cnt">1 story</span></h2>
 <article data-cat="policy">
 <span class="score" title="importance 5/10">5</span>
 <div class="art-body">

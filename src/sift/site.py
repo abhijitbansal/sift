@@ -636,16 +636,21 @@ def _webmanifest() -> str:
 def _site_css() -> str:
     """The whole stylesheet, with every color coming from the palette."""
     pal = _PALETTE
-    return f"""{theme.css_variables(pal)}
-{theme.category_selectors(pal)}
-:root {{
-  --display: {theme.FONT_DISPLAY};
+    fonts = f"""  --display: {theme.FONT_DISPLAY};
   --body: {theme.FONT_BODY};
   --mono: {theme.FONT_MONO};
-  --line: {pal.glass_rgba(0.10)};
-  --line-2: {pal.glass_rgba(0.18)};
-  --surface: {pal.glass_rgba(0.045)};
-  --surface-2: {pal.glass_rgba(0.08)};
+  --line: rgba(var(--glass-rgb), .10);
+  --line-2: rgba(var(--glass-rgb), .18);
+  --surface: rgba(var(--glass-rgb), .045);
+  --surface-2: rgba(var(--glass-rgb), .08);
+  --glow: .30;
+  --page-glow: .16;"""
+    return f"""{theme.theme_blocks(pal, extra=fonts)}
+{theme.category_selectors(pal)}
+/* A coloured halo that reads as depth on a dark ground reads as a smudge on a
+   pale one, so both glows are dialled back in the light theme. */
+@media (prefers-color-scheme: light) {{
+  :root {{ --glow: .16; --page-glow: .10; }}
 }}
 * {{ box-sizing: border-box; }}
 html {{ scroll-behavior: smooth; overflow-x: hidden; }}
@@ -663,13 +668,15 @@ img, svg {{ max-width: 100%; }}
 
 .skip {{ position: absolute; left: -9999px; top: 0; z-index: 90; background: var(--accent);
   color: var(--accent-ink); font-family: var(--mono); font-size: .75rem; font-weight: 500;
-  padding: .7rem 1.1rem; border-radius: 0 0 10px 0; }}
+  padding: .7rem 1.1rem; border-radius: 0 0 10px 0; min-height: 44px;
+  display: inline-flex; align-items: center; }}
 .skip:focus {{ left: 0; }}
 
 /* A single soft light source behind the top of every page. */
 .page-glow {{ position: absolute; top: -300px; right: 0; width: min(56rem, 100%);
   height: 900px; border-radius: 50%; pointer-events: none; z-index: 0;
-  background: radial-gradient(closest-side, {pal.accent_rgba(0.16)}, {pal.accent_rgba(0)} 100%); }}
+  background: radial-gradient(closest-side, rgba(var(--accent-rgb), var(--page-glow)),
+    rgba(var(--accent-rgb), 0) 100%); }}
 
 .masthead, main, .site-footer {{ position: relative; z-index: 1; }}
 .masthead-inner, main, .footer-inner {{ width: 100%; max-width: 72rem; margin: 0 auto;
@@ -694,7 +701,8 @@ img, svg {{ max-width: 100%; }}
   font-weight: 600; font-size: .92rem; white-space: nowrap; }}
 .btn svg {{ width: 1rem; height: 1rem; }}
 .btn-primary {{ background: var(--accent); color: var(--accent-ink);
-  box-shadow: 0 10px 30px {pal.accent_rgba(0.30)}, inset 0 1px 0 rgba(255,255,255,.25); }}
+  box-shadow: 0 10px 30px rgba(var(--accent-rgb), var(--glow)),
+    inset 0 1px 0 rgba(255,255,255,.25); }}
 .btn-primary:hover {{ background: var(--accent-hi); color: var(--accent-ink); }}
 .btn-ghost {{ background: var(--surface); color: var(--text); border: 1px solid var(--line-2); }}
 .btn-ghost:hover {{ border-color: var(--accent); color: var(--text); }}
@@ -734,6 +742,11 @@ main {{ padding-top: 2rem; padding-bottom: 1rem; }}
   letter-spacing: -.02em; color: var(--text); line-height: 1.1; }}
 .latest .val small {{ font-family: var(--body); font-size: .92rem; font-weight: 400;
   color: var(--text-2); margin-left: .6rem; letter-spacing: 0; }}
+/* The week is a standalone navigational link, not prose, so it carries a full
+   touch target rather than the line height it would otherwise inherit. */
+.latest .val a {{ color: var(--text); min-height: 44px; display: inline-flex;
+  align-items: center; flex-wrap: wrap; }}
+.latest .val a:hover {{ color: var(--accent); }}
 .latest .live {{ display: inline-flex; align-items: center; gap: .5rem; }}
 .latest .live i {{ width: .5rem; height: .5rem; border-radius: 50%; background: var(--live);
   box-shadow: 0 0 0 4px rgba(74,222,128,.15); }}
