@@ -1,29 +1,46 @@
 """Generate the raster favicon set from the Sift lettermark (dev tool).
 
-The SVG favicon (docs/assets/favicon.svg) is the source of truth and works in
-modern browsers; this produces the raster fallbacks for older browsers, iOS
-home screens, and link previews. Run after changing the mark:
+``docs/assets/favicon.svg`` is generated on every ``sift site`` run and works in
+modern browsers; this produces the raster fallbacks for older browsers, iOS home
+screens and link previews. Those rasters are committed binaries, so they do NOT
+follow a palette change on their own — run this after changing the palette or
+the mark, or the tab icon and the home-screen icon will disagree:
 
     uv run python scripts/gen_favicons.py
 
-Requires Pillow (a dev dependency). Outputs are committed under docs/assets/.
+Colors come from ``sift.theme``, so this stays in step with everything else.
+Requires Pillow. Outputs are committed under docs/assets/.
 """
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-ACCENT = (180, 84, 46)  # #b4542e
-CREAM = (253, 253, 251)  # #fdfdfb
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from sift import theme  # noqa: E402  (needs the path above)
+
+
+def _rgb(hex_color: str) -> tuple[int, int, int]:
+    value = hex_color.lstrip("#")
+    return tuple(int(value[i : i + 2], 16) for i in (0, 2, 4))
+
+
+_PALETTE = theme.palette()
+ACCENT = _rgb(_PALETTE.accent)
+INK = _rgb(_PALETTE.accent_ink)
 ASSETS = Path(__file__).resolve().parents[1] / "docs" / "assets"
 
+# The SVG mark uses a grotesque, so the raster set matches rather than falling
+# back to the old serif lettermark.
 FONT_CANDIDATES = [
-    "/System/Library/Fonts/Supplemental/Georgia.ttf",
-    "/Library/Fonts/Georgia.ttf",
-    "/System/Library/Fonts/Supplemental/Times New Roman.ttf",
-    "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+    "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+    "/System/Library/Fonts/Helvetica.ttc",
+    "/Library/Fonts/Arial Bold.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
 ]
 
 
@@ -35,7 +52,7 @@ def _font(size: int) -> ImageFont.FreeTypeFont:
 
 
 def _draw_mark(size: int, *, rounded: bool) -> Image.Image:
-    """Terracotta tile with a centered cream serif 'S'."""
+    """Accent tile with a centered dark-ink 'S', matching favicon.svg."""
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     if rounded:
@@ -45,7 +62,7 @@ def _draw_mark(size: int, *, rounded: bool) -> Image.Image:
     font = _font(int(size * 0.7))
     bbox = draw.textbbox((0, 0), "S", font=font)
     w, h = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    draw.text(((size - w) / 2 - bbox[0], (size - h) / 2 - bbox[1]), "S", font=font, fill=CREAM)
+    draw.text(((size - w) / 2 - bbox[0], (size - h) / 2 - bbox[1]), "S", font=font, fill=INK)
     return img
 
 
