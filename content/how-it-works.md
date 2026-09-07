@@ -6,23 +6,7 @@ one Claude API call per week** — on the one step that actually needs judgment.
 
 ## The pipeline
 
-<div class="flow">
-  <div class="stage"><h4>1 · Fetch</h4><p>Pull every configured RSS/Atom feed over HTTP. A dead or slow feed is logged and skipped — it never kills the run.</p><span class="mod">fetch.py</span></div>
-  <div class="arrow">↓</div>
-  <div class="stage"><h4>2 · Filter</h4><p>Drop anything already seen (tracked in SQLite) or older than eight days. Most of the firehose disappears here, for free.</p><span class="mod">cli.py · store.py</span></div>
-  <div class="arrow">↓</div>
-  <div class="stage"><h4>3 · Dedup</h4><p>Cluster near-identical headlines with local string similarity, so the same story from five feeds collapses into one cluster.</p><span class="mod">dedup.py</span></div>
-  <div class="arrow">↓</div>
-  <div class="stage paid"><h4>4 · Rank — the one API call</h4><p>A single Claude call merges clusters that still cover the same story, assigns a category, scores importance 1–10 against your interest profile, writes a two-sentence summary, and flags non-primary-source claims. Structured JSON output, adaptive thinking.</p><span class="mod">rank.py · model from config.toml (the only paid step)</span></div>
-  <div class="arrow">↓</div>
-  <div class="stage"><h4>5 · Weight &amp; cut</h4><p>Apply per-feed trust weights and drop anything below your <code>min_score</code>, then keep the top N.</p><span class="mod">filters.py</span></div>
-  <div class="arrow">↓</div>
-  <div class="stage"><h4>6 · Render</h4><p>Write a self-contained HTML digest (and JSON) into the site's archive. Self-contained so it also works in email and offline.</p><span class="mod">render.py → docs/digests/</span></div>
-  <div class="arrow">↓</div>
-  <div class="stage"><h4>7 · Record, deliver, publish</h4><p>Record the run and its exact cost, optionally email the digest, and rebuild this site so the new week shows in the archive.</p><span class="mod">store.py · deliver.py · site.py</span></div>
-</div>
-
-Everything except step 4 is local and free.
+<!--sift:pipeline-->
 
 ## Architecture
 

@@ -1,14 +1,3 @@
-# Signal, not noise
-
-A weekly AI-news curation pipeline for one reader.
-
-Sift fetches the AI feeds you care about, throws away what you've already seen,
-clusters obvious duplicates locally for free, then makes **one** Claude API call
-to merge, categorize, score, and summarize the week — and renders a clean,
-dark-mode-friendly digest you can read in two minutes.
-
-It is deliberately small: one API call per week, everything else local and free.
-
 ## Why it exists
 
 The firehose of AI news is mostly noise: press-release vapor, chatbot drama,
@@ -36,6 +25,13 @@ The pipeline is five steps, and only one of them costs anything:
 5. **Render & deliver** — write a self-contained HTML digest (and JSON), record
    the run and its cost, optionally email it to you, and update this site's
    archive.
+
+## The five categories
+
+Every story is filed into one of five lanes, each with its own shape and color so
+a week's mix is readable at a glance.
+
+<!--sift:category-glyphs-->
 
 ## What you steer
 
