@@ -1,0 +1,373 @@
+{
+  "week": "2026-33",
+  "stories": [
+    {
+      "cluster_ids": [
+        16,
+        45,
+        65
+      ],
+      "title": "Google DeepMind releases Gemini 3.7 Flash",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "Major model release from a frontier lab with same-day tooling support.",
+      "summary": "Google DeepMind introduced Gemini 3.7 Flash, adding new capabilities to its fast model tier alongside earlier Flash variants. Same-day plugin support (llm-gemini 0.33) exposed reasoning traces and server-side tools, and analysts framed the release as returning GDM to frontier competitiveness.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://deepmind.google/blog/introducing-gemini-3-7-flash/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Aug/13/llm-gemini/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-gemini-37-flash-brings-gdm",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        52,
+        69,
+        82,
+        98,
+        99,
+        100,
+        101
+      ],
+      "title": "Meta returns to open weights with Muse Glimmer (30B, Apache 2.0)",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "Significant open-weights release with concrete benchmarks and single-GPU deployment relevance.",
+      "summary": "Meta released Muse Glimmer, a 30B dense multimodal model under Apache 2.0 that runs on a single GPU and targets agentic task completion. Independent benchmarks put it at 35 on the Artificial Analysis Intelligence Index with strong tool use but a high hallucination rate, marking Meta's first open release since Llama 4.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Aug/10/introducing-muse-glimmer/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-muse-glimmer-and-spark-open",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://huggingface.co/blog/muse-glimmer",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://nitter.net/syhw/status/2087175635894473004#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/lulumeservey/status/2086939745708634202#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/AIatMeta/status/2086757850790109574#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/ArtificialAnlys/status/2086916150278111551#m",
+          "source": "X \u00b7 @ylecun"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        50,
+        67
+      ],
+      "title": "Paper: stealing reasoning traces from proprietary LLM APIs",
+      "category": "models_research",
+      "score": 7,
+      "rationale": "Novel security research affecting all major API providers and agent security.",
+      "summary": "A paper shows that encrypted chain-of-thought blocks returned by Anthropic, OpenAI, and Google can be replayed across sessions and into weaker sibling models to recover hidden reasoning in plaintext. The technique combines replay with jailbreaking of the weaker model.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Aug/11/stealing-reasoning-traces/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-how-to-steal-a-reasoning-trace",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        57,
+        24,
+        64
+      ],
+      "title": "Agentic coding harnesses mature: Claude Code auto mode default, multi-agent patterns",
+      "category": "tooling",
+      "score": 7,
+      "rationale": "Directly on agent harnesses and SDLC automation, the reader's stated focus.",
+      "summary": "Anthropic is making auto mode the default in Claude Code across Pro, Max, and Team plans and published research on patterns and problems in emerging multi-agent systems. Separately, Latent Space profiled Flue 2, a React-inspired meta-harness for defining agents through hooks.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.anthropic.com/research/multiagent-systems",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://www.latent.space/p/flue-2",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        47,
+        60,
+        74
+      ],
+      "title": "Chinese and open models track the frontier: DeepSeek V4 Pro, GLM-5.3",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Frontier open-weight releases with parameter counts, relevant to model landscape.",
+      "summary": "DeepSeek released V4 Pro 0813 via API with weights later posted to Hugging Face at 1.7T parameters, while analysis argued GLM-5.3 shows Chinese labs keeping pace with the frontier beyond distillation. Hugging Face's summer 2026 report surveys the broader open-model landscape.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Aug/12/deepseek-v4-pro-0813/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.interconnects.ai/p/glm-53-how-chinese-labs-keep-stride",
+          "source": "Interconnects AI"
+        },
+        {
+          "url": "https://huggingface.co/blog/state-of-open-models-summer-2026",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        55
+      ],
+      "title": "GitHub Models service retired",
+      "category": "tooling",
+      "score": 5,
+      "rationale": "Dev-tooling infrastructure change affecting CI/LLM workflows.",
+      "summary": "GitHub has completed the retirement of GitHub Models, its unified multi-provider LLM API and playground. Existing GitHub Actions workflows relying on the service now fail.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Aug/9/github-models-is-now-retired/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        66,
+        70
+      ],
+      "title": "Grok 4.6 and Grok Bot enter the AI-teammate/agent category",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "New agent-oriented entrant, borderline product but relevant to agentic tooling.",
+      "summary": "Latent Space and The Pragmatic Engineer covered SpaceXAI's Grok 4.6 and Grok Bot as a significant new entrant in the managed AI-agent/teammate category. Commentary framed Grok Bot as a potential inflection moment for autonomous agents.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-spacexai-grok-46-and-grok",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-metas-self-inflicted-resignation",
+          "source": "The Pragmatic Engineer"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        76
+      ],
+      "title": "Reproducing 2,200 ICML papers: lessons in eval reproducibility",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Evals/reproducibility data relevant to research rigor interest.",
+      "summary": "Hugging Face reported on an effort to reproduce 2,200 papers from ICML and shared findings about what did and did not replicate. The work documents systemic reproducibility challenges in ML research.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://huggingface.co/blog/icml-2026-open-reproductions",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        2
+      ],
+      "title": "OpenAI previews Ultrafast mode: GPT-5.6 Sol at up to 14x speed via Cerebras",
+      "category": "infra",
+      "score": 4,
+      "rationale": "Concrete inference-infra numbers (750 tok/s, Cerebras) matching compute interest.",
+      "summary": "OpenAI previewed an Ultrafast API tier that runs GPT-5.6 Sol up to 14x faster, delivering up to 750 output tokens per second. The service is powered by Cerebras hardware.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/previewing-ultrafast",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        4,
+        5,
+        14,
+        15,
+        9,
+        10
+      ],
+      "title": "OpenAI enterprise adoption research and agentic deployments (Codex, ChatGPT Work)",
+      "category": "business",
+      "score": 4,
+      "rationale": "Real enterprise deployments and adoption data align directly with reader's core interest.",
+      "summary": "OpenAI published research on how enterprises adopt agentic AI via ChatGPT and Codex, alongside case studies from RingCentral, Virgin Atlantic, Zapier, and Model ML. The materials describe concrete workflow automation across engineering, finance, marketing, and operations.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/how-enterprises-put-ai-to-work",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/ringcentral",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/virgin-atlantic/chatgpt-work",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/zapier",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/model-ml",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/building-an-ai-native-finance-function",
+          "source": "OpenAI News"
+        }
+      ]
+    }
+  ],
+  "cost_usd": 0.2528,
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 255,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1129,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 842,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 21,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 20,
+      "ok": true
+    }
+  ]
+}

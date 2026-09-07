@@ -4,7 +4,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from sift import site
+from sift import site, store
 from sift.config import Config, Feed
 
 
@@ -421,3 +421,45 @@ def test_header_and_footer_links_meet_the_44px_touch_target(tmp_path):
     for selector in (".brand {", ".masthead nav a {", ".footer-links a {", ".btn {"):
         rule = css[css.index(selector) : css.index("}", css.index(selector))]
         assert "44px" in rule, f"{selector} has no 44px touch target"
+
+
+def test_published_costs_survive_a_rebuild_without_the_history_db(tmp_path):
+    """sift.db is gitignored, so a rebuild on another machine sees an empty
+    history. The already-published manifest is then the only record of what each
+    run cost, and must not be zeroed out."""
+    seed_content(tmp_path)
+    out = seed_digest(tmp_path, week="2026-30")
+    (out / "index.json").write_text(
+        json.dumps(
+            {
+                "digests": [
+                    {"week": "2026-30", "range": "x", "stories": 1, "cost_usd": 0.2177,
+                     "html": "2026-30.html", "json": "2026-30.json"}
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    site.build_site(tmp_path, tmp_path / "missing.db", make_cfg())
+
+    manifest = json.loads((out / "index.json").read_text(encoding="utf-8"))
+    assert manifest["digests"][0]["cost_usd"] == 0.2177
+    assert "$0.22" in (out / "index.html").read_text(encoding="utf-8")
+
+
+def test_the_history_db_wins_over_a_stale_published_cost(tmp_path):
+    """When both exist, the database is authoritative — it is the live record."""
+    seed_content(tmp_path)
+    out = seed_digest(tmp_path, week="2026-30")
+    (out / "index.json").write_text(
+        json.dumps({"digests": [{"week": "2026-30", "cost_usd": 9.99}]}), encoding="utf-8"
+    )
+    db = tmp_path / "sift.db"
+    with store.connect(db) as conn:
+        store.record_digest(conn, "2026-30", 1, model="m", cost_usd=0.5)
+
+    site.build_site(tmp_path, db, make_cfg())
+
+    manifest = json.loads((out / "index.json").read_text(encoding="utf-8"))
+    assert manifest["digests"][0]["cost_usd"] == 0.5

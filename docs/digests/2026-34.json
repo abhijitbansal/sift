@@ -1,0 +1,353 @@
+{
+  "week": "2026-34",
+  "stories": [
+    {
+      "cluster_ids": [
+        10,
+        66
+      ],
+      "title": "Asana clears 5 years of engineering work in 2 weeks using Codex",
+      "category": "tooling",
+      "score": 9,
+      "rationale": "Concrete enterprise coding-agent deployment with hard numbers, corroborated by independent analysis.",
+      "summary": "Asana used OpenAI Codex to replace an outdated testing framework in two weeks, work it estimated would have taken five years, for roughly $12K. The Pragmatic Engineer places this in a broader trend of AI-driven migrations across engineering organizations.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/asana",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-we-need-to-talk-about-migrations",
+          "source": "The Pragmatic Engineer"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        63
+      ],
+      "title": "Memory prices reportedly up 500% in 12 months",
+      "category": "infra",
+      "score": 7,
+      "rationale": "Directly relevant to AI hardware economics and compute costs; needs primary verification.",
+      "summary": "Latent.Space reports memory prices have risen roughly 500% over the past year, describing it as Moore's Law effectively reversed to 2007 levels. The trend has significant implications for AI datacenter and hardware costs.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-memory-prices-up-500-in-12",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        50,
+        53
+      ],
+      "title": "Qwen 3.8 27B matches much larger models on intelligence benchmarks",
+      "category": "models_research",
+      "score": 7,
+      "rationale": "Notable capability-per-parameter result relevant to open-weight local deployment.",
+      "summary": "Qwen 3.8 27B, an Apache 2 licensed vision-capable model from Alibaba, scored 52 on the Artificial Analysis Intelligence Index, matching GPT-5.6 Luna and trailing far larger models by one point. Simon Willison notes it is excellent but tends to overthink by default.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Aug/17/qwen-38-27b-scores-52/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Aug/16/qwen-38-27b/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        58,
+        61,
+        39,
+        48
+      ],
+      "title": "Agent harnesses, coding-agent workflows, and verification practices",
+      "category": "tooling",
+      "score": 7,
+      "rationale": "Core agentic-SDLC content matching reader's stated focus; practitioner analysis.",
+      "summary": "Latent.Space examines how agent harnesses are being absorbed into model weights, while Simon Willison and Matt Pocock discuss verification-over-line-review practices and planning skills for coding agents. Together they map evolving best practices for agentic software development.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/attention-interface",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/wayfinder-skill",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Aug/22/more-than-just-code-review/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Aug/19/conceptual-integrity-and-counting-lines-of-code/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        60,
+        65,
+        64,
+        56
+      ],
+      "title": "AI infra dealmaking: Poolside $12B reverse-execuhire to NVIDIA, Stripe buys OpenRouter",
+      "category": "business",
+      "score": 6,
+      "rationale": "Major infra/business moves reshaping the model and routing landscape, but secondary newsletter sourcing.",
+      "summary": "Latent.Space reports NVIDIA's $12B reverse-execuhire of Poolside with a 7GW neocloud buildout, and Stripe's reported $7B acquisition of OpenRouter, alongside NVIDIA pushing customers to build their own models. These reflect consolidation and vertical integration across AI compute, routing, and distribution.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-poolside-gets-12b-reverse",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-stripe-buys-openrouter-for",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/glean-model-routing",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.interconnects.ai/p/teaching-everyone-to-fish-for-tokens",
+          "source": "Interconnects AI"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        62
+      ],
+      "title": "Z.ai CEO on GLM-5.3 and a post-training scaling law",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Model-release and scaling-research signal, but via newsletter interview.",
+      "summary": "Latent.Space covers Z.ai CEO Jie Tang discussing GLM-5.3 and what he frames as a new post-training scaling law beyond parameter count. The discussion touches on shifting emphasis from model size to post-training.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-death-of-params-zai-ceo-jie",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        57,
+        59,
+        55
+      ],
+      "title": "Simulation and autonomous AI researchers as an emerging frontier",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Interesting research direction but speculative and secondary-sourced.",
+      "summary": "Latent.Space and Import AI cover a wave of interest in simulation as a scaling approach and in autonomous AI researchers, including Simile AI's plan to build billions of human digital twins. The pieces frame simulation and recursive self-improvement as the next research frontier.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-10-worse-100x-cheaper-10000x",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/simile",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://importai.substack.com/p/import-ai-469-science-ai-rsi-simulator",
+          "source": "Import AI"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        49
+      ],
+      "title": "Mojo programming language is now open source",
+      "category": "tooling",
+      "score": 5,
+      "rationale": "Relevant systems/AI tooling release with concrete licensing detail.",
+      "summary": "The Mojo language released its compiler and toolchain under an Apache 2 license, following its 1.0 release. The move fulfills an open-source promise made in 2023, though Mojo's Python-superset goals have since shifted.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Aug/18/mojo-is-now-open-source/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        71,
+        72,
+        74,
+        73,
+        70
+      ],
+      "title": "Hugging Face engineering: inference speedups, agent memory, and GPU utilization",
+      "category": "infra",
+      "score": 5,
+      "rationale": "Practical infra/efficiency techniques with numbers, relevant to deployment costs.",
+      "summary": "Hugging Face posts cover up to 3.2x faster LFM2.5-DSpark inference, agent memory requirements, a 33-point GPU utilization gain from reordering work, multi-vector embeddings, and ASR benchmark optimization. The collection focuses on efficiency and evaluation for real deployments.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://huggingface.co/blog/LiquidAI/lfm25-dspark",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/ibm-research/altk-evolve-hmm",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/Dharma-AI/gpu-management-pt2",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/multi-vector-encoder",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/asr-benchmark-optimization",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        1,
+        9
+      ],
+      "title": "Enterprises report large productivity gains from ChatGPT Work (Stampli, NVIDIA)",
+      "category": "business",
+      "score": 4,
+      "rationale": "Real enterprise adoption stories with numbers, but vendor-authored case studies.",
+      "summary": "Stampli reported cutting launch production hours by 68% using Codex and ChatGPT Work, while NVIDIA teams described scaling workflows and reducing manual tasks. Both are OpenAI-published customer case studies.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/stampli",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/nvidia/chatgpt-work",
+          "source": "OpenAI News"
+        }
+      ]
+    }
+  ],
+  "cost_usd": 0.1819,
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 255,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1143,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 846,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 0,
+      "ok": false
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 0,
+      "ok": false
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 0,
+      "ok": false
+    }
+  ]
+}

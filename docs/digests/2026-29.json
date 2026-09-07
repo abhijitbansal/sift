@@ -1,0 +1,443 @@
+{
+  "week": "2026-29",
+  "stories": [
+    {
+      "cluster_ids": [
+        44,
+        66,
+        28,
+        40,
+        100,
+        104
+      ],
+      "title": "Moonshot AI releases Kimi K3, a 2.8T-parameter open-weight model claiming frontier coding performance",
+      "category": "models_research",
+      "score": 9,
+      "rationale": "Major open model release with concrete specs and benchmarks, directly relevant to model capabilities and open-weight ecosystem.",
+      "summary": "Moonshot AI announced Kimi K3, described as a 2.8-trillion-parameter (A50B) model and the largest open model to date, with an open-weight release promised by July 27, 2026. Self-reported benchmarks show it competitive with or beating Claude Opus/Fable 5 and GPT-5.6 on agentic coding at roughly one-third the price.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Jul/16/kimi-k3/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-kimi-k3-28t-a50b-the-largest",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://stephen.bochinski.dev/blog/2026/07/18/the-kimi-k3-moment/",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/17/kimi-k3/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://nitter.net/BrianRoemmele/status/2078115704184926554#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/srush_nlp/status/2077958837240226079#m",
+          "source": "X \u00b7 @ylecun"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        46,
+        68,
+        80
+      ],
+      "title": "Thinking Machines releases Inkling, a 975B open-weights multimodal model",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "First major open-weights release from Mira Murati's lab with detailed specs; strong interest for model releases and open weights.",
+      "summary": "Thinking Machines Lab released Inkling, an Apache-2.0 licensed Mixture-of-Experts multimodal transformer with 975B total (41B active) parameters trained on 45 trillion tokens. A smaller 276B (12B active) variant, Inkling-Small, was announced as forthcoming pending further testing.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Jul/16/inkling/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-thinkys-inkling-975b-a41b",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://huggingface.co/blog/thinkingmachines-inkling",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        70,
+        24
+      ],
+      "title": "Codex usage reportedly up 10x in 6 months to 7M users",
+      "category": "tooling",
+      "score": 8,
+      "rationale": "Concrete adoption numbers on coding agents, central to the reader's agentic SDLC interest.",
+      "summary": "AINews reports OpenAI's Codex grew more than 10x in six months to roughly 7M users, adding over 1M in a single day, raising questions about whether it overtook Claude Code. A related 'Codex Resets' discussion trended on Hacker News amid the usage surge.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-codex-usage-up-10x-in-6-months",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://codex-resets.com/",
+          "source": "Hacker News Front Page"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        50,
+        71,
+        45
+      ],
+      "title": "Grok CLI caught uploading local files to the cloud; xAI open-sources grok-build",
+      "category": "tooling",
+      "score": 7,
+      "rationale": "Significant dev-tooling security incident with concrete details on an agent harness; relevant to coding agents and security.",
+      "summary": "xAI's Grok CLI faced backlash after users found it could upload entire working directories\u2014including SSH keys and password databases\u2014to xAI's cloud buckets, after which xAI open-sourced the tool as grok-build. Separately, a Codex bug was documented in which the agent could delete a user's $HOME directory under full-access mode.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Jul/15/grok-build/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-groks-cli-caught-uploading",
+          "source": "The Pragmatic Engineer"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/16/bad-codex-bug/#atom-everything",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "title": "NVIDIA and Stanford introduce RoboTTT, scaling robot policies to 8K-timestep context via test-time training",
+      "category": "models_research",
+      "score": 7,
+      "rationale": "Capabilities research with concrete context-scaling numbers and a primary paper/blog; relevant to research interest.",
+      "summary": "NVIDIA GEAR Lab and Stanford introduced RoboTTT, scaling robot visuomotor context to 8,000 timesteps at constant inference cost using test-time training that updates a small internal model per sensor reading. They report a context-scaling curve where 8K-context pretraining beats 1K by 62% with one-shot imitation from human video and mid-episode error recovery.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://nitter.net/DrJimFan/status/2078150496683213151#m",
+          "source": "X \u00b7 @DrJimFan"
+        },
+        {
+          "url": "https://nitter.net/DrJimFan/status/2078150032575082616#m",
+          "source": "X \u00b7 @DrJimFan"
+        },
+        {
+          "url": "https://nitter.net/drfeifei/status/2077497317255737422#m",
+          "source": "X \u00b7 @DrJimFan"
+        },
+        {
+          "url": "https://nitter.net/DrJimFan/status/2077414143901188195#m",
+          "source": "X \u00b7 @DrJimFan"
+        },
+        {
+          "url": "https://nitter.net/DrJimFan/status/2077414142340988962#m",
+          "source": "X \u00b7 @DrJimFan"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        64,
+        87,
+        90,
+        92,
+        93,
+        102
+      ],
+      "title": "Debate intensifies over open-weight AI viability and US policy",
+      "category": "policy",
+      "score": 6,
+      "rationale": "Substantive policy discussion on open models with cost figures, tied to open-weight ecosystem the reader tracks; some punditry lowers it.",
+      "summary": "Following the Kimi K3 and Inkling releases, commentators including Yann LeCun and industry figures argued open-weight models are essential for economic competitiveness, citing token-cost disparities of $26-56 versus $0.50-1 per million tokens. Interconnects framed the moment as a critical test of open-source AI's viability over the next six months.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.interconnects.ai/p/6-months-to-live-for-open-models",
+          "source": "Interconnects AI"
+        },
+        {
+          "url": "https://nitter.net/MelMitchell1/status/2078519918790885754#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/chamath/status/2078404014635446534#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/martin_casado/status/2078507190185504793#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/Dan_Jeffries1/status/2078429877854781799#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/Dan_Jeffries1/status/2078467554629107712#m",
+          "source": "X \u00b7 @ylecun"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        34,
+        35,
+        58
+      ],
+      "title": "GPT-5.6 used in convex optimization and hard-problem experiments",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Frontier model capability claims with concrete tasks, though sourced from Reddit/blogs rather than primary papers.",
+      "summary": "A widely-discussed Reddit thread claims GPT-5.6 helped close a 30-year gap in convex optimization via a prompt, while other posts benchmark GPT-5.6 Sol against Fable 5 on NP-hard problems. Separate demos show GPT-5.6 building a SQLite-based Doom-like game engine.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://old.reddit.com/r/math/comments/1uxj3cy/after_openais_cdc_proof_announcement_gpt56_used_a/",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://charlesazam.com/blog/fable-5-gpt-5-6-sol-goal/",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/13/doomql/#atom-everything",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        36,
+        52,
+        55,
+        60,
+        72,
+        73,
+        99,
+        69
+      ],
+      "title": "Context and 'loop' engineering emerge as core practices for agentic development",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Directly relevant to agentic SDLC and dev tooling practices, with primary practitioner commentary.",
+      "summary": "Practitioners including Dex Horthy and Armin Ronacher discuss context engineering, 'loop engineering,' and how coding agents fit into human organizations and shared project understanding. Separately, Claude Code was confirmed to now ship on a Rust port of Bun, and GitHub's Dependabot added default dependency cooldowns.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/14/github-changeling/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/14/armin-ronacher/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/12/directly-responsible-individuals/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/context-engineering-with-dex-horthy",
+          "source": "The Pragmatic Engineer"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/what-is-loop-engineering",
+          "source": "The Pragmatic Engineer"
+        },
+        {
+          "url": "https://nitter.net/IntuitMachine/status/2078419526354378975#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://www.latent.space/p/aiewf26trends",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        6,
+        51
+      ],
+      "title": "OpenAI details GPT-Red red-teaming; Claude web_fetch exfiltration hole found",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Concrete safety/robustness research and a real agent security vulnerability; relevant to evals and agent safety.",
+      "summary": "OpenAI described GPT-Red, an automated red-teaming system using self-play to improve robustness against prompt injection. Separately, a researcher demonstrated a data-exfiltration vulnerability in Claude's web_fetch tool via the lethal-trifecta pattern.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/unlocking-self-improvement-gpt-red",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/15/claude-web-fetch-exfiltration/#atom-everything",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        74,
+        79,
+        75,
+        78,
+        76
+      ],
+      "title": "Research and engineering notes on reasoning effort, model routing, and agent building",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Useful technical research and engineering writeups on reasoning control and agent infrastructure.",
+      "summary": "Sebastian Raschka analyzes how LLMs learn low-, medium-, and high-effort reasoning modes, while IBM Research examines the complexities of model routing. Additional posts cover fine-tuning diffusion models at scale with NVIDIA NeMo and lessons from building the Shippy agent.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://magazine.sebastianraschka.com/p/controlling-reasoning-effort-in-llms",
+          "source": "Ahead of AI"
+        },
+        {
+          "url": "https://huggingface.co/blog/ibm-research/model-routing-is-simple-until-it-isnt",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/nvidia/scale-diffusers-finetuning-nemo-automodel",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/allenai/shippy-tech-blog",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/Dharma-AI/newer-models-same-advantages",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    }
+  ],
+  "cost_usd": 0.277,
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 243,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1039,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 829,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 18,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 20,
+      "ok": true
+    }
+  ]
+}

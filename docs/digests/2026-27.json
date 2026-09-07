@@ -1,0 +1,448 @@
+{
+  "week": "2026-27",
+  "stories": [
+    {
+      "cluster_ids": [
+        2,
+        49,
+        68
+      ],
+      "title": "Anthropic releases Claude Sonnet 5",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "Major model release with concrete capability/pricing detail from primary source.",
+      "summary": "Anthropic introduced Claude Sonnet 5, which it says performs close to Opus 4.8 at lower prices. The model is reportedly less capable at cyber tasks, which helped it clear US export-related concerns per its system card.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.anthropic.com/news/claude-sonnet-5",
+          "source": "Anthropic News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jun/30/claude-sonnet-5/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-sonnet-5-today-and-fable-5",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        81
+      ],
+      "title": "Etched exits stealth with inference chips and $800M raised",
+      "category": "infra",
+      "score": 8,
+      "rationale": "New AI inference silicon with concrete funding/contract numbers, strong infra fit.",
+      "summary": "A chip startup announced it emerged from stealth after a successful tapeout, over $1B in customer contracts, and $800M raised. It claims SOTA throughput, latency, and power efficiency on inference workloads, with first racks shipping this summer.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://nitter.net/Etched/status/2071972062202343590#m",
+          "source": "X \u00b7 @karpathy"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        24,
+        36,
+        37,
+        39,
+        42,
+        44,
+        45,
+        46,
+        72
+      ],
+      "title": "Coding agents in practice: harnesses, evals, and workflow research",
+      "category": "tooling",
+      "score": 8,
+      "rationale": "Directly targets agentic SDLC interest with concrete experiments and eval research.",
+      "summary": "Multiple practitioner reports covered building and steering coding agents, including a research paper on whether code cleanliness affects coding agents and Simon Willison shipping sqlite-utils 4.0rc2 largely written by Claude Fable for about $149. Additional pieces examine tool-schema failures in newer models, using DSPy to improve agent prompts, and impressions from OpenAI, Anthropic, and Cursor on cloud agents and spreading coding harnesses.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://arxiv.org/abs/2605.20049",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/5/sqlite-utils-fable/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/5/sqlite-utils/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/4/better-models-worse-tools/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/3/judgement/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/2/llm-coding-agent/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/2/dspy-datasette-agent-prompts/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/2/understand-to-participate/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/impressions-from-visiting-openai",
+          "source": "The Pragmatic Engineer"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        3,
+        47,
+        80
+      ],
+      "title": "Fable 5 redeployed after export controls lifted",
+      "category": "policy",
+      "score": 7,
+      "rationale": "Model availability tied to US export-control policy, watchlist-adjacent infra/policy interest.",
+      "summary": "Anthropic redeployed Claude Fable 5 after the Department of Commerce lifted export controls on it and Mythos 5. Early user impressions highlighted strong 3D and coding demos.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.anthropic.com/news/redeploying-fable-5",
+          "source": "Anthropic News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jun/30/anthropic/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://nitter.net/petergostev/status/2073047118801993910#m",
+          "source": "X \u00b7 @karpathy"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        57,
+        58,
+        59,
+        60,
+        62,
+        63,
+        64,
+        66,
+        67,
+        69,
+        70
+      ],
+      "title": "AI Engineer World's Fair: software factories, forward-deployed engineers, and agent frameworks",
+      "category": "tooling",
+      "score": 7,
+      "rationale": "Dense coverage of enterprise agent deployment and dev-tooling directions.",
+      "summary": "AIEWF coverage centered on 'software factories,' agent loops, and forward-deployed engineers, with talks from Vercel, Cursor, Warp, Sierra, and Adobe on agent frameworks and enterprise agent rollouts. Sessions debated autoresearch, self-improving agent loops, and the continued role of human judgment.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/aiewf-daily-dispatch-locomotives",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/vercel-agents-new-software",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/the-website-of-the-future",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/skill-engineering-design",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/aiewf-daily-dispatch-agency",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/autoresearch-introspection",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/cursor-forward-deployed-engineers",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/software-factories",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/aiewf-daily-dispatch-loops",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/forward-deployed-engineers-aiewf",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/ahmad-osman-local-ai",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        0
+      ],
+      "title": "Anthropic details Fable 5 cyber safeguards and jailbreak framework",
+      "category": "policy",
+      "score": 6,
+      "rationale": "Primary-source safety/governance detail relevant to frontier deployment.",
+      "summary": "Anthropic published more details on the cyber safeguards protecting Fable 5 and its jailbreak evaluation framework. The disclosure explains how the model's deployment addresses cyber-misuse risk.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.anthropic.com/news/fable-safeguards-jailbreak-framework",
+          "source": "Anthropic News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        1,
+        5,
+        6,
+        65,
+        97
+      ],
+      "title": "AI-for-science benchmarks and models: GeneBench-Pro, Claude Science, drug discovery",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Concrete benchmarks and applied science models from primary labs, moderately relevant.",
+      "summary": "OpenAI introduced GeneBench-Pro, a genomics and biology benchmark using real-world datasets, while Anthropic launched Claude Science, an AI workbench for scientists. Related work includes co-folding models for drug discovery and a pan-cancer immunotherapy prediction model published in Nature Medicine.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.anthropic.com/news/claude-science-ai-workbench",
+          "source": "Anthropic News"
+        },
+        {
+          "url": "https://openai.com/index/genebench-pro/case-studies",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/introducing-genebench-pro",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://www.latent.space/p/the-coolest-diffusion-research-isnt",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://nitter.net/EricTopol/status/2072981022581444951#m",
+          "source": "X \u00b7 @ylecun"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        55,
+        40,
+        74,
+        75,
+        78
+      ],
+      "title": "Open-weights coding models and open-source AI infrastructure momentum",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Open-weights coding model plus open-source ecosystem tooling, relevant to dev/research.",
+      "summary": "DeepReinforce released Ornith-1.0, an MIT-licensed self-scaffolding coding model built on Gemma 4 and Qwen 3.5 with dense and MoE variants claiming SOTA among comparable open models. Related efforts include the Open Source AI Gap Map indexing 421 projects, Hugging Face kernel updates, real-time Gemma 4 voice via Cerebras, and community eval aggregation.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Jun/29/ornith/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/3/open-source-ai-gap-map/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://huggingface.co/blog/revamped-kernels",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/cerebras-gemma4-voice-ai",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/eee-community-evals",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        82,
+        83,
+        84,
+        56
+      ],
+      "title": "ASPIRE: self-improving robot skill libraries from NVIDIA GEAR",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Novel agentic self-improvement research with concrete transfer metrics.",
+      "summary": "NVIDIA's GEAR lab and academic collaborators introduced ASPIRE, a system where coding agents build a self-evolving robot skills library via evolutionary search over control programs. The authors claim up to ~10x reduction in transfer-learning tokens and plan to open-source the stack.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://nitter.net/DrJimFan/status/2072337488782475390#m",
+          "source": "X \u00b7 @DrJimFan"
+        },
+        {
+          "url": "https://nitter.net/DrJimFan/status/2072004192294830583#m",
+          "source": "X \u00b7 @DrJimFan"
+        },
+        {
+          "url": "https://nitter.net/DrJimFan/status/2072004190856212902#m",
+          "source": "X \u00b7 @DrJimFan"
+        },
+        {
+          "url": "https://importai.substack.com/p/import-ai-463-self-improving-robots",
+          "source": "Import AI"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        96,
+        93
+      ],
+      "title": "Energy and spending debates around the US-China AI race",
+      "category": "infra",
+      "score": 6,
+      "rationale": "Compute/energy scaling directly matters to reader's infra interest.",
+      "summary": "Commentary contrasted China's 543 GW of new grid capacity last year with the US adding 53 GW, framing energy buildout as central to AI competitiveness. A separate thread argued open-source AI lets China ship frontier models at a fraction of projected US spending.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://nitter.net/FPWellman/status/2072823095178453168#m",
+          "source": "X \u00b7 @ylecun"
+        },
+        {
+          "url": "https://nitter.net/ClementDelangue/status/2073387290856955955#m",
+          "source": "X \u00b7 @ylecun"
+        }
+      ]
+    }
+  ],
+  "cost_usd": 0.2073,
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 236,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1028,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 815,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 19,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 20,
+      "ok": true
+    }
+  ]
+}

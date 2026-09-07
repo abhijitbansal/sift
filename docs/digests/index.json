@@ -2,8 +2,72 @@
   "title": "Sift",
   "tagline": "A weekly dispatch of AI signal \u2014 curated for one reader",
   "feeds_scanned": 20,
-  "latest": "2026-26",
+  "latest": "2026-36",
   "digests": [
+    {
+      "week": "2026-36",
+      "range": "Aug 31 \u2013 Sep 6, 2026",
+      "stories": 10,
+      "cost_usd": 0.1284,
+      "html": "2026-36.html",
+      "json": "2026-36.json"
+    },
+    {
+      "week": "2026-34",
+      "range": "Aug 17\u201323, 2026",
+      "stories": 10,
+      "cost_usd": 0.1819,
+      "html": "2026-34.html",
+      "json": "2026-34.json"
+    },
+    {
+      "week": "2026-33",
+      "range": "Aug 10\u201316, 2026",
+      "stories": 10,
+      "cost_usd": 0.2528,
+      "html": "2026-33.html",
+      "json": "2026-33.json"
+    },
+    {
+      "week": "2026-32",
+      "range": "Aug 3\u20139, 2026",
+      "stories": 10,
+      "cost_usd": 0.2551,
+      "html": "2026-32.html",
+      "json": "2026-32.json"
+    },
+    {
+      "week": "2026-30",
+      "range": "Jul 20\u201326, 2026",
+      "stories": 10,
+      "cost_usd": 0.2177,
+      "html": "2026-30.html",
+      "json": "2026-30.json"
+    },
+    {
+      "week": "2026-29",
+      "range": "Jul 13\u201319, 2026",
+      "stories": 10,
+      "cost_usd": 0.277,
+      "html": "2026-29.html",
+      "json": "2026-29.json"
+    },
+    {
+      "week": "2026-28",
+      "range": "Jul 6\u201312, 2026",
+      "stories": 10,
+      "cost_usd": 0.2104,
+      "html": "2026-28.html",
+      "json": "2026-28.json"
+    },
+    {
+      "week": "2026-27",
+      "range": "Jun 29 \u2013 Jul 5, 2026",
+      "stories": 10,
+      "cost_usd": 0.2073,
+      "html": "2026-27.html",
+      "json": "2026-27.json"
+    },
     {
       "week": "2026-26",
       "range": "Jun 22\u201328, 2026",

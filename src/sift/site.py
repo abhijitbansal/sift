@@ -102,8 +102,8 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
     out_dir = docs / "digests"
     out_dir.mkdir(parents=True, exist_ok=True)
     history = _history_by_week(db_path)
-    entries = _archive_entries(out_dir, history)
-    _refresh_digests(out_dir, history, cfg)  # re-render archived digests + cover cards
+    entries = _archive_entries(out_dir, history, _published_costs(out_dir))
+    _refresh_digests(out_dir, {e.week: e.cost_usd for e in entries}, cfg)
 
     content_dir = root / "content"
     today = date.today()
@@ -140,7 +140,7 @@ def build_site(root: Path, db_path: Path, cfg: Config) -> int:
     return pages
 
 
-def _refresh_digests(out_dir: Path, history: dict, cfg: Config) -> None:
+def _refresh_digests(out_dir: Path, costs: dict[str, float], cfg: Config) -> None:
     """Re-render each archived digest's HTML from its committed JSON (so a theme
     or OG change reaches old issues) and write its cover card. Best-effort per
     digest: a malformed/legacy JSON is logged and skipped, never fatal."""
@@ -153,8 +153,7 @@ def _refresh_digests(out_dir: Path, history: dict, cfg: Config) -> None:
         try:
             digest = json.loads(json_path.read_text(encoding="utf-8"))
             stories = digest.get("stories", [])
-            record = history.get(week)
-            cost = record.cost_usd if record else None
+            cost = costs.get(week) or None
             # Render the cover card first so the digest's og:image only points at
             # the per-issue PNG when it actually exists; otherwise fall back to the
             # committed static og.png so the unfurl image never 404s.
@@ -282,8 +281,32 @@ def _history_by_week(db_path: Path) -> dict[str, store.DigestRecord]:
         return {}
 
 
+def _published_costs(out_dir: Path) -> dict[str, float]:
+    """Per-week cost from the manifest we published last time.
+
+    ``sift.db`` is gitignored, so a rebuild on a machine that did not make the
+    original runs sees an empty history. The committed manifest is then the only
+    surviving record of what each week cost, and rebuilding must not zero it."""
+    manifest = out_dir / "index.json"
+    if not manifest.exists():
+        return {}
+    try:
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        log.warning("Could not read %s; published costs will be omitted", manifest)
+        return {}
+    costs = {}
+    for entry in data.get("digests", []):
+        week, cost = entry.get("week"), entry.get("cost_usd")
+        if week and isinstance(cost, (int, float)):
+            costs[week] = float(cost)
+    return costs
+
+
 def _archive_entries(
-    out_dir: Path, history: dict[str, store.DigestRecord]
+    out_dir: Path,
+    history: dict[str, store.DigestRecord],
+    published_costs: dict[str, float] | None = None,
 ) -> list[ArchiveEntry]:
     entries = []
     for json_path in sorted(out_dir.glob("*.json"), reverse=True):
@@ -297,12 +320,14 @@ def _archive_entries(
             continue
         record = history.get(week)
         stories = data.get("stories", [])
+        # The live database wins; the published manifest is the fallback.
+        cost = record.cost_usd if record else (published_costs or {}).get(week, 0.0)
         entries.append(
             ArchiveEntry(
                 week=week,
                 range_label=week_range(week),
                 count=len(stories),
-                cost_usd=record.cost_usd if record else 0.0,
+                cost_usd=cost,
                 lead=stories[0].get("title", "") if stories else "",
             )
         )

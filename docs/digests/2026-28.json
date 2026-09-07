@@ -1,0 +1,357 @@
+{
+  "week": "2026-28",
+  "stories": [
+    {
+      "cluster_ids": [
+        7,
+        40,
+        52
+      ],
+      "title": "OpenAI launches GPT-5.6 family (Luna, Terra, Sol)",
+      "category": "models_research",
+      "score": 9,
+      "rationale": "Major frontier model release with concrete pricing and capability tiers; central to reader interests.",
+      "summary": "OpenAI released its GPT-5.6 flagship family in three sizes (Luna, Terra, Sol) with per-token pricing of $1/$6, $2.50/$15, and $5/$30 respectively. The launch emphasizes more intelligence per token and stronger performance per dollar for demanding tasks.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/gpt-5-6",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/9/gpt-5-6/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-openai-launches-gpt-56-solterraluna",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        44,
+        57,
+        68
+      ],
+      "title": "Bun rewritten from Zig to Rust using agentic AI engineering",
+      "category": "tooling",
+      "score": 8,
+      "rationale": "Concrete agentic dev-tooling case study with real numbers ($165K tokens, 11 days); high reader relevance.",
+      "summary": "Jarred Sumner detailed rewriting the Bun runtime from Zig to Rust using sophisticated agentic workflows, dynamic runs, and adversarial review. Coverage reports the rewrite took 11 days and about $165K in tokens versus an estimated team-year of manual work.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Jul/8/rewriting-bun-in-rust/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-what-can-we-learn-from",
+          "source": "The Pragmatic Engineer"
+        },
+        {
+          "url": "https://nitter.net/jarredsumner/status/2074973674332123157#m",
+          "source": "X \u00b7 @karpathy"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        8,
+        39
+      ],
+      "title": "ChatGPT Work: an agent for multi-hour, cross-app tasks",
+      "category": "tooling",
+      "score": 7,
+      "rationale": "Agentic SDLC/workflow automation directly matches interests; primary OpenAI source plus clarification.",
+      "summary": "OpenAI introduced ChatGPT Work, an agent that takes action across apps and files and can persist on a project for hours to turn goals into finished work. OpenAI clarified that cloud Work conversations and desktop Work threads remain separated at launch, with local files staying on-device.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/chatgpt-for-your-most-ambitious-work",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/10/openai/#atom-everything",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        16
+      ],
+      "title": "Google expands Managed Agents in Gemini API with background tasks and remote MCP",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Agent harness/tooling features from a primary source; relevant to agentic dev tooling.",
+      "summary": "Google announced an expansion of Managed Agents in the Gemini API, adding background tasks, remote MCP support, and more. The bundle targets developers building agentic applications.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/",
+          "source": "Google AI Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        54,
+        61
+      ],
+      "title": "AI infrastructure evolving for agent experience and agent data",
+      "category": "infra",
+      "score": 6,
+      "rationale": "Agent-cloud infra and open data for agents align with tooling/infra interests.",
+      "summary": "Modal's CTO discusses why AI infrastructure must adapt for \"Agent Experience,\" covering lessons from building an agent cloud. Separately, NVIDIA and Hugging Face published an initiative around open data for agents.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/modal2026",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://huggingface.co/blog/nvidia/open-data-for-agents",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        4,
+        5,
+        14,
+        15
+      ],
+      "title": "Enterprise and government AI deployments: Alberta, Deutsche Telekom, MUFG, AP+",
+      "category": "business",
+      "score": 6,
+      "rationale": "Multiple concrete real-world deployments across sectors; matches enterprise adoption interest.",
+      "summary": "Vendors detailed production deployments including Alberta's government using Claude for cybersecurity, Deutsche Telekom rewiring telco operations with OpenAI, MUFG becoming AI-native, and Australian Payments Plus using ChatGPT Enterprise and Codex. The cases describe workflow, customer service, and engineering acceleration.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.anthropic.com/news/alberta-government-claude-cybersecurity",
+          "source": "Anthropic News"
+        },
+        {
+          "url": "https://openai.com/index/deutsche-telekom",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/mufg",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/australian-payments-plus",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        49,
+        41,
+        42,
+        43
+      ],
+      "title": "New open and frontier models: Tencent Hy3, Meta Muse Spark 1.1, and LLM tooling",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Notable open-weight and agentic model releases with specs; relevant to capabilities research.",
+      "summary": "Tencent released the Apache-2.0 Hy3, a 295B-parameter MoE model with 21B active parameters that it claims rivals much larger open models. Meta introduced Muse Spark 1.1 with an API and improved agentic tool calling, alongside related open-source LLM plugin updates.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Jul/6/hy3/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/9/muse-spark-1-1/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/9/llm-meta-ai/#atom-everything",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/9/llm/#atom-everything",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        11
+      ],
+      "title": "OpenAI flags reliability issues in SWE-Bench Pro coding benchmark",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Evals and coding-agent benchmarking are core interests; primary analysis with concrete findings.",
+      "summary": "OpenAI published an analysis identifying issues in the popular SWE-Bench Pro coding benchmark that raise concerns about its reliability and accuracy. The work aims to separate genuine signal from noise when evaluating coding models.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/separating-signal-from-noise-coding-evaluations",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        13
+      ],
+      "title": "OpenAI introduces GPT-Live voice models",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "New model generation from primary source, though voice/consumer angle is lower priority.",
+      "summary": "OpenAI unveiled GPT-Live, a new generation of voice models for more natural human-AI interaction, now powering ChatGPT Voice. The release focuses on real-time conversational capabilities.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/introducing-gpt-live",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Jul/8/introducing-gptlive/#atom-everything",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        55,
+        50,
+        56,
+        51
+      ],
+      "title": "Research digests: harness engineering for RSI, GPU-kernel generation, model field guides",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Aggregated capabilities/agent-harness research relevant to reader, but secondary summaries.",
+      "summary": "Newsletter roundups summarize Lilian Weng's synthesis of 35 papers on harness engineering for recursive self-improvement and Import AI's coverage of models writing GPU kernels and analog computation. Latent.Space also published field guides on recent flagship model launches.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-lilian-weng-summarizes-35",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://importai.substack.com/p/import-ai-464-fables-writes-gpu-kernels",
+          "source": "Import AI"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-the-field-guide-to-fable",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-not-much-happened-today-f5c",
+          "source": "Latent.Space"
+        }
+      ]
+    }
+  ],
+  "cost_usd": 0.2104,
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 241,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1040,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 823,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 21,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 19,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 20,
+      "ok": true
+    }
+  ]
+}
