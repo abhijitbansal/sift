@@ -1,8 +1,9 @@
 """Unit tests for digest assembly and HTML/JSON rendering."""
 
 import json
+import re
 
-from sift import render
+from sift import render, theme
 from sift.fetch import Item
 
 
@@ -228,9 +229,10 @@ def _story(**overrides):
     return story
 
 
-def test_digest_is_self_contained(tmp_path):
-    """No external stylesheet, script or font: the digest must render the same
-    offline and inside an email client."""
+def test_digest_loads_nothing_from_the_network(tmp_path):
+    """The digest must render identically offline and inside an email client, so
+    nothing may be fetched: no external stylesheet, font, script or image. Inline
+    script is fine — it is stripped by mail clients and simply does nothing."""
     path = tmp_path / "d.html"
 
     render.render_html({"week": "2026-26", "stories": [_story()]}, path)
@@ -238,7 +240,19 @@ def test_digest_is_self_contained(tmp_path):
     html = path.read_text(encoding="utf-8")
     assert "<link rel=\"stylesheet\"" not in html
     assert "fonts.googleapis.com" not in html
-    assert "<script" not in html
+    assert "<script src=" not in html
+    assert "http://" not in html.replace("http://www.w3.org/2000/svg", "")
+
+
+def test_the_digest_honours_a_theme_chosen_on_the_site(tmp_path):
+    path = tmp_path / "d.html"
+
+    render.render_html({"week": "2026-26", "stories": [_story()]}, path)
+
+    html = path.read_text(encoding="utf-8")
+    assert "sift-theme" in html
+    assert html.index("sift-theme") < html.index("<body>")
+    assert 'data-theme-choice' not in html  # no dead control in an email
 
 
 def test_digest_uses_the_shared_palette(tmp_path):
@@ -316,3 +330,28 @@ def test_the_favicon_is_an_inline_data_uri(tmp_path):
 
     html = path.read_text(encoding="utf-8")
     assert 'href="data:image/svg+xml,' in html
+
+
+def test_digest_ships_both_themes_inline(tmp_path):
+    """The digest is self-contained, so it carries its own light theme rather
+    than linking the site stylesheet."""
+    path = tmp_path / "d.html"
+
+    render.render_html({"week": "2026-26", "stories": [_story()]}, path)
+
+    html = path.read_text(encoding="utf-8")
+    light = theme.light_palette(render._PALETTE)
+    assert "@media (prefers-color-scheme: light)" in html
+    assert f"--bg: {light.bg};" in html
+    assert "<link rel=\"stylesheet\"" not in html
+
+
+def test_digest_iso_variables_all_resolve(tmp_path):
+    path = tmp_path / "d.html"
+    stories = [_story(), _story(category="infra", title="Infra")]
+
+    render.render_html({"week": "2026-26", "stories": stories}, path)
+
+    html = path.read_text(encoding="utf-8")
+    for name in sorted(set(re.findall(r"var\((--iso-[a-z0-9-]+)", html))):
+        assert f"{name}:" in html, f"{name} referenced but not defined in the digest"

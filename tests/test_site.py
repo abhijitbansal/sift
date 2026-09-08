@@ -1,10 +1,11 @@
 """Unit tests for static-site generation."""
 
 import json
+import re
 from datetime import date
 from pathlib import Path
 
-from sift import site, store
+from sift import site, store, theme
 from sift.config import Config, Feed
 
 
@@ -418,7 +419,8 @@ def test_header_and_footer_links_meet_the_44px_touch_target(tmp_path):
     site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
 
     css = (tmp_path / "docs" / "assets" / "sift.css").read_text(encoding="utf-8")
-    for selector in (".brand {", ".masthead nav a {", ".footer-links a {", ".btn {"):
+    for selector in (".brand {", ".masthead nav a {", ".footer-links a {", ".btn {",
+                     ".skip {", ".latest .val a {", ".theme-toggle button {"):
         rule = css[css.index(selector) : css.index("}", css.index(selector))]
         assert "44px" in rule, f"{selector} has no 44px touch target"
 
@@ -463,3 +465,105 @@ def test_the_history_db_wins_over_a_stale_published_cost(tmp_path):
 
     manifest = json.loads((out / "index.json").read_text(encoding="utf-8"))
     assert manifest["digests"][0]["cost_usd"] == 0.5
+
+
+# --- light theme --------------------------------------------------------------
+
+
+def test_stylesheet_ships_both_themes(tmp_path):
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    css = (tmp_path / "docs" / "assets" / "sift.css").read_text(encoding="utf-8")
+    light = theme.light_palette(site._PALETTE)
+    assert "@media (prefers-color-scheme: light)" in css
+    assert f"--bg: {site._PALETTE.bg};" in css
+    assert f"--bg: {light.bg};" in css
+    assert "color-scheme: dark" in css and "color-scheme: light" in css
+
+
+def test_stylesheet_braces_are_balanced(tmp_path):
+    """The theme blocks are assembled by string building, so an unbalanced brace
+    would silently kill every rule after it."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    css = (tmp_path / "docs" / "assets" / "sift.css").read_text(encoding="utf-8")
+    assert css.count("{") == css.count("}")
+
+
+def test_isometric_faces_are_themeable_variables(tmp_path):
+    """One generated SVG serves both themes, so its faces must be variable
+    references carrying the dark value as a fallback."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    index_html = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    css = (tmp_path / "docs" / "assets" / "sift.css").read_text(encoding="utf-8")
+    assert "var(--iso-accent-top," in index_html
+    assert "rgba(var(--iso-glass-rgb," in index_html
+    assert "--iso-accent-top:" in css
+
+
+def test_every_iso_variable_used_in_a_page_is_defined_in_the_css(tmp_path):
+    """A typo'd material name would fall back silently to the dark value and
+    never restyle; this catches that."""
+    seed_content(tmp_path)
+    seed_digest(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    docs = tmp_path / "docs"
+    css = (docs / "assets" / "sift.css").read_text(encoding="utf-8")
+    used = set()
+    for page in ("index.html", "how-it-works.html"):
+        used |= set(re.findall(r"var\((--iso-[a-z0-9-]+)", (docs / page).read_text(encoding="utf-8")))
+    assert used, "no isometric variables found on the pages"
+    for name in sorted(used):
+        assert f"{name}:" in css, f"{name} is referenced but never defined"
+
+
+def test_pages_carry_a_theme_toggle(tmp_path):
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    for choice in ("system", "light", "dark"):
+        assert f'data-theme-choice="{choice}"' in page
+    assert 'aria-label="Color theme"' in page
+
+
+def test_the_stored_theme_is_applied_before_first_paint(tmp_path):
+    """The bootstrap has to run in <head>, or a stored light choice flashes the
+    dark theme on every navigation."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert page.index("sift-theme") < page.index("<body>")
+
+
+def test_theme_storage_failures_are_survivable(tmp_path):
+    """Storage throws outright in some privacy modes; the page must still load."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    bootstrap = page[page.index("sift-theme") - 300 : page.index("<body>")]
+    assert "try {" in bootstrap and "catch" in bootstrap
+
+
+def test_the_toggle_buttons_are_real_buttons(tmp_path):
+    """A div with a click handler is not reachable by keyboard."""
+    seed_content(tmp_path)
+
+    site.build_site(tmp_path, tmp_path / "sift.db", make_cfg())
+
+    page = (tmp_path / "docs" / "index.html").read_text(encoding="utf-8")
+    assert '<button type="button" data-theme-choice="system"' in page

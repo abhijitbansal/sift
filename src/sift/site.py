@@ -355,6 +355,82 @@ def _next_issue_label(latest_week: str, today: date) -> str:
     return f"{nxt:%A, %b} {nxt.day}, {nxt.year}"
 
 
+# Applied before first paint so a stored choice never flashes the wrong theme.
+# Wrapped in try/catch because storage throws outright in some privacy modes.
+THEME_BOOTSTRAP = """<script>
+(function () {
+  try {
+    var t = localStorage.getItem('sift-theme');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+})();
+</script>"""
+
+_THEME_ICONS = {
+    "system": (
+        '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" '
+        'aria-hidden="true"><rect x="2.5" y="4" width="15" height="10" rx="1.6"></rect>'
+        '<path d="M7 17h6" stroke-linecap="round"></path></svg>'
+    ),
+    "light": (
+        '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" '
+        'aria-hidden="true"><circle cx="10" cy="10" r="3.6"></circle>'
+        '<path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.6 4.6l1.4 1.4M14 14l1.4 1.4'
+        'M15.4 4.6L14 6M6 14l-1.4 1.4" stroke-linecap="round"></path></svg>'
+    ),
+    "dark": (
+        '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" '
+        'aria-hidden="true"><path d="M16 11.7A6.5 6.5 0 1 1 8.3 4a5.2 5.2 0 0 0 7.7 7.7z" '
+        'stroke-linejoin="round"></path></svg>'
+    ),
+}
+
+THEME_TOGGLE = (
+    '<div class="theme-toggle" role="group" aria-label="Color theme">'
+    + "".join(
+        f'<button type="button" data-theme-choice="{choice}" '
+        f'title="{label}" aria-label="{label}">{_THEME_ICONS[choice]}</button>'
+        for choice, label in (
+            ("system", "Match system theme"),
+            ("light", "Light theme"),
+            ("dark", "Dark theme"),
+        )
+    )
+    + "</div>"
+)
+
+THEME_JS = """<script>
+(function () {
+  var root = document.documentElement;
+  var buttons = [].slice.call(document.querySelectorAll('[data-theme-choice]'));
+  if (!buttons.length) return;
+  function current() {
+    try { return localStorage.getItem('sift-theme') || 'system'; } catch (e) { return 'system'; }
+  }
+  function paint() {
+    var choice = current();
+    buttons.forEach(function (b) {
+      var on = b.getAttribute('data-theme-choice') === choice;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var choice = b.getAttribute('data-theme-choice');
+      try {
+        if (choice === 'system') localStorage.removeItem('sift-theme');
+        else localStorage.setItem('sift-theme', choice);
+      } catch (e) {}
+      if (choice === 'system') delete root.dataset.theme;
+      else root.dataset.theme = choice;
+      paint();
+    });
+  });
+  paint();
+})();
+</script>"""
+
+
 ARROW_SVG = (
     '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -556,6 +632,9 @@ def _wrap(
         apple=f"{prefix}assets/apple-touch-icon.png",
         manifest=f"{prefix}site.webmanifest",
         theme_color=_PALETTE.accent,
+        theme_bootstrap=THEME_BOOTSTRAP,
+        theme_toggle=THEME_TOGGLE,
+        theme_js=THEME_JS,
         fonts=theme.GOOGLE_FONTS_HREF,
         brand=f"{prefix}index.html",
         mark=iso.mark(_PALETTE, size=32),
@@ -579,6 +658,7 @@ _PAGE_TEMPLATE = """<!DOCTYPE html>
 <link rel="manifest" href="{manifest}">
 <meta name="theme-color" content="{theme_color}">
 {og}
+{theme_bootstrap}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{fonts}" rel="stylesheet">
@@ -591,7 +671,7 @@ _PAGE_TEMPLATE = """<!DOCTYPE html>
 <div class="masthead-inner">
 <a class="brand" href="{brand}">{mark}<span>Sift<b>.</b></span></a>
 <nav aria-label="Primary">{nav}</nav>
-{cta}
+<div class="masthead-actions">{theme_toggle}{cta}</div>
 </div>
 </header>
 <main id="main">
@@ -604,6 +684,7 @@ per week; everything else local and free.</p>
 <div class="footer-links">{footer_nav}</div>
 </div>
 </footer>
+{theme_js}
 </body>
 </html>
 """
@@ -636,16 +717,21 @@ def _webmanifest() -> str:
 def _site_css() -> str:
     """The whole stylesheet, with every color coming from the palette."""
     pal = _PALETTE
-    return f"""{theme.css_variables(pal)}
-{theme.category_selectors(pal)}
-:root {{
-  --display: {theme.FONT_DISPLAY};
+    fonts = f"""  --display: {theme.FONT_DISPLAY};
   --body: {theme.FONT_BODY};
   --mono: {theme.FONT_MONO};
-  --line: {pal.glass_rgba(0.10)};
-  --line-2: {pal.glass_rgba(0.18)};
-  --surface: {pal.glass_rgba(0.045)};
-  --surface-2: {pal.glass_rgba(0.08)};
+  --line: rgba(var(--glass-rgb), .10);
+  --line-2: rgba(var(--glass-rgb), .18);
+  --surface: rgba(var(--glass-rgb), .045);
+  --surface-2: rgba(var(--glass-rgb), .08);
+  --glow: .30;
+  --page-glow: .16;"""
+    return f"""{theme.theme_blocks(pal, extra=fonts)}
+{theme.category_selectors(pal)}
+/* A coloured halo that reads as depth on a dark ground reads as a smudge on a
+   pale one, so both glows are dialled back in the light theme. */
+@media (prefers-color-scheme: light) {{
+  :root {{ --glow: .16; --page-glow: .10; }}
 }}
 * {{ box-sizing: border-box; }}
 html {{ scroll-behavior: smooth; overflow-x: hidden; }}
@@ -663,13 +749,15 @@ img, svg {{ max-width: 100%; }}
 
 .skip {{ position: absolute; left: -9999px; top: 0; z-index: 90; background: var(--accent);
   color: var(--accent-ink); font-family: var(--mono); font-size: .75rem; font-weight: 500;
-  padding: .7rem 1.1rem; border-radius: 0 0 10px 0; }}
+  padding: .7rem 1.1rem; border-radius: 0 0 10px 0; min-height: 44px;
+  display: inline-flex; align-items: center; }}
 .skip:focus {{ left: 0; }}
 
 /* A single soft light source behind the top of every page. */
 .page-glow {{ position: absolute; top: -300px; right: 0; width: min(56rem, 100%);
   height: 900px; border-radius: 50%; pointer-events: none; z-index: 0;
-  background: radial-gradient(closest-side, {pal.accent_rgba(0.16)}, {pal.accent_rgba(0)} 100%); }}
+  background: radial-gradient(closest-side, rgba(var(--accent-rgb), var(--page-glow)),
+    rgba(var(--accent-rgb), 0) 100%); }}
 
 .masthead, main, .site-footer {{ position: relative; z-index: 1; }}
 .masthead-inner, main, .footer-inner {{ width: 100%; max-width: 72rem; margin: 0 auto;
@@ -689,12 +777,24 @@ img, svg {{ max-width: 100%; }}
 .masthead nav a:hover {{ color: var(--text); }}
 .masthead nav a.active {{ color: var(--text); border-bottom-color: var(--accent); }}
 
+.masthead-actions {{ display: flex; align-items: center; gap: .8rem; }}
+.theme-toggle {{ display: inline-flex; align-items: center; gap: 2px; padding: 3px;
+  border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }}
+.theme-toggle button {{ display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; padding: 0; border: 0; border-radius: 9px; cursor: pointer;
+  background: transparent; color: var(--muted); transition: background .15s, color .15s; }}
+.theme-toggle button svg {{ width: 17px; height: 17px; }}
+.theme-toggle button:hover {{ color: var(--text); }}
+.theme-toggle button[aria-pressed="true"] {{ background: var(--surface-2); color: var(--accent-hi); }}
+.theme-toggle button:focus-visible {{ outline: 2px solid var(--accent); outline-offset: 2px; }}
+
 .btn {{ display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
   min-height: 44px; padding: 0 1.15rem; border-radius: 12px; font-family: var(--body);
   font-weight: 600; font-size: .92rem; white-space: nowrap; }}
 .btn svg {{ width: 1rem; height: 1rem; }}
 .btn-primary {{ background: var(--accent); color: var(--accent-ink);
-  box-shadow: 0 10px 30px {pal.accent_rgba(0.30)}, inset 0 1px 0 rgba(255,255,255,.25); }}
+  box-shadow: 0 10px 30px rgba(var(--accent-rgb), var(--glow)),
+    inset 0 1px 0 rgba(255,255,255,.25); }}
 .btn-primary:hover {{ background: var(--accent-hi); color: var(--accent-ink); }}
 .btn-ghost {{ background: var(--surface); color: var(--text); border: 1px solid var(--line-2); }}
 .btn-ghost:hover {{ border-color: var(--accent); color: var(--text); }}
@@ -734,6 +834,11 @@ main {{ padding-top: 2rem; padding-bottom: 1rem; }}
   letter-spacing: -.02em; color: var(--text); line-height: 1.1; }}
 .latest .val small {{ font-family: var(--body); font-size: .92rem; font-weight: 400;
   color: var(--text-2); margin-left: .6rem; letter-spacing: 0; }}
+/* The week is a standalone navigational link, not prose, so it carries a full
+   touch target rather than the line height it would otherwise inherit. */
+.latest .val a {{ color: var(--text); min-height: 44px; display: inline-flex;
+  align-items: center; flex-wrap: wrap; }}
+.latest .val a:hover {{ color: var(--accent); }}
 .latest .live {{ display: inline-flex; align-items: center; gap: .5rem; }}
 .latest .live i {{ width: .5rem; height: .5rem; border-radius: 50%; background: var(--live);
   box-shadow: 0 0 0 4px rgba(74,222,128,.15); }}
@@ -859,6 +964,7 @@ ul.feeds li a:hover {{ color: var(--accent); }}
 }}
 @media (max-width: 40rem) {{
   .masthead-inner, main, .footer-inner {{ padding-left: 1.25rem; padding-right: 1.25rem; }}
+  .masthead-actions {{ order: -1; }}
   .latest {{ grid-template-columns: 1fr; }}
 }}
 @media (prefers-reduced-motion: reduce) {{
