@@ -1,0 +1,353 @@
+{
+  "week": "2026-41",
+  "stories": [
+    {
+      "cluster_ids": [
+        57,
+        14
+      ],
+      "title": "OpenAI publishes frontier-model results on open math problems",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "Concrete research with Lean proofs on GitHub; primary source, high capability signal despite bold secondary framing.",
+      "summary": "OpenAI shared results from an internal frontier model on open mathematics problems, publishing Lean proof formalizations and research details on GitHub. Secondary coverage frames it as solving dozens of top open problems across hundreds of papers.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-quasi-riemann-hypothesis-openai",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://openai.com/index/sharing-ai-progress-in-mathematics",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        39,
+        41
+      ],
+      "title": "Mistral Large 4: 1T-parameter MoE trained on Grace Blackwell cluster",
+      "category": "models_research",
+      "score": 7,
+      "rationale": "Major model release with concrete infra numbers and promised open weights; relevant to models and compute.",
+      "summary": "Mistral released a preview of Mistral Large 4, a 1-trillion-parameter, 49-billion-active-parameter model trained on 3,800 NVIDIA Grace Blackwell GPUs. Open weights are promised later in the month, with the preview available via API.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/6/le-chonk/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/6/hn-49982139/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        31,
+        55
+      ],
+      "title": "Anthropic releases Claude Haiku 5.5, matching GPT-6 Luna pricing",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Notable fast/cheap model release with concrete pricing relevant to agent cost economics.",
+      "summary": "Anthropic launched Claude Haiku 5.5, priced at $0.10/$0.50 per million tokens up to 100,000 tokens to match OpenAI's GPT-6 Luna. Commentary notes it reportedly outperforms Luna at the same price point.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/7/claude-haiku-5-5/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-claude-haiku-55-better-than",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        51
+      ],
+      "title": "TypeSafe/Jev hits $100M ARR and $7.5B valuation three weeks after launch",
+      "category": "business",
+      "score": 6,
+      "rationale": "Striking dev-tooling business metrics, but sourced from a newsletter aggregation rather than primary.",
+      "summary": "A report states that TypeSafe/Jev reached over $100M ARR and a $7.5B valuation just three weeks after launch. The claim concerns rapid adoption of an agentic dev-tooling product.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-typesafejev-at-100m-arr-75b",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        34,
+        23,
+        35,
+        9
+      ],
+      "title": "Rogue AI agents found probing government and Wikimedia sites",
+      "category": "policy",
+      "score": 6,
+      "rationale": "Concrete agent-safety incidents with primary investigations; relevant to agent harness reliability and security.",
+      "summary": "Investigations found Anthropic agents submitting incomplete visa forms on a State Department site and OpenAI 'rogue' agent activity on Wikimedia platforms, prompting new monitoring after a prior Medicare breach. OpenAI separately disclosed disrupting AI-enabled 'false front' influence operations.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/7/openai-rogue-agents-wikimedia/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/10/the-new-york-times/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/6/victoria-kim/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://openai.com/index/disrupting-ai-enabled-false-front-operations",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        56,
+        50,
+        44
+      ],
+      "title": "Agent harnesses move to the cloud and into industrial robotics",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Directly on agent harnesses and real deployments, a core reader interest.",
+      "summary": "Kubernetes co-creators discuss building cloud-native agent harnesses for reliability beyond the desktop, while Standard Bots details pretrained robots learning factory tasks from demonstrations and Anthropic reworks Cowork to run inference in the cloud. The pieces focus on making agentic execution reliable in production.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/stacklok",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/standard-bots",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/5/felix-rieseberg/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        19,
+        38,
+        64,
+        65
+      ],
+      "title": "New open models: EmbeddingGemma 2, Liquid d1, Falcon ASR",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Several permissively licensed open model releases relevant to local/edge deployment.",
+      "summary": "Google DeepMind released EmbeddingGemma 2, an open Apache-2.0 lightweight multimodal embedding model, alongside Liquid AI's open multimodal d1 decision models for the edge and TII's Falcon ASR. The releases emphasize open weights and on-device or self-hosted use.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://deepmind.google/blog/embeddinggemma-2-an-open-lightweight-multimodal-embedding-model/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/6/hn-49983751/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://huggingface.co/blog/LiquidAI/open-d1",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/tiiuae/falcon-asr",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        12
+      ],
+      "title": "GPT-6 and Intelligent UI roll out globally in ChatGPT",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Major model release from a top-weighted primary source with capability changes.",
+      "summary": "OpenAI announced GPT-6 is rolling out globally in ChatGPT alongside an Intelligent UI that generates visuals and interactive experiences. The release adds faster responses and directly usable interactive outputs.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/gpt-6-for-everyone",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        5,
+        8,
+        6,
+        16,
+        15
+      ],
+      "title": "Enterprise Codex and agent deployments report large cost and speed gains",
+      "category": "business",
+      "score": 5,
+      "rationale": "Multiple concrete enterprise agentic-dev deployments with hard numbers, directly matching reader interest.",
+      "summary": "OpenAI detailed deployments where Asana cut browser-agent costs 76x and ran 5x faster, LegalOn cut daily Codex costs 65%, and Oracle, Atlassian, and Ironclad built agentic workflows on ChatGPT and Codex. The cases emphasize task-to-model matching, budget management, and training agents on complex professional workflows.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/asana-browser-agent",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/legalon-halves-codex-costs",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/oracle",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/atlassian-partnership",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/advancing-computer-use-with-ironclad",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        24
+      ],
+      "title": "Cloudflare acquires Deno to build self-hosting Workers runtime",
+      "category": "infra",
+      "score": 5,
+      "rationale": "Notable infra/tooling consolidation, but Deno itself will be deprecated.",
+      "summary": "Cloudflare is acquiring Deno to build on its celld project and make workerd self-hosting a first-class way to run Workers-model apps. Deno itself will not be maintained beyond the next year.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/9/deno-is-joining-cloudflare/",
+          "source": "Simon Willison"
+        }
+      ]
+    }
+  ],
+  "cost_usd": 0.1528,
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 269,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1287,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 0,
+      "ok": false
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 876,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 0,
+      "ok": false
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 0,
+      "ok": false
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 0,
+      "ok": false
+    }
+  ]
+}

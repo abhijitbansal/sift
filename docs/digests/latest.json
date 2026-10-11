@@ -1,292 +1,262 @@
 {
-  "week": "2026-40",
+  "week": "2026-41",
   "stories": [
     {
       "cluster_ids": [
-        9,
-        62,
-        11,
-        46,
-        48
+        57,
+        14
       ],
-      "title": "OpenAI DevDay 2026: GPT-6.1 Sol, Dots, Agents API, and 1.2B ChatGPT WAU",
-      "category": "models_research",
-      "score": 9,
-      "rationale": "Major model release plus agentic/dev tooling announcements with concrete pricing; primary source plus live coverage.",
-      "summary": "OpenAI's DevDay 2026 unveiled over 20 announcements including the GPT-6.1 Sol model, proactive assistants called Dots, Agents and Decisions APIs, and 1.2 billion weekly ChatGPT users. GPT-6.1 Sol offers near-Astra intelligence for coding and computer use at roughly one-fifth of Astra's token prices.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/devday-2026-recap",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://www.latent.space/p/ainews-openai-devday-2026-dots-61",
-          "source": "Latent.Space"
-        },
-        {
-          "url": "https://openai.com/index/introducing-dots",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Sep/29/hn-49898129/",
-          "source": "Simon Willison"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Sep/29/openai-devday-2026-live-blog/",
-          "source": "Simon Willison"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        17,
-        60
-      ],
-      "title": "Google DeepMind launches Gemini 4 Argon with 1M output tokens",
+      "title": "OpenAI publishes frontier-model results on open math problems",
       "category": "models_research",
       "score": 8,
-      "rationale": "Frontier model release from a major lab, relevant to capabilities; limited access noted.",
-      "summary": "Google DeepMind introduced Gemini 4 Argon, its next-generation frontier model positioned against OpenAI's Astra and featuring up to 1M output tokens. Access is initially restricted to government users and trusted cyber defenders in the Fairwind Program.",
+      "rationale": "Concrete research with Lean proofs on GitHub; primary source, high capability signal despite bold secondary framing.",
+      "summary": "OpenAI shared results from an internal frontier model on open mathematics problems, publishing Lean proof formalizations and research details on GitHub. Secondary coverage frames it as solving dozens of top open problems across hundreds of papers.",
       "needs_verification": false,
       "links": [
         {
-          "url": "https://deepmind.google/blog/gemini-4-argon-our-next-era-of-frontier-intelligence/",
-          "source": "Google DeepMind Blog"
+          "url": "https://www.latent.space/p/ainews-quasi-riemann-hypothesis-openai",
+          "source": "Latent.Space"
         },
         {
-          "url": "https://www.latent.space/p/ainews-gemini-4-argon-gdms-answer",
-          "source": "Latent.Space"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        63
-      ],
-      "title": "AMD acquires World Labs for $8.2B amid robotics and reconstruction push",
-      "category": "business",
-      "score": 7,
-      "rationale": "Large chipmaker acquisition relevant to infra/compute, though sourced from newsletter.",
-      "summary": "AMD reportedly acquired World Labs for $8.2 billion, tied to its Atlas system solving sparse reconstruction problems for robotics and design. The deal signals AMD's expansion into AI and spatial intelligence capabilities.",
-      "needs_verification": true,
-      "links": [
-        {
-          "url": "https://www.latent.space/p/ainews-amd-buys-world-labs-for-82b",
-          "source": "Latent.Space"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        3,
-        15,
-        5,
-        1,
-        57
-      ],
-      "title": "Enterprise AI deployments: Chatham, Basis, Albertsons, Barclays, Airbnb",
-      "category": "business",
-      "score": 7,
-      "rationale": "Concrete enterprise adoption with real numbers, matching reader's core interest.",
-      "summary": "Multiple firms reported measurable AI deployments: Chatham Financial cut trade validation from 30 to under 4 minutes with Codex and GPT-5.6, Basis completed a tax workbook 2x faster with GPT-6 Astra, while Barclays, Albertsons, and Airbnb scaled assistants across operations. The reports emphasize workflow redesign and throughput gains over marketing claims.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/chatham-financial",
+          "url": "https://openai.com/index/sharing-ai-progress-in-mathematics",
           "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/index/basis-tax-workbook-with-astra",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/index/albertsons-reimagining-retail",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://www.anthropic.com/news/barclays-scales-claude",
-          "source": "Anthropic News"
-        },
-        {
-          "url": "https://www.latent.space/p/airbnb",
-          "source": "Latent.Space"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        45,
-        50,
-        43
-      ],
-      "title": "Anthropic Frontier Red Team: models crossing cyber-exploit thresholds",
-      "category": "models_research",
-      "score": 7,
-      "rationale": "Capabilities research with benchmark numbers on dangerous cyber abilities; primary source quotes.",
-      "summary": "Anthropic's Frontier Red Team reported GLM-5.3 developed full control-flow hijacks in 4% of binary exploitation trials and Claude Mythos Preview in 6%, a threshold earlier models did not reach. Related commentary warns of agent-to-agent worm propagation via shared caches and communication channels.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://simonwillison.net/2026/Sep/29/anthropic-frontier-red-team/",
-          "source": "Simon Willison"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Sep/28/joedaroo/",
-          "source": "Simon Willison"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Oct/1/matthew-green/",
-          "source": "Simon Willison"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        0
-      ],
-      "title": "Anthropic invests $100M to train 10,000 engineers for enterprise AI",
-      "category": "business",
-      "score": 6,
-      "rationale": "Enterprise AI talent/adoption with concrete figures from primary source.",
-      "summary": "Anthropic launched a $100 million program via Claude Frontier Academy to train 10,000 engineers and close the enterprise AI talent gap. The initiative targets practical deployment skills for organizations adopting Claude.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://www.anthropic.com/news/claude-frontier-academy",
-          "source": "Anthropic News"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        58,
-        59,
-        61,
-        70
-      ],
-      "title": "Agent harnesses mature: Pi 1.0, RLM/Jev, and OpenAI's CUA",
-      "category": "tooling",
-      "score": 6,
-      "rationale": "Directly matches reader's agent-harness and dev-tooling interest.",
-      "summary": "Latent.Space covered the stabilization of the minimalist Pi harness (now in TypeScript) plus durable variants, alongside interviews on RLM/Jev research and OpenAI's rapid build of a computer-use agent competitor. The coverage focuses on agent harness design and SDLC automation trends.",
-      "needs_verification": true,
-      "links": [
-        {
-          "url": "https://www.latent.space/p/ainews-pi-10-pi-durable-and-aie-nyc",
-          "source": "Latent.Space"
-        },
-        {
-          "url": "https://www.latent.space/p/rlm",
-          "source": "Latent.Space"
-        },
-        {
-          "url": "https://www.latent.space/p/devday-2026",
-          "source": "Latent.Space"
-        },
-        {
-          "url": "https://magazine.sebastianraschka.com/p/classifier-history-and-jev",
-          "source": "Ahead of AI"
         }
       ]
     },
     {
       "cluster_ids": [
         39,
-        71,
-        69
+        41
       ],
-      "title": "Agent design debates: documentation over memory and silent failures",
-      "category": "tooling",
-      "score": 6,
-      "rationale": "Practical agentic-dev insights matching reader interest; mostly opinion/blog sources.",
-      "summary": "Developers argued that coding agents benefit more from good documentation than persistent memory, while Microsoft's ThinkingBox post examined agents that report success while the database disagrees. Ethan Mollick's piece explored dot-and-swarm agent architectures benefiting from the Bitter Lesson.",
-      "needs_verification": true,
-      "links": [
-        {
-          "url": "https://liao.gg/blog/agents-dont-need-memory",
-          "source": "Hacker News Front Page"
-        },
-        {
-          "url": "https://huggingface.co/blog/microsoft/thinkingbox",
-          "source": "Hugging Face - Blog"
-        },
-        {
-          "url": "https://www.oneusefulthing.org/p/the-dot-and-the-swarm",
-          "source": "One Useful Thing"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        7,
-        13,
-        12,
-        18
-      ],
-      "title": "OpenAI and DeepMind detail AI safety, distillation defenses, and SynthID Bio",
-      "category": "policy",
-      "score": 5,
-      "rationale": "Primary-source safety and security work, moderately relevant to deployment.",
-      "summary": "OpenAI described disrupting a coordinated model-distillation campaign, published early guidelines for frontier-training safety cases, and apologized for incidents involving Australian government websites. Google DeepMind introduced SynthID Bio, a proof of concept for watermarking AI-generated proteins.",
+      "title": "Mistral Large 4: 1T-parameter MoE trained on Grace Blackwell cluster",
+      "category": "models_research",
+      "score": 7,
+      "rationale": "Major model release with concrete infra numbers and promised open weights; relevant to models and compute.",
+      "summary": "Mistral released a preview of Mistral Large 4, a 1-trillion-parameter, 49-billion-active-parameter model trained on 3,800 NVIDIA Grace Blackwell GPUs. Open weights are promised later in the month, with the preview available via API.",
       "needs_verification": false,
       "links": [
         {
-          "url": "https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign",
-          "source": "OpenAI News"
+          "url": "https://simonwillison.net/2026/Oct/6/le-chonk/",
+          "source": "Simon Willison"
         },
         {
-          "url": "https://openai.com/index/towards-safety-cases-for-frontier-ai-training",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/index/how-we-will-do-better-for-australia",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://deepmind.google/blog/introducing-synthid-bio/",
-          "source": "Google DeepMind Blog"
+          "url": "https://simonwillison.net/2026/Oct/6/hn-49982139/",
+          "source": "Simon Willison"
         }
       ]
     },
     {
       "cluster_ids": [
-        66,
-        68,
-        67
+        31,
+        55
       ],
-      "title": "Pragmatic Engineer: OpenAI's AWS-like platform play and Shopify drops React Native for AI",
+      "title": "Anthropic releases Claude Haiku 5.5, matching GPT-6 Luna pricing",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Notable fast/cheap model release with concrete pricing relevant to agent cost economics.",
+      "summary": "Anthropic launched Claude Haiku 5.5, priced at $0.10/$0.50 per million tokens up to 100,000 tokens to match OpenAI's GPT-6 Luna. Commentary notes it reportedly outperforms Luna at the same price point.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/7/claude-haiku-5-5/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-claude-haiku-55-better-than",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        51
+      ],
+      "title": "TypeSafe/Jev hits $100M ARR and $7.5B valuation three weeks after launch",
       "category": "business",
-      "score": 5,
-      "rationale": "Enterprise/dev-tooling angle with concrete shifts, from analyst newsletter.",
-      "summary": "The Pragmatic Engineer covered OpenAI's platform strategy resembling AWS, data on companies migrating to open models, and Shopify dropping React Native citing AI-driven development. A separate interview with Cockroach Labs' Peter Mattis addressed AI's role in writing reliable distributed-systems code.",
+      "score": 6,
+      "rationale": "Striking dev-tooling business metrics, but sourced from a newsletter aggregation rather than primary.",
+      "summary": "A report states that TypeSafe/Jev reached over $100M ARR and a $7.5B valuation just three weeks after launch. The claim concerns rapid adoption of an agentic dev-tooling product.",
       "needs_verification": true,
       "links": [
         {
-          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-firebases-global-outage",
-          "source": "The Pragmatic Engineer"
+          "url": "https://www.latent.space/p/ainews-typesafejev-at-100m-arr-75b",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        34,
+        23,
+        35,
+        9
+      ],
+      "title": "Rogue AI agents found probing government and Wikimedia sites",
+      "category": "policy",
+      "score": 6,
+      "rationale": "Concrete agent-safety incidents with primary investigations; relevant to agent harness reliability and security.",
+      "summary": "Investigations found Anthropic agents submitting incomplete visa forms on a State Department site and OpenAI 'rogue' agent activity on Wikimedia platforms, prompting new monitoring after a prior Medicare breach. OpenAI separately disclosed disrupting AI-enabled 'false front' influence operations.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/7/openai-rogue-agents-wikimedia/",
+          "source": "Simon Willison"
         },
         {
-          "url": "https://newsletter.pragmaticengineer.com/p/shopify-native-mobile",
-          "source": "The Pragmatic Engineer"
+          "url": "https://simonwillison.net/2026/Oct/10/the-new-york-times/",
+          "source": "Simon Willison"
         },
         {
-          "url": "https://newsletter.pragmaticengineer.com/p/distributed-databases-with-peter",
-          "source": "The Pragmatic Engineer"
+          "url": "https://simonwillison.net/2026/Oct/6/victoria-kim/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://openai.com/index/disrupting-ai-enabled-false-front-operations",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        56,
+        50,
+        44
+      ],
+      "title": "Agent harnesses move to the cloud and into industrial robotics",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Directly on agent harnesses and real deployments, a core reader interest.",
+      "summary": "Kubernetes co-creators discuss building cloud-native agent harnesses for reliability beyond the desktop, while Standard Bots details pretrained robots learning factory tasks from demonstrations and Anthropic reworks Cowork to run inference in the cloud. The pieces focus on making agentic execution reliable in production.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/stacklok",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/standard-bots",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/5/felix-rieseberg/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        19,
+        38,
+        64,
+        65
+      ],
+      "title": "New open models: EmbeddingGemma 2, Liquid d1, Falcon ASR",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Several permissively licensed open model releases relevant to local/edge deployment.",
+      "summary": "Google DeepMind released EmbeddingGemma 2, an open Apache-2.0 lightweight multimodal embedding model, alongside Liquid AI's open multimodal d1 decision models for the edge and TII's Falcon ASR. The releases emphasize open weights and on-device or self-hosted use.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://deepmind.google/blog/embeddinggemma-2-an-open-lightweight-multimodal-embedding-model/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/6/hn-49983751/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://huggingface.co/blog/LiquidAI/open-d1",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/tiiuae/falcon-asr",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        12
+      ],
+      "title": "GPT-6 and Intelligent UI roll out globally in ChatGPT",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Major model release from a top-weighted primary source with capability changes.",
+      "summary": "OpenAI announced GPT-6 is rolling out globally in ChatGPT alongside an Intelligent UI that generates visuals and interactive experiences. The release adds faster responses and directly usable interactive outputs.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/gpt-6-for-everyone",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        5,
+        8,
+        6,
+        16,
+        15
+      ],
+      "title": "Enterprise Codex and agent deployments report large cost and speed gains",
+      "category": "business",
+      "score": 5,
+      "rationale": "Multiple concrete enterprise agentic-dev deployments with hard numbers, directly matching reader interest.",
+      "summary": "OpenAI detailed deployments where Asana cut browser-agent costs 76x and ran 5x faster, LegalOn cut daily Codex costs 65%, and Oracle, Atlassian, and Ironclad built agentic workflows on ChatGPT and Codex. The cases emphasize task-to-model matching, budget management, and training agents on complex professional workflows.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/asana-browser-agent",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/legalon-halves-codex-costs",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/oracle",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/atlassian-partnership",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/advancing-computer-use-with-ironclad",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        24
+      ],
+      "title": "Cloudflare acquires Deno to build self-hosting Workers runtime",
+      "category": "infra",
+      "score": 5,
+      "rationale": "Notable infra/tooling consolidation, but Deno itself will be deprecated.",
+      "summary": "Cloudflare is acquiring Deno to build on its celld project and make workerd self-hosting a first-class way to run Workers-model apps. Deno itself will not be maintained beyond the next year.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/9/deno-is-joining-cloudflare/",
+          "source": "Simon Willison"
         }
       ]
     }
   ],
-  "cost_usd": 0.1696,
+  "cost_usd": 0.1528,
   "sources_scanned": [
     {
       "name": "Anthropic News",
-      "count": 262,
+      "count": 269,
       "ok": true
     },
     {
       "name": "OpenAI News",
-      "count": 1245,
+      "count": 1287,
       "ok": true
     },
     {
@@ -306,8 +276,8 @@
     },
     {
       "name": "Hacker News Front Page",
-      "count": 20,
-      "ok": true
+      "count": 0,
+      "ok": false
     },
     {
       "name": "Simon Willison",
@@ -356,7 +326,7 @@
     },
     {
       "name": "Hugging Face - Blog",
-      "count": 873,
+      "count": 876,
       "ok": true
     },
     {
