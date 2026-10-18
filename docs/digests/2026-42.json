@@ -1,0 +1,357 @@
+{
+  "week": "2026-42",
+  "stories": [
+    {
+      "cluster_ids": [
+        19,
+        17,
+        18,
+        62,
+        49
+      ],
+      "title": "Google DeepMind launches Gemini 4 Argon, now generally available",
+      "category": "models_research",
+      "score": 9,
+      "rationale": "Major frontier model release with robotics variant and independent benchmark confirmation; high reader interest.",
+      "summary": "Google DeepMind introduced Gemini 4 Argon, detailing its capabilities, a robotics-specific variant, and responsible-deployment practices, and made it generally available via the Gemini API and a $100/month plan. Independent benchmarks such as CursorBench and Vals AI reportedly corroborated the lab's performance claims.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://deepmind.google/blog/introducing-gemini-4-argon/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+          "source": "Google AI Blog"
+        },
+        {
+          "url": "https://deepmind.google/blog/developing-gemini-4-argon-responsibly-and-safely/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://deepmind.google/blog/gemini-4-argon-for-robotics/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-ai-engineer-nyc-gemini-4-argon",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/13/llm-gemini/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        56,
+        64,
+        72,
+        51
+      ],
+      "title": "Meta ships frontier Muse Wonder models and open-weight Muse Spark",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "Return of competitive US open weights plus a frontier-tier closed model; strongly matches model-release interest.",
+      "summary": "Meta released its Muse Wonder and Muse Wonder Full models, reported as Claude 5.5-tier frontier systems, alongside the open-weight multimodal mixture-of-experts Muse Spark. Third-party analysis scored Muse Wonder Max as roughly equivalent to GPT-6.1 Sol.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.interconnects.ai/p/meta-shakes-up-the-frontiers-open",
+          "source": "Interconnects AI"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-meta-muse-wonder-and-wonder",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://huggingface.co/blog/meta-muse-spark-open",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/12/llm-meta-ai/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        48,
+        42,
+        66
+      ],
+      "title": "Anthropic rebuilds source control and code review for agent-scale commits",
+      "category": "tooling",
+      "score": 8,
+      "rationale": "Concrete numbers on agentic SDLC at scale (2,500 to 30,000 merges/day); directly on-profile.",
+      "summary": "Anthropic described building a custom Git alternative after daily merged code changes rose from about 2,500 in May 2026 to over 30,000 by September, and detailed continuous Claude-driven code review replacing end-of-pipeline human gates. Related reporting adds insider context on the migration and the rise of AI-assisted coding workflows inside big tech.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/13/redesigning-source-control-at-anthropic/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/16/code-review/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-openai-software-engineer",
+          "source": "The Pragmatic Engineer"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        44
+      ],
+      "title": "Anthropic tells investors Q3 revenue hit $16.8B ahead of IPO",
+      "category": "business",
+      "score": 7,
+      "rationale": "Concrete enterprise AI revenue and unit-economics figures, though sourced secondhand via FT.",
+      "summary": "Per an FT report, Anthropic told investors quarterly revenue rose nearly 50% to $16.8bn in Q3, up from about $4.8bn in Q1 and $11.5bn in Q2. The company also reported $1.70 in revenue for every $1 spent on computing power in Q3.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Oct/15/anthropic-tells-investors/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        59
+      ],
+      "title": "Modal reaches $1B ARR and $16B Series D as AI infra decacorn",
+      "category": "infra",
+      "score": 7,
+      "rationale": "Significant AI compute/sandbox infrastructure milestone with concrete growth numbers.",
+      "summary": "Modal reportedly reached $1B ARR and raised a $16B Series D, tripling usage and valuation in five months and growing 15x in a year. The report positions Modal as a leading sandbox-based AI infrastructure provider.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/ainews-modals-1b-arr-16b-series-d",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        67
+      ],
+      "title": "Inside Uber's AI infrastructure and developer-tool workflows",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Concrete enterprise view of agent integration and productivity measurement in a major engineering org.",
+      "summary": "A Pragmatic Engineer interview with Uber Distinguished Engineer Uday Kiran Medisetty details how Uber builds internal developer tools and integrates AI agents into engineering workflows. It also covers how the company measures agents' impact on productivity.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/ubers-ai-infra-from-the-inside",
+          "source": "The Pragmatic Engineer"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        60,
+        65
+      ],
+      "title": "Frontier labs detail agent autonomy and workflow coordination at AI Engineer NYC",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Substantive agent-harness and autonomy design content from OpenAI and Anthropic, on-profile.",
+      "summary": "At AI Engineer New York, OpenAI and Anthropic discussed giving agents useful autonomy while keeping consequential financial decisions under human control. Anthropic also drew on Unix and Linux lessons to explain dynamic workflows that coordinate Claude agents on larger projects.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/crossing-the-threshold",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.latent.space/p/claude-dynamic-workflows",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        24,
+        50,
+        27
+      ],
+      "title": "Coding-agent guardrails: commit hooks, quizzes, and Codex crash reports",
+      "category": "tooling",
+      "score": 5,
+      "rationale": "Practical agent-harness and SDLC-automation tooling discussion matching dev-tooling interest.",
+      "summary": "Developers shared approaches for controlling AI-generated code, including Sphinx, a hook that quizzes you on your agent's code before shipping, and pre-commit hooks that enforce library usage by failing commits and re-prompting the agent. Separately, a widely-discussed GitHub issue reports Codex Desktop continuously generating Crashpad dumps.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://sphinx-six-theta.vercel.app/",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Oct/13/geoffrey-huntley/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://github.com/openai/codex/issues/25921",
+          "source": "Hacker News Front Page"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        1,
+        16
+      ],
+      "title": "Google DeepMind and Anthropic deepen Singapore government AI work",
+      "category": "policy",
+      "score": 5,
+      "rationale": "Concrete government partnerships and an on-device model deployment, a secondary interest area.",
+      "summary": "Anthropic opened a Singapore office and signed an MOU with the Government of Singapore, while Google DeepMind and GovTech Singapore deployed fine-tuned on-device Gemma models to intercept conversational scams with zero cloud data egress. Both reflect expanding public-sector AI collaboration in the region.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.anthropic.com/news/singapore-office-opening",
+          "source": "Anthropic News"
+        },
+        {
+          "url": "https://deepmind.google/blog/on-device-ai-scam-detection-mddi/",
+          "source": "Google DeepMind Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        63,
+        18,
+        58
+      ],
+      "title": "Physical AI and interpretability research: Dyna-2, robotics, and polysemanticity",
+      "category": "models_research",
+      "score": 5,
+      "rationale": "Capabilities and interpretability research of interest, though partly secondhand claims.",
+      "summary": "Dyna Robotics detailed Dyna-2 world-action models aiming for hour-long autonomous physical agents, while separate work used agents to challenge polysemanticity and improve interpretability and alignment. These reflect progress in physical AI and mechanistic understanding of models.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://www.latent.space/p/dyna",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://deepmind.google/blog/gemini-4-argon-for-robotics/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://www.latent.space/p/ainews-agents-disprove-polysemanticity",
+          "source": "Latent.Space"
+        }
+      ]
+    }
+  ],
+  "cost_usd": 0.1828,
+  "sources_scanned": [
+    {
+      "name": "Anthropic News",
+      "count": 272,
+      "ok": true
+    },
+    {
+      "name": "OpenAI News",
+      "count": 1299,
+      "ok": true
+    },
+    {
+      "name": "Google DeepMind Blog",
+      "count": 100,
+      "ok": true
+    },
+    {
+      "name": "Google AI Blog",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Meta Engineering (AI Research)",
+      "count": 9,
+      "ok": true
+    },
+    {
+      "name": "Hacker News Front Page",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Simon Willison",
+      "count": 30,
+      "ok": true
+    },
+    {
+      "name": "Import AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "arXiv cs.AI",
+      "count": 0,
+      "ok": true
+    },
+    {
+      "name": "Interconnects AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "SemiAnalysis",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "Latent.Space",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "One Useful Thing",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Ahead of AI",
+      "count": 20,
+      "ok": true
+    },
+    {
+      "name": "Hugging Face - Blog",
+      "count": 880,
+      "ok": true
+    },
+    {
+      "name": "Andrej Karpathy blog",
+      "count": 10,
+      "ok": true
+    },
+    {
+      "name": "X \u00b7 @karpathy",
+      "count": 0,
+      "ok": false
+    },
+    {
+      "name": "X \u00b7 @DrJimFan",
+      "count": 0,
+      "ok": false
+    },
+    {
+      "name": "X \u00b7 @ylecun",
+      "count": 0,
+      "ok": false
+    }
+  ]
+}
