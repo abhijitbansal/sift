@@ -1,231 +1,296 @@
 {
-  "week": "2026-45",
+  "week": "2026-46",
   "stories": [
     {
       "cluster_ids": [
-        11,
-        66
+        1,
+        65,
+        67,
+        84,
+        90
       ],
-      "title": "OpenAI's autonomous pipeline patches 948 Linux kernel privilege-escalation bugs",
+      "title": "Anthropic releases Claude Fable 5.2 and Mythos 5.2, retaking top benchmark spot",
       "category": "models_research",
       "score": 9,
-      "rationale": "Concrete numbers, primary source, agentic security at scale \u2014 directly on-profile.",
-      "summary": "OpenAI built an autonomous pipeline that found, validated, and generated patches for 948 local privilege-escalation vulnerabilities in the Linux kernel. The work was also highlighted in third-party AI news roundups covering kernel security.",
+      "rationale": "Major frontier model release with coding focus and #1 ranking, directly relevant to agentic dev interest.",
+      "summary": "Anthropic launched Claude Fable 5.2 and Mythos 5.2, positioning them as its most capable models for coding, finance, and sciences, with Fable 5.2 ranked first on Artificial Analysis. Early testing notes its distinctive behavior around code ownership and structural improvements during coding tasks.",
       "needs_verification": false,
       "links": [
         {
-          "url": "https://openai.com/index/a-thousand-fewer-paths-to-root",
-          "source": "OpenAI News"
+          "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+          "source": "Anthropic News"
         },
         {
-          "url": "https://latent.space/p/ainews-it-s-swapping-season/",
-          "source": "Latent.Space"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        65
-      ],
-      "title": "Inkling 2 Small: 594B MoE trained in 68 hours on 12T tokens",
-      "category": "models_research",
-      "score": 7,
-      "rationale": "Concrete training-efficiency numbers and model capabilities; on-profile research.",
-      "summary": "A new report details Inkling 2 Small, a 17A-594B mixture-of-experts model trained in 68 hours on 12T tokens, said to beat Muse Spark. Coverage also includes METR's study of AI research conducted at Anthropic.",
-      "needs_verification": true,
-      "links": [
-        {
-          "url": "https://latent.space/p/ainews-inkling-2-small-17a-594b-trained-in-68-hours-on-12t-tokens-beating-muse-spark/",
-          "source": "Latent.Space"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        55,
-        68
-      ],
-      "title": "'Weight-Space Programming': LLMs can natively read and write neural network weights",
-      "category": "models_research",
-      "score": 7,
-      "rationale": "Novel capabilities research with reproducibility on local models; relevant to capabilities readers.",
-      "summary": "A paper found that frontier models like GPT-6 Astra can interpret and modify the raw floating-point weights of neural networks described as text, with smaller models like Qwen 3.8 27B showing similar abilities. Follow-up work explores editing Qwen's weights to reduce reasoning loops and implications for recursive self-improvement.",
-      "needs_verification": true,
-      "links": [
-        {
-          "url": "https://simonwillison.net/2026/Nov/3/qwen-can-interpret-model-weights/",
+          "url": "https://simonwillison.net/2026/Nov/10/prompting-claude-fable-52/",
           "source": "Simon Willison"
         },
         {
-          "url": "https://latent.space/p/ainews-llms-can-read-write-neural-network-weights-weight-space-programming-cuts-autoresearch-out-of/",
+          "url": "https://simonwillison.net/2026/Nov/9/llm-anthropic/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://latent.space/p/ainews-fable-5-2-retakes-world-1-llm-spot-as-ant-ipo-roadshow-begins/",
           "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.oneusefulthing.org/p/fable-52-and-jagged-agi",
+          "source": "One Useful Thing"
         }
       ]
     },
     {
       "cluster_ids": [
-        1,
-        22,
-        80
+        21,
+        23,
+        27,
+        58
       ],
-      "title": "New agent benchmarks: BioBasicsBench, LifeVal, and CWE-bench v2",
+      "title": "Google launches Gemini 4 family (Hydrogen, Carbon) with Search integration",
       "category": "models_research",
-      "score": 6,
-      "rationale": "Multiple concrete evals for agent capabilities including security; useful for evals-focused reader.",
-      "summary": "OpenAI introduced BioBasicsBench, a 100-task benchmark for how AI agents interpret raw wet-lab experimental data, and LifeVal, which measures how well AI helps complete everyday tasks. Hugging Face separately released CWE-bench v2, expanding coverage and transparency for vulnerability-detection evaluation.",
+      "score": 8,
+      "rationale": "Major model release from a frontier lab with concrete pricing and deployment detail.",
+      "summary": "Google DeepMind released the Gemini 4 family, including the low-cost Hydrogen and now-GA Carbon models, with Hydrogen integrated into Google Search. Independent analysis highlighted a confusing multi-tier pricing scheme set to roughly double after November 30, 2026.",
       "needs_verification": false,
       "links": [
         {
-          "url": "https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/index/lifeval",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://huggingface.co/blog/cwe-bench",
-          "source": "Hugging Face - Blog"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        25,
-        76
-      ],
-      "title": "Google ships Gemini Omni 1.2 Flash as NVIDIA releases Cosmos 3 world models",
-      "category": "models_research",
-      "score": 6,
-      "rationale": "Two primary-source model releases spanning multimodal and world simulation.",
-      "summary": "Google DeepMind released Gemini Omni 1.2 Flash, a faster, cost-effective multimodal model supporting longer clips. NVIDIA published new Cosmos 3 open models for interactive world simulation.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://deepmind.google/blog/gemini-omni-12-flash-fast-and-cost-effective-with-longer-clips/",
+          "url": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
           "source": "Google DeepMind Blog"
         },
         {
-          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
+          "url": "https://deepmind.google/blog/gemini-4-carbon-is-now-available/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/",
           "source": "Google AI Blog"
         },
         {
-          "url": "https://huggingface.co/blog/nvidia/cosmos-interactive-world-simulation",
-          "source": "Hugging Face - Blog"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        4,
-        10
-      ],
-      "title": "OpenAI releases GPT-6 Cyber and Daybreak Red for aligned cybersecurity agents",
-      "category": "models_research",
-      "score": 5,
-      "rationale": "Major model release for security agents, now deployable via AWS GovCloud; primary source.",
-      "summary": "OpenAI introduced GPT-6 Cyber, a cybersecurity model for finding exploitable vulnerabilities and developing fixes within authorized scope. The related Daybreak Red is now available to approved customers in AWS GovCloud (US-East) through Amazon Bedrock.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/introducing-gpt-6-cyber",
-          "source": "OpenAI News"
+          "url": "https://simonwillison.net/2026/Nov/12/llm-gemini/",
+          "source": "Simon Willison"
         },
         {
-          "url": "https://openai.com/index/daybreak-red-aws-govcloud",
-          "source": "OpenAI News"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        9,
-        18
-      ],
-      "title": "OpenAI to acquire Pierre, builds Pando Git backend to scale Codex-era development",
-      "category": "tooling",
-      "score": 5,
-      "rationale": "Codex tooling acquisition plus novel dev infra; directly relevant to agentic SDLC.",
-      "summary": "OpenAI announced it will acquire Pierre Computer Company to expand Codex's tools for building, understanding, and reviewing code. It also detailed Pando, a Git-compatible backend designed for the scale of development that Codex enables.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/openai-to-acquire-pierre",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/index/scaling-git-at-openai",
-          "source": "OpenAI News"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        70,
-        69
-      ],
-      "title": "Legora builds legal agents without access to client data traces",
-      "category": "business",
-      "score": 5,
-      "rationale": "Real agentic deployment with a concrete eval-without-traces constraint; on-profile.",
-      "summary": "Legora's CTO describes building and testing legal agents when the firm cannot read any trace of agent activity because data belongs to client law firms. The discussion covers evals without traces, million-cell tabular review, and pressure on the billable-hour model.",
-      "needs_verification": true,
-      "links": [
-        {
-          "url": "https://latent.space/p/building_legal_agents_when_you_can_t_see_the_data_-_jacob_lauritzen_cto_of_legora/",
-          "source": "Latent.Space"
-        },
-        {
-          "url": "https://latent.space/p/building-ai-for-lawyers-jacob-lauritzen-cto-of-legora/",
-          "source": "Latent.Space"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        58
-      ],
-      "title": "Re-examining U.S. Census data on corporate AI adoption",
-      "category": "business",
-      "score": 5,
-      "rationale": "Concrete data analysis of real enterprise adoption trends; aligns with adoption interest.",
-      "summary": "Simon Willison revisited Census Bureau data previously cited to show slowing U.S. corporate AI adoption and re-ran the numbers a year later. The post analyzes what changed and cautions about interpreting the figures.",
-      "needs_verification": true,
-      "links": [
-        {
-          "url": "https://simonwillison.net/2026/Nov/2/census-bureau-super-intelligence/",
+          "url": "https://simonwillison.net/2026/Nov/10/llm-gemini/",
           "source": "Simon Willison"
         }
       ]
     },
     {
       "cluster_ids": [
-        40
+        76,
+        74
       ],
-      "title": "Claude Code's 'Don't Ask Again' exposed passwords in 1,122 public GitHub files",
-      "category": "tooling",
-      "score": 4,
-      "rationale": "Concrete coding-agent security failure with hard numbers; highly relevant to dev tooling readers.",
-      "summary": "Security firm Apiiro reported that Claude Code's 'Don't Ask Again' permission feature led to secrets being leaked across 1,122 public GitHub files. The finding highlights risks in coding-agent permission models and autonomous commits.",
+      "title": "Jensen Huang resigns as NVIDIA CEO after 33 years",
+      "category": "business",
+      "score": 8,
+      "rationale": "Leadership change at the dominant AI chip vendor has large infrastructure implications; secondary-source reporting.",
+      "summary": "Reports say Jensen Huang has stepped down after 33 years leading NVIDIA, with Colette Kress named interim CEO. Commentary focuses on implications for open-source AI and American AI leadership amid the transition.",
       "needs_verification": true,
       "links": [
         {
-          "url": "https://apiiro.com/blog/coding-agents-leaking-secrets-github-dont-ask-again",
+          "url": "https://latent.space/p/ainews-jensen-huang-resigns-after-33-years-leading-nvidia/",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://www.interconnects.ai/p/open-source-ai-without-jensen",
+          "source": "Interconnects AI"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        0,
+        63
+      ],
+      "title": "Anthropic launches IPO roadshow, detailing multi-vendor compute strategy",
+      "category": "business",
+      "score": 7,
+      "rationale": "Major AI business event with concrete infra details across AWS Trainium, TPUs, NVIDIA, and AMD.",
+      "summary": "Anthropic kicked off the roadshow for its proposed Class A common stock IPO, releasing a roadshow video with previously unreleased business information. The video details how Anthropic trains and serves Claude across AWS Trainium, Google TPUs, NVIDIA GPUs, and AMD GPUs.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://www.anthropic.com/news/roadshow-launch",
+          "source": "Anthropic News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Nov/11/anthropic-ipo-roadshow/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        19,
+        5,
+        6,
+        4,
+        81,
+        2
+      ],
+      "title": "OpenAI Codex drives agentic development gains across enterprise customers",
+      "category": "tooling",
+      "score": 7,
+      "rationale": "Concrete agentic SDLC deployments with numbers, core to reader's dev-tooling interest, though OpenAI self-reported.",
+      "summary": "OpenAI published customer stories reporting large productivity gains from Codex, including CodeRabbit shipping 20x more software, Amplitude shipping in 1\u20132 days, and Gondola raising lead engineer output 50%. At AI Engineer Code Summit, OpenAI also showed new Codex workflows for voice steering, cloud handoff, and a wallet enabling agent purchases.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/coderabbit-codex-daybreak",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/business/customer-stories/gondola",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/business/customer-stories/holidays-extras-codex",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/business/customer-stories/amplitude",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://latent.space/p/codex-work/",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://openai.com/index/introducing-chatgpt-wallet",
+          "source": "OpenAI News"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        24,
+        49
+      ],
+      "title": "Google DeepMind's AlphaProof Code and Antigravity teamwork target verified software",
+      "category": "models_research",
+      "score": 7,
+      "rationale": "Concrete agentic verification research with a real deployment (Signal encryption proofs).",
+      "summary": "DeepMind introduced AlphaProof Code, whose agents wrote three million lines of Lean proofs to verify Signal's core encryption. Separately, Google Research detailed Antigravity's /teamwork feature for multi-agent science and engineering collaboration.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://deepmind.google/blog/introducing-alphaproof-code/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://research.google/blog/advancing-science-engineering-with-antigravitys-teamwork-feature/",
           "source": "Hacker News Front Page"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        93,
+        54
+      ],
+      "title": "llama.cpp reaches v1.0.0, strengthening local AI ecosystem",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Significant milestone for local inference tooling that reader's dev interests value.",
+      "summary": "The llama.cpp project released its v1.0.0 milestone, described as a stronger foundation for the local AI ecosystem. Tooling such as datasette-llm added OpenAI-compatible endpoint support, enabling use with local runtimes like llama.cpp, LM Studio, and Ollama.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Nov/14/datasette-llm/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        26,
+        91
+      ],
+      "title": "Gemini Robotics 2.5 advances real-world dexterity",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Notable VLA model release with robotics capability claims; relevant to capabilities research.",
+      "summary": "DeepMind announced Gemini Robotics 2.5, a vision-language-action model it says improves robot dexterity, reliability, and safety. Related tooling demonstrated robot pick-and-place simulations using SimReady assets.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/",
+          "source": "Google DeepMind Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/nvidia/simready-assets-robot-pick-and-place",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        28,
+        59,
+        78,
+        79,
+        99
+      ],
+      "title": "Decision model category heats up as Google launches Gemini Decisions API",
+      "category": "models_research",
+      "score": 6,
+      "rationale": "Emerging model category with concrete pricing and production use; relevant to evals/agent harness interest.",
+      "summary": "Google launched the Gemini Decisions API, joining Jev and OpenAI in the calibrated decision-model category with matching pricing to GPT-6 Luna. Hugging Face and AI Engineer coverage highlighted production customers and comparisons across the three providers.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/",
+          "source": "Google AI Blog"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Nov/11/gemini-decisions-api/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://latent.space/p/ainews-d-day-decision-models-day/",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://latent.space/p/jev-revolution/",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://huggingface.co/blog/decision",
+          "source": "Hugging Face - Blog"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        60
+      ],
+      "title": "AWS releases official local emulator built largely by coding agents",
+      "category": "tooling",
+      "score": 6,
+      "rationale": "Primary infra tooling release with a striking agentic-development data point (29,684 commits).",
+      "summary": "AWS published an official emulator, written in Rust, to run tests against local clones of its services without a paid API key. A guest post noted the project saw 29,684 commits in its first three weeks, largely produced by a swarm of agents.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://simonwillison.net/2026/Nov/11/aws-emulator/",
+          "source": "Simon Willison"
         }
       ]
     }
   ],
-  "cost_usd": 0.2232,
+  "cost_usd": 0.1998,
   "sources_scanned": [
     {
       "name": "Anthropic News",
-      "count": 286,
+      "count": 288,
       "ok": true
     },
     {
       "name": "OpenAI News",
-      "count": 1368,
+      "count": 1387,
       "ok": true
     },
     {
@@ -270,8 +335,8 @@
     },
     {
       "name": "SemiAnalysis",
-      "count": 0,
-      "ok": false
+      "count": 10,
+      "ok": true
     },
     {
       "name": "Latent.Space",
@@ -295,7 +360,7 @@
     },
     {
       "name": "Hugging Face - Blog",
-      "count": 899,
+      "count": 907,
       "ok": true
     },
     {
