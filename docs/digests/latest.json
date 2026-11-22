@@ -1,296 +1,326 @@
 {
-  "week": "2026-46",
+  "week": "2026-47",
   "stories": [
     {
       "cluster_ids": [
-        1,
-        65,
-        67,
+        17,
+        71,
+        86
+      ],
+      "title": "OpenAI releases GPT-6.2 Astra and Sol with lower pricing",
+      "category": "models_research",
+      "score": 8,
+      "rationale": "Major frontier model release with concrete pricing and coding/agent capability gains, core reader interest.",
+      "summary": "OpenAI introduced GPT-6.2 Astra and Sol with improved coding, computer use, and efficiency across ChatGPT Work, Codex, and the API, with 6.2 Astra priced at $8/MTok input and $40/MTok output (80% of its predecessor). Early testers report mixed impressions of Astra, while Sol is positioned as the main workhorse model.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Nov/17/gpt62-astra-and-sol/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://latent.space/p/ainews-gpt-6-2-astra-the-2-frontier-model-is-better-and-20-600-cheaper-but-has-mixed-reviews-6-2-sol/",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        12,
+        5,
+        13,
+        6,
+        7,
+        70
+      ],
+      "title": "OpenAI details Codex agent workflows, sandboxing, and research acceleration",
+      "category": "tooling",
+      "score": 8,
+      "rationale": "Directly matches agentic dev tooling and SDLC automation interest with concrete internal deployment detail.",
+      "summary": "OpenAI published analyses of how coding agents accelerate AI research along a 'jagged frontier,' plus internal case studies like the Codex-powered Performance Factory and technical detail on the Codex sandbox's filesystem and network controls. Related Codex Security Plugin and PR scan demos show agent-driven security review workflows, alongside independent work on external sandboxes for coding agents.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://openai.com/index/research-acceleration-jagged-frontier",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/index/inside-the-codex-sandbox",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/business/learn/codex-security-plugin-demo",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://openai.com/business/learn/pr-scans-demo",
+          "source": "OpenAI News"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Nov/17/external-sandboxes-for-coding-agents/",
+          "source": "Simon Willison"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        91,
+        93,
         84,
         90
       ],
-      "title": "Anthropic releases Claude Fable 5.2 and Mythos 5.2, retaking top benchmark spot",
-      "category": "models_research",
-      "score": 9,
-      "rationale": "Major frontier model release with coding focus and #1 ranking, directly relevant to agentic dev interest.",
-      "summary": "Anthropic launched Claude Fable 5.2 and Mythos 5.2, positioning them as its most capable models for coding, finance, and sciences, with Fable 5.2 ranked first on Artificial Analysis. Early testing notes its distinctive behavior around code ownership and structural improvements during coding tasks.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
-          "source": "Anthropic News"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Nov/10/prompting-claude-fable-52/",
-          "source": "Simon Willison"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Nov/9/llm-anthropic/",
-          "source": "Simon Willison"
-        },
-        {
-          "url": "https://latent.space/p/ainews-fable-5-2-retakes-world-1-llm-spot-as-ant-ipo-roadshow-begins/",
-          "source": "Latent.Space"
-        },
-        {
-          "url": "https://www.oneusefulthing.org/p/fable-52-and-jagged-agi",
-          "source": "One Useful Thing"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        21,
-        23,
-        27,
-        58
-      ],
-      "title": "Google launches Gemini 4 family (Hydrogen, Carbon) with Search integration",
-      "category": "models_research",
+      "title": "Software factories: agentic code review and SDLC automation go mainstream",
+      "category": "tooling",
       "score": 8,
-      "rationale": "Major model release from a frontier lab with concrete pricing and deployment detail.",
-      "summary": "Google DeepMind released the Gemini 4 family, including the low-cost Hydrogen and now-GA Carbon models, with Hydrogen integrated into Google Search. Independent analysis highlighted a confusing multi-tier pricing scheme set to roughly double after November 30, 2026.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
-          "source": "Google DeepMind Blog"
-        },
-        {
-          "url": "https://deepmind.google/blog/gemini-4-carbon-is-now-available/",
-          "source": "Google DeepMind Blog"
-        },
-        {
-          "url": "https://blog.google/products-and-platforms/products/search/gemini-4-hydrogen-search-upgrade/",
-          "source": "Google AI Blog"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Nov/12/llm-gemini/",
-          "source": "Simon Willison"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Nov/10/llm-gemini/",
-          "source": "Simon Willison"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        76,
-        74
-      ],
-      "title": "Jensen Huang resigns as NVIDIA CEO after 33 years",
-      "category": "business",
-      "score": 8,
-      "rationale": "Leadership change at the dominant AI chip vendor has large infrastructure implications; secondary-source reporting.",
-      "summary": "Reports say Jensen Huang has stepped down after 33 years leading NVIDIA, with Colette Kress named interim CEO. Commentary focuses on implications for open-source AI and American AI leadership amid the transition.",
+      "rationale": "Concrete numbers on agentic SDLC adoption from practitioners and executives, squarely in reader's wheelhouse.",
+      "summary": "CodeRabbit's CEO describes shipping over 5,000 pull requests in a month and spending $250K/month on AI while arguing human code review is dead, and Linear reports over 50% of tickets written by agents en route to $100M ARR. Satya Nadella and Pragmatic Engineer coverage examine software engineering as code becomes cheap, alongside Meta's reversal of shutting down the Conductor coding harness.",
       "needs_verification": true,
       "links": [
         {
-          "url": "https://latent.space/p/ainews-jensen-huang-resigns-after-33-years-leading-nvidia/",
+          "url": "https://newsletter.pragmaticengineer.com/p/software-factories-and-code-reviews",
+          "source": "The Pragmatic Engineer"
+        },
+        {
+          "url": "https://newsletter.pragmaticengineer.com/p/software-engineering-after-code-becomes",
+          "source": "The Pragmatic Engineer"
+        },
+        {
+          "url": "https://latent.space/p/linear-scaling/",
           "source": "Latent.Space"
         },
         {
-          "url": "https://www.interconnects.ai/p/open-source-ai-without-jensen",
-          "source": "Interconnects AI"
+          "url": "https://newsletter.pragmaticengineer.com/p/the-pulse-is-amazons-writing-culture",
+          "source": "The Pragmatic Engineer"
         }
       ]
     },
     {
       "cluster_ids": [
         0,
-        63
+        1,
+        83
       ],
-      "title": "Anthropic launches IPO roadshow, detailing multi-vendor compute strategy",
+      "title": "Anthropic completes largest-ever IPO, valued at ~$1.5T",
       "category": "business",
       "score": 7,
-      "rationale": "Major AI business event with concrete infra details across AWS Trainium, TPUs, NVIDIA, and AMD.",
-      "summary": "Anthropic kicked off the roadshow for its proposed Class A common stock IPO, releasing a roadshow video with previously unreleased business information. The video details how Anthropic trains and serves Claude across AWS Trainium, Google TPUs, NVIDIA GPUs, and AMD GPUs.",
+      "rationale": "Major AI business milestone with concrete pricing numbers, borderline on reader's core interests.",
+      "summary": "Anthropic priced its IPO at $83.00 per share and closed the offering of over 1.1 billion Class A shares including full underwriter option exercise. Secondary reporting pegs it as the largest IPO in history at a ~$1.5T valuation, with shares opening at $111.50 and closing at $97.17 on debut.",
       "needs_verification": false,
       "links": [
         {
-          "url": "https://www.anthropic.com/news/roadshow-launch",
+          "url": "https://www.anthropic.com/news/ipo-close",
           "source": "Anthropic News"
         },
         {
-          "url": "https://simonwillison.net/2026/Nov/11/anthropic-ipo-roadshow/",
-          "source": "Simon Willison"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        19,
-        5,
-        6,
-        4,
-        81,
-        2
-      ],
-      "title": "OpenAI Codex drives agentic development gains across enterprise customers",
-      "category": "tooling",
-      "score": 7,
-      "rationale": "Concrete agentic SDLC deployments with numbers, core to reader's dev-tooling interest, though OpenAI self-reported.",
-      "summary": "OpenAI published customer stories reporting large productivity gains from Codex, including CodeRabbit shipping 20x more software, Amplitude shipping in 1\u20132 days, and Gondola raising lead engineer output 50%. At AI Engineer Code Summit, OpenAI also showed new Codex workflows for voice steering, cloud handoff, and a wallet enabling agent purchases.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://openai.com/index/coderabbit-codex-daybreak",
-          "source": "OpenAI News"
+          "url": "https://www.anthropic.com/news/anthropic-prices-initial-public-offering",
+          "source": "Anthropic News"
         },
         {
-          "url": "https://openai.com/business/customer-stories/gondola",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/business/customer-stories/holidays-extras-codex",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://openai.com/business/customer-stories/amplitude",
-          "source": "OpenAI News"
-        },
-        {
-          "url": "https://latent.space/p/codex-work/",
+          "url": "https://latent.space/p/ainews-anthropic-successfully-completes-largest-ipo-in-history-valued-at-1-5t/",
           "source": "Latent.Space"
-        },
-        {
-          "url": "https://openai.com/index/introducing-chatgpt-wallet",
-          "source": "OpenAI News"
         }
       ]
     },
     {
       "cluster_ids": [
-        24,
-        49
+        34,
+        85
       ],
-      "title": "Google DeepMind's AlphaProof Code and Antigravity teamwork target verified software",
+      "title": "Google DeepMind launches Gemini 4 Neon",
       "category": "models_research",
       "score": 7,
-      "rationale": "Concrete agentic verification research with a real deployment (Signal encryption proofs).",
-      "summary": "DeepMind introduced AlphaProof Code, whose agents wrote three million lines of Lean proofs to verify Signal's core encryption. Separately, Google Research detailed Antigravity's /teamwork feature for multi-agent science and engineering collaboration.",
+      "rationale": "Major model release from DeepMind with benchmark positioning, core reader interest.",
+      "summary": "Google DeepMind announced Gemini 4 Neon, positioned as a mid-tier Opus/Sol competitor scoring 61 on the Intelligence Index. The release joins the broader Gemini 4 family which includes Carbon, Hydrogen, and Neon variants with varying reasoning levels.",
       "needs_verification": false,
       "links": [
         {
-          "url": "https://deepmind.google/blog/introducing-alphaproof-code/",
+          "url": "https://deepmind.google/blog/introducing-gemini-4-neon/",
           "source": "Google DeepMind Blog"
         },
         {
-          "url": "https://research.google/blog/advancing-science-engineering-with-antigravitys-teamwork-feature/",
+          "url": "https://latent.space/p/ainews-gemini-4-neon-gdm-s-opus-sol-contender/",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        96,
+        95,
+        53,
+        100,
+        101,
+        97,
+        102
+      ],
+      "title": "Open-weight model and local-inference advances: Inkling 2 Mini, harness adapters, MoE streaming",
+      "category": "models_research",
+      "score": 7,
+      "rationale": "Open-weight models, harness adapters, and efficient local inference map to evals/harness and infra interests.",
+      "summary": "Hugging Face released Inkling 2 Mini for local setups (running in 5.4GB quantized), harness adapters to tune models to specific agent harnesses for better cost/performance, and techniques for 180B-parameter MoE inference in 32GB RAM. Additional releases include DaisyRose-27B post-training efficiency work, the Rumble-2-Flash speech model, and an OpenRouter integration for running open-weight models.",
+      "needs_verification": false,
+      "links": [
+        {
+          "url": "https://huggingface.co/blog/harness-adapters-at-scale",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/inkling2mini",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://github.com/ShinMegamiBoson/lookatmyquant",
           "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://huggingface.co/blog/moe-expert-streaming",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/rumble-2-flash",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/RadixArk/daisyrose-27b-pushing-the-frontier-of-post-trainin",
+          "source": "Hugging Face - Blog"
+        },
+        {
+          "url": "https://huggingface.co/blog/openrouter",
+          "source": "Hugging Face - Blog"
         }
       ]
     },
     {
       "cluster_ids": [
-        93,
-        54
+        56,
+        55,
+        81,
+        82,
+        62,
+        63
       ],
-      "title": "llama.cpp reaches v1.0.0, strengthening local AI ecosystem",
-      "category": "tooling",
+      "title": "Lean-verified Riemann Hypothesis proof, some AI-assisted",
+      "category": "models_research",
       "score": 6,
-      "rationale": "Significant milestone for local inference tooling that reader's dev interests value.",
-      "summary": "The llama.cpp project released its v1.0.0 milestone, described as a stronger foundation for the local AI ecosystem. Tooling such as datasette-llm added OpenAI-compatible endpoint support, enabling use with local runtimes like llama.cpp, LM Studio, and Ollama.",
-      "needs_verification": false,
+      "rationale": "AI-assisted and formal-verification math milestone with significance to evals/formal methods, though peripheral to enterprise focus.",
+      "summary": "A Lean-verified proof of the Riemann Hypothesis circulated widely, with reports of two independent proofs including one developed with Claude and claims extending to the Generalized Riemann Hypothesis. Separate commentary frames formal verification plus AI as an emerging weapon against low-quality 'slop' output.",
+      "needs_verification": true,
       "links": [
         {
-          "url": "https://huggingface.co/blog/ggml-org/llama-cpp-v1",
-          "source": "Hugging Face - Blog"
+          "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+          "source": "Hacker News Front Page"
         },
         {
-          "url": "https://simonwillison.net/2026/Nov/14/datasette-llm/",
+          "url": "https://math.mit.edu/~drew/grh/",
+          "source": "Hacker News Front Page"
+        },
+        {
+          "url": "https://latent.space/p/ainews-riemann-hypothesis-proved-twice-independently/",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://latent.space/p/formal-verification/",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Nov/20/ravi-vakil/",
+          "source": "Simon Willison"
+        },
+        {
+          "url": "https://simonwillison.net/2026/Nov/20/levent-alpoge/",
           "source": "Simon Willison"
         }
       ]
     },
     {
       "cluster_ids": [
-        26,
-        91
+        92,
+        64,
+        65
       ],
-      "title": "Gemini Robotics 2.5 advances real-world dexterity",
-      "category": "models_research",
+      "title": "Inference engineering, Gemini reasoning levels, and token fraud",
+      "category": "tooling",
       "score": 6,
-      "rationale": "Notable VLA model release with robotics capability claims; relevant to capabilities research.",
-      "summary": "DeepMind announced Gemini Robotics 2.5, a vision-language-action model it says improves robot dexterity, reliability, and safety. Related tooling demonstrated robot pick-and-place simulations using SimReady assets.",
-      "needs_verification": false,
+      "rationale": "Practical deployment engineering, model cost/reasoning tradeoffs, and a real operational threat to AI products.",
+      "summary": "A Pragmatic Engineer deepdive covers inference engineering choices like model/provider selection, caching, dedicated GPUs, and KV cache concerns, while the llm-gemini update highlights Gemini 4's xhigh reasoning level and its large token/cost impact. Separately, ChatPRD's founder documents a surge of token fraud abusing free trials to resell AI usage.",
+      "needs_verification": true,
       "links": [
         {
-          "url": "https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/",
-          "source": "Google DeepMind Blog"
+          "url": "https://newsletter.pragmaticengineer.com/p/inference-engineering-for-software-engineers",
+          "source": "The Pragmatic Engineer"
         },
         {
-          "url": "https://huggingface.co/blog/nvidia/simready-assets-robot-pick-and-place",
-          "source": "Hugging Face - Blog"
-        }
-      ]
-    },
-    {
-      "cluster_ids": [
-        28,
-        59,
-        78,
-        79,
-        99
-      ],
-      "title": "Decision model category heats up as Google launches Gemini Decisions API",
-      "category": "models_research",
-      "score": 6,
-      "rationale": "Emerging model category with concrete pricing and production use; relevant to evals/agent harness interest.",
-      "summary": "Google launched the Gemini Decisions API, joining Jev and OpenAI in the calibrated decision-model category with matching pricing to GPT-6 Luna. Hugging Face and AI Engineer coverage highlighted production customers and comparisons across the three providers.",
-      "needs_verification": false,
-      "links": [
-        {
-          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/",
-          "source": "Google AI Blog"
-        },
-        {
-          "url": "https://simonwillison.net/2026/Nov/11/gemini-decisions-api/",
+          "url": "https://simonwillison.net/2026/Nov/20/llm-gemini/",
           "source": "Simon Willison"
         },
         {
-          "url": "https://latent.space/p/ainews-d-day-decision-models-day/",
-          "source": "Latent.Space"
+          "url": "https://simonwillison.net/2026/Nov/18/llm-gemini/",
+          "source": "Simon Willison"
         },
         {
-          "url": "https://latent.space/p/jev-revolution/",
-          "source": "Latent.Space"
-        },
-        {
-          "url": "https://huggingface.co/blog/decision",
-          "source": "Hugging Face - Blog"
+          "url": "https://simonwillison.net/2026/Nov/20/token-fraud-is-here-and-its-bad/",
+          "source": "Simon Willison"
         }
       ]
     },
     {
       "cluster_ids": [
-        60
+        88,
+        87
       ],
-      "title": "AWS releases official local emulator built largely by coding agents",
+      "title": "Perplexity hits $1B revenue run rate; Cloudflare pivots to 'neolab'",
+      "category": "business",
+      "score": 5,
+      "rationale": "AI business momentum and infra-adjacent strategy, moderate relevance with concrete revenue figures.",
+      "summary": "Perplexity reportedly reached a $1B revenue run rate, up 4x in 2026, and shipped a Monitor API. Cloudflare rebranded itself a 'neolab,' building low-latency 'System One' models to make decisions and pull data in milliseconds.",
+      "needs_verification": true,
+      "links": [
+        {
+          "url": "https://latent.space/p/ainews-perplexity-hits-a-1b-revenue-run-rate-up-4x-in-2026/",
+          "source": "Latent.Space"
+        },
+        {
+          "url": "https://latent.space/p/cloudflare/",
+          "source": "Latent.Space"
+        }
+      ]
+    },
+    {
+      "cluster_ids": [
+        68
+      ],
+      "title": "Daniel Stenberg on AI Rust rewrites versus real curl development",
       "category": "tooling",
-      "score": 6,
-      "rationale": "Primary infra tooling release with a striking agentic-development data point (29,684 commits).",
-      "summary": "AWS published an official emulator, written in Rust, to run tests against local clones of its services without a paid API key. A guest post noted the project saw 29,684 commits in its first three weeks, largely produced by a swarm of agents.",
+      "score": 5,
+      "rationale": "Grounded, numbers-based counterpoint on agentic code rewrites from a primary maintainer, matches skepticism-of-hype preference.",
+      "summary": "curl maintainer Daniel Stenberg noted AI agents converted 185,000 lines of C into 340,000 lines of Rust while the actual curl project merged 300+ commits and ~200 bugfixes plus vulnerability fixes in three weeks. He questions whether the AI-generated clones can keep pace with ongoing human-maintained development.",
       "needs_verification": false,
       "links": [
         {
-          "url": "https://simonwillison.net/2026/Nov/11/aws-emulator/",
+          "url": "https://simonwillison.net/2026/Nov/18/daniel-stenberg/",
           "source": "Simon Willison"
         }
       ]
     }
   ],
-  "cost_usd": 0.1998,
+  "cost_usd": 0.207,
   "sources_scanned": [
     {
       "name": "Anthropic News",
-      "count": 288,
+      "count": 290,
       "ok": true
     },
     {
       "name": "OpenAI News",
-      "count": 1387,
+      "count": 1421,
       "ok": true
     },
     {
@@ -360,7 +390,7 @@
     },
     {
       "name": "Hugging Face - Blog",
-      "count": 907,
+      "count": 915,
       "ok": true
     },
     {
